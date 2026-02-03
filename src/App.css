@@ -1,0 +1,450 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap');
+
+:root {
+  --bg-dark: #0a0a0a;
+  --bg-card: #161616;
+  --primary-yellow: #FFC400;
+  --text-white: #ffffff;
+  --text-gray: #cccccc; /* Gris más claro para mejor lectura */
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-white);
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- NAVBAR --- */
+.navbar {
+  background-color: rgba(10, 10, 10, 0.98); /* Más opaco */
+  border-bottom: 1px solid #333;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  gap: 20px; /* Espacio entre logo, buscador y links */
+}
+
+.logo {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 1.8rem;
+  color: var(--text-white);
+  text-decoration: none;
+  font-style: italic;
+  flex-shrink: 0;
+}
+
+/* NUEVO: BARRA DE BÚSQUEDA EN NAV */
+.search-bar-container {
+  flex-grow: 1;
+  max-width: 500px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 15px 10px 40px; /* Espacio a la izquierda para el icono */
+  border-radius: 20px;
+  border: 1px solid #444;
+  background-color: #222;
+  color: var(--text-white);
+  font-family: 'Montserrat', sans-serif;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  border-color: var(--primary-yellow);
+}
+
+.search-icon-inside {
+  position: absolute;
+  left: 12px;
+  color: var(--text-gray);
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.nav-link-text {
+  color: var(--text-white);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+
+.nav-link-text:hover {
+  color: var(--primary-yellow);
+}
+
+.cart-icon-container {
+  position: relative;
+  color: var(--primary-yellow);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #D32F2F;
+  color: white;
+  font-size: 0.7rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* --- HERO SECTION (Arreglado contraste) --- */
+/* --- HERO SECTION CON CARRUSEL --- */
+.hero {
+  position: relative; /* Necesario para contener las fotos absolutas */
+  text-align: center;
+  padding: 120px 20px;
+  overflow: hidden;   /* Para que las fotos no se salgan */
+  background: #000;   /* Fondo negro de respaldo */
+}
+
+/* El contenedor de las fotos */
+.hero-carousel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Al fondo */
+}
+
+/* Cada diapositiva (foto) */
+.hero-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;   /* Cubre todo el espacio */
+  background-position: center;
+  opacity: 0;               /* Invisible por defecto */
+  transition: opacity 1.5s ease-in-out; /* Transición suave de 1.5s */
+}
+
+/* La clase que activa la foto visible */
+.hero-slide.active {
+  opacity: 1; /* Visible */
+  transform: scale(1.05); /* Un leve efecto de zoom lento queda genial */
+  transition: opacity 1.5s ease-in-out, transform 6s linear;
+}
+
+/* Capa oscura (Overlay) */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65); /* Oscurece las fotos al 65% */
+  z-index: 1;
+}
+
+/* El texto (Título y slogan) */
+.hero-content {
+  position: relative;
+  z-index: 2; /* Encima de todo */
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 15px;
+  color: #ffffff;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.5); /* Sombra para leer mejor */
+}
+
+.hero p {
+  color: #dddddd;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+
+/* --- GRID Y TARJETAS --- */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.grid-condimentos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.card-nowin {
+  background-color: var(--bg-card);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #333;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-nowin:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary-yellow);
+  box-shadow: 0 5px 15px rgba(255, 196, 0, 0.1);
+}
+
+.img-container {
+  background-color: #ffffff;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+.img-container img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  /* Sombra suave para despegar el producto del fondo blanco */
+  filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.1)); 
+}
+
+.card-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.card-category {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* ARREGLO DE LEGIBILIDAD DEL TÍTULO */
+.card-title {
+  font-size: 1.15rem; /* Un poco más pequeño para que quepa bien */
+  margin: 0 0 15px 0;
+  font-weight: 700;
+  color: var(--text-white); /* Blanco puro */
+  line-height: 1.3;
+}
+
+.card-price {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-top: auto;
+  margin-bottom: 15px;
+  color: var(--primary-yellow); /* Precio en amarillo */
+}
+
+.btn-nowin {
+  background-color: var(--primary-yellow);
+  color: #000;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.btn-nowin:hover {
+  background-color: #fff;
+}
+
+/* --- FOOTER (Arreglado contraste) --- */
+.footer {
+  background-color: #050505; /* Fondo un poco más oscuro que el body */
+  border-top: 1px solid #222;
+  padding: 50px 20px;
+  text-align: center;
+  margin-top: 60px;
+}
+
+.footer p {
+    color: var(--text-gray); /* Texto gris claro */
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin: 25px 0;
+}
+
+.social-link {
+    color: var(--text-white);
+    transition: color 0.3s, transform 0.3s;
+}
+
+.social-link:hover {
+    color: var(--primary-yellow);
+    transform: scale(1.1);
+}
+
+/* Estilos específicos para el icono de WhatsApp */
+.social-link.whatsapp:hover {
+    color: #25D366; /* Color oficial de WhatsApp al pasar el mouse */
+}
+/* Borra o ignora la clase .logo anterior que tenía estilos de letra */
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+}
+
+.nav-logo-img {
+  height: 150px; /* Ajusta este número si lo quieres más grande o chico */
+  width: auto;  /* Mantiene la proporción original */
+  object-fit: contain;
+}
+/* --- TIPOGRAFÍA ESPECIAL CARRITO --- */
+
+.cart-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;       /* Letra muy gorda */
+  font-size: 1.5rem;      /* Tamaño grande */
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #0b0b0b;
+  padding-bottom: 20px;
+  opacity: 0.9;
+}
+
+.cart-total {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 200;       /* Extra gorda */
+  font-size: 2.5rem;      /* GIGANTE */
+  color: #020202;       
+  margin: 10px 0;
+  text-shadow: 0px 0px 20px rgba(255, 196, 0, 0.3); /* Resplandor amarillo */
+}
+/* =========================================
+   DISEÑO RESPONSIVE (PARA MÓVILES)
+   ========================================= */
+
+@media (max-width: 768px) {
+  
+  /* 1. NAVBAR: Reorganizamos para celular */
+  .navbar {
+    position: relative; /* En móvil es mejor que no flote sobre el contenido si molesta */
+    background-color: var(--bg-dark); /* Fondo oscuro sólido para leer mejor */
+  }
+
+  .nav-content {
+    flex-wrap: wrap; /* Permite que los elementos bajen de renglón */
+    gap: 15px;
+    padding: 15px;
+  }
+
+  /* El Logo se queda a la izquierda */
+  .logo-container {
+    order: 1;
+  }
+
+  /* El Carrito se va a la derecha absoluta */
+  .nav-links {
+    order: 2;
+    margin-left: auto; /* Empuja el carrito a la derecha */
+    gap: 15px;
+  }
+
+  /* Ocultamos el texto "Sobre Nosotros" en móvil para ahorrar espacio */
+  .nav-link-text {
+    display: none; 
+  }
+
+  /* El Buscador baja a una segunda línea y ocupa todo el ancho */
+  .search-bar-container {
+    order: 3;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 5px;
+  }
+
+  /* 2. HERO: Achicamos el texto gigante */
+  .hero {
+    padding: 40px 20px;
+  }
+  
+  .hero h1 {
+    font-size: 2.2rem; /* Mucho más chico que en PC */
+    line-height: 1.1;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  /* 3. PRODUCTOS: 2 Columnas en lugar de 1 */
+  .grid-condimentos {
+    /* 150px permite que entren dos tarjetas en un iPhone */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
+    gap: 1rem; /* Menos espacio entre tarjetas */
+  }
+
+  .img-container {
+    height: 140px; /* Imagen más chica */
+    padding: 10px;
+  }
+
+  .card-title {
+    font-size: 1rem; /* Título de producto más chico */
+  }
+
+  .card-price {
+    font-size: 1.2rem;
+  }
+
+  .btn-nowin {
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+
+  /* 4. CARRITO */
+  .cart-total {
+    font-size: 2.5rem; /* Ajuste para que no se salga de la pantalla */
+  }
+}
