@@ -9,13 +9,13 @@ import { collection, getDocs } from 'firebase/firestore';
 
 // --- TUS DATOS (Ya corregidos con las fotos) ---
 const PRODUCTOS_DEMO = [
-  { id: 1, title: "Sal con Ajo", price: 3500, category: "Saborizados", img: "/img/salconajo.jpg", colorEtiqueta: "#FFD700" },
-  { id: 2, title: "Pimienta Molida", price: 4200, category: "Esenciales", img: "/img/pimienta.jpg", colorEtiqueta: "#F5F5F5" },
-  { id: 3, title: "Condimento Arroz", price: 3100, category: "Mezclas", img: "/img/condimentodearroz.jpg", colorEtiqueta: "#FF9800" },
-  { id: 4, title: "Sal de Campo", price: 3800, category: "Especiales", img: "/img/saldecampo.jpg", colorEtiqueta: "#9E9E9E" },
-  { id: 5, title: "Orégano", price: 2500, category: "Hierbas", img: "/img/oregano.jpg", colorEtiqueta: "#4CAF50" },
-  { id: 6, title: "Sal Ahumada", price: 4500, category: "Gourmet", img: "/img/salaumada.jpg", colorEtiqueta: "#3E2723" },
-  { id: 7, title: "Sal Cebolla y Ajo", price: 3600, category: "Saborizados", img: "/img/salcebollayajo.jpg", colorEtiqueta: "#FFB74D" }
+  { id: 1, title: "Sal con Ajo", price: 3500, category: "Saborizados", img: "/img/salconajo.png", colorEtiqueta: "#FFD700" },
+  { id: 2, title: "Pimienta Molida", price: 4200, category: "Esenciales", img: "/img/pimienta.png", colorEtiqueta: "#F5F5F5" },
+  { id: 3, title: "Condimento Arroz", price: 3100, category: "Mezclas", img: "/img/condimento dearroz.png", colorEtiqueta: "#FF9800" },
+  { id: 4, title: "Sal de Campo", price: 3800, category: "Especiales", img: "/img/saldecampo.png", colorEtiqueta: "#9E9E9E" },
+  { id: 5, title: "Orégano", price: 2500, category: "Hierbas", img: "/img/oregano.png", colorEtiqueta: "#4CAF50" },
+  { id: 6, title: "Sal Ahumada", price: 4500, category: "Gourmet", img: "/img/salaumada.png", colorEtiqueta: "#3E2723" },
+  { id: 7, title: "Sal Cebolla y Ajo", price: 3600, category: "Saborizados", img: "/img/salcebollayajo.png", colorEtiqueta: "#FFB74D" }
 ];
 
 // --- NAVBAR ACTUALIZADO (Buscador + Enlaces) ---
@@ -177,19 +177,6 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
     </>
   );
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // --- PÁGINA SOBRE NOSOTROS (Nueva) ---
 const About = () => (
