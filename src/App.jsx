@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
-// Agregamos Plus y Minus a los iconos
-import { ShoppingBag, Instagram, Facebook, Trash2, Search, Plus, Minus } from 'lucide-react';
+// Importamos el Router para que funcionen los enlaces
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// Importamos iconos
 import { db } from './firebase'; 
 import { collection, getDocs, addDoc } from 'firebase/firestore'; 
+
+// IMPORTANTE: Importamos tus componentes (asegúrate que los archivos existan en src)
+import Navbar from './Navbar'; 
 import CheckoutForm from './CheckoutForm'; 
 import CardCondimento from './CardCondimento'; 
+
 import './App.css';
 
-// --- TUS DATOS ---
+// --- DATOS DE EJEMPLO (Por si falla Firebase) ---
 const PRODUCTOS_DEMO = [
   { id: 1, title: "Sal con Ajo", price: 3500, category: "Saborizados", img: "/img/salconajo.png", colorEtiqueta: "#F5f5f5" },
   { id: 2, title: "Pimienta Molida", price: 4200, category: "Esenciales", img: "/img/pimienta.png", colorEtiqueta: "#F5F5F5" },
@@ -19,35 +23,8 @@ const PRODUCTOS_DEMO = [
   { id: 7, title: "Sal Cebolla y Ajo", price: 3600, category: "Saborizados", img: "/img/salcebollayajo.png", colorEtiqueta: "#F5F5F5" }
 ];
 
-// --- NAVBAR ---
-const Navbar = ({ cartCount, searchTerm, setSearchTerm }) => (
-  <nav className="navbar">
-    <div className="nav-content">
-      <Link to="/" className="logo-container">
-        <img src="/img/logo2.png" alt="Nowin" className="nav-logo-img" />
-      </Link>
-      <div className="search-bar-container">
-        <Search className="search-icon-inside" size={18} />
-        <input 
-          type="text" 
-          placeholder="Buscar condimentos..." 
-          className="search-input"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-      <div className="nav-links">
-        <Link to="/about" className="nav-link-text">Sobre Nosotros</Link>
-        <Link to="/cart" className="cart-icon-container">
-          <ShoppingBag size={28} />
-          {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-        </Link>
-      </div>
-    </div>
-  </nav>
-);
-
-// --- FOOTER ---
+// --- FOOTER (Lo dejamos aquí porque es sencillo) ---
+import { Instagram, Facebook } from 'lucide-react'; // Importamos iconos del footer
 const Footer = () => (
   <footer className="footer">
     <h3 style={{ color: '#ffffff', textTransform: 'uppercase', letterSpacing: '2px', fontSize: '1rem', marginTop: '30px', marginBottom: '15px', fontWeight: 'bold' }}>
@@ -57,6 +34,7 @@ const Footer = () => (
       <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-link"><Instagram size={24} /></a>
       <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-link"><Facebook size={24} /></a>
       <a href="https://wa.me/5493764141598" target="_blank" rel="noopener noreferrer" className="social-link whatsapp">
+        {/* Icono de WhatsApp SVG manual para asegurar color */}
         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="#25D366">
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471.148-.67.396-.197.247-.742.967-.919 1.165-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
         </svg>
@@ -68,7 +46,10 @@ const Footer = () => (
   </footer>
 );
 
-// --- HOME ---
+// --- COMPONENTES DE PÁGINAS ---
+import { Search, Plus, Minus, Trash2, ShoppingBag } from 'lucide-react'; // Iconos extra
+import { Link } from 'react-router-dom';
+
 const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
   const heroImages = ["/img/carru1.jpg", "/img/carru2.jpg", "/img/carru3.jpg", "/img/carru4.jpg", "/img/carru5.jpg", "/img/carru6.jpg"];
   const [currentImage, setCurrentImage] = React.useState(0);
@@ -97,7 +78,6 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
           <p>Esa pizca de sabor que tu cocina necesita.</p>
         </div>
       </header>
-      
       <section className="container">
         {filteredProducts.length > 0 ? (
           <div className="grid-condimentos">
@@ -116,66 +96,41 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
   );
 };
 
-// --- ABOUT ---
 const About = () => (
   <div className="container" style={{paddingTop: '60px', minHeight: '50vh', textAlign: 'center'}}>
-    <h1 style={{fontSize: '3rem', color: '#FFC400'}}>SOBRE NOWIN</h1>
-    <div style={{maxWidth: '700px', margin: '30px auto', lineHeight: '1.8', color: '#0a0909'}}>
-      <p>En Nowin creemos que la cocina no necesita ser complicada para ser deliciosa...</p>
+    <h1 style={{fontSize: '3rem', color: '#FFC400'}}>Tradicion Familiar</h1>
+    <img src="/img/carru1.jpg" alt="Familia" style={{maxWidth: '90%', width: '500px', borderRadius: '20px', marginBottom: '30px'}} />
+    <div style={{maxWidth: '700px', margin: '0 auto'}}>
+      <p>Detrás de Nowin hay una familia y una obsesión: el sabor auténtico...</p>
     </div>
   </div>
 );
 
-// --- CART (ACTUALIZADO: SUMAR Y RESTAR) ---
-// Recibe addToCart (para sumar) y decreaseQuantity (para restar)
 const Cart = ({ cart, removeFromCart, addToCart, decreaseQuantity, onStartCheckout }) => {
   const total = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  
   return (
     <div className="container" style={{minHeight: '60vh', padding: '40px 20px'}}>
       <h2 className="cart-title">TU PEDIDO</h2>
       {cart.length === 0 ? (
-        <p style={{color:'#ccc'}}>Tu carrito está vacío. <Link to="/" style={{color: '#FFC400', textDecoration:'none', fontWeight:'bold'}}>Ver productos</Link></p>
+        <p style={{color:'#ccc'}}>Tu carrito está vacío.</p>
       ) : (
         <div style={{marginTop: '30px'}}>
           {cart.map(item => (
             <div key={item.id} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#161616', padding: '15px', marginBottom: '10px', borderRadius: '8px', border:'1px solid #333'}}>
-              
               <div style={{display:'flex', alignItems:'center', gap: '15px'}}>
                 <img src={item.img} alt="" style={{width: '60px', height: '60px', objectFit: 'contain', background: 'white', borderRadius: '4px', padding:'5px'}} />
                 <div>
-                  <h4 style={{margin: '0 0 5px 0', color:'white'}}>{item.title}</h4>
-                  <p style={{margin: 0, color: '#FFC400'}}>${item.price}</p>
+                   <h4 style={{margin: '0 0 5px 0', color:'white'}}>{item.title}</h4>
+                   <p style={{margin: 0, color: '#FFC400'}}>${item.price}</p>
                 </div>
               </div>
-
-              {/* CONTROLES DE CANTIDAD */}
               <div style={{display:'flex', alignItems:'center', gap: '20px'}}>
                 <div style={{display:'flex', alignItems:'center', background: '#000', borderRadius: '6px', padding: '5px'}}>
-                    {/* Botón RESTAR (-1) */}
-                    <button 
-                        onClick={() => decreaseQuantity(item.id)}
-                        style={{background:'transparent', border:'none', color:'white', cursor:'pointer', display:'flex', padding:'5px'}}
-                    >
-                        <Minus size={16} />
-                    </button>
-                    
-                    <span style={{color:'white', fontWeight:'bold', minWidth:'25px', textAlign:'center', fontSize:'0.9rem'}}>
-                        {item.quantity}
-                    </span>
-
-                    {/* Botón SUMAR (+1) - Usamos addToCart que ya suma si existe */}
-                    <button 
-                        onClick={() => addToCart(item)}
-                        style={{background:'transparent', border:'none', color:'white', cursor:'pointer', display:'flex', padding:'5px'}}
-                    >
-                        <Plus size={16} />
-                    </button>
+                    <button onClick={() => decreaseQuantity(item.id)} style={{background:'transparent', border:'none', color:'white', cursor:'pointer'}}><Minus size={16} /></button>
+                    <span style={{color:'white', fontWeight:'bold', minWidth:'25px', textAlign:'center'}}>{item.quantity}</span>
+                    <button onClick={() => addToCart(item)} style={{background:'transparent', border:'none', color:'white', cursor:'pointer'}}><Plus size={16} /></button>
                 </div>
-
-                <button onClick={() => removeFromCart(item.id)} style={{background:'none', border:'none', color:'#d32f2f', cursor:'pointer', padding:'5px'}}>
-                    <Trash2 size={22} />
-                </button>
+                <button onClick={() => removeFromCart(item.id)} style={{background:'none', border:'none', color:'#d32f2f', cursor:'pointer'}}><Trash2 size={22} /></button>
               </div>
             </div>
           ))}
@@ -196,39 +151,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [mostrarCheckout, setMostrarCheckout] = useState(false);
 
-  // LOGICA PARA FINALIZAR COMPRA
-  const procesarCompra = async (datosUsuario) => {
-    const totalPrecio = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-    
-    // 1. Guardar en Firebase
-    try {
-      const orden = {
-        comprador: datosUsuario,
-        items: cart,
-        total: totalPrecio,
-        fecha: new Date()
-      };
-      await addDoc(collection(db, "ordenes"), orden);
-    } catch (e) { console.error("Error", e); }
-
-    // 2. WhatsApp
-    let mensaje = `Hola Nowin! 👋 Quiero realizar el siguiente pedido:\n\n`;
-    cart.forEach(item => {
-      mensaje += `▪️ ${item.title} x ${item.quantity} - $${item.price * item.quantity}\n`; 
-    });
-    mensaje += `\n💰 *Total: $${totalPrecio.toLocaleString()}*`;
-    mensaje += `\n\n📋 *Mis Datos:*`;
-    mensaje += `\nNombre: ${datosUsuario.nombre}`;
-    mensaje += `\nDirección: ${datosUsuario.direccion}`;
-    mensaje += `\nTel: ${datosUsuario.telefono}`;
-
-    const numeroTelefono = "5493764141598"; // Tu número
-    const url = `https://wa.me/${numeroTelefono}?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, '_blank');
-    setCart([]); 
-    setMostrarCheckout(false);
-  };
-
+  // Carga de productos desde Firebase
   useEffect(() => {
     const fetchProductos = async () => {
       try {
@@ -237,65 +160,72 @@ function App() {
           const docs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
           setProductos(docs);
         }
-      } catch (error) { console.log("Usando datos locales"); }
+      } catch (error) { console.log("Usando datos locales o error de conexión"); }
     };
     fetchProductos();
   }, []);
 
-  // 1. SUMAR (o agregar nuevo)
   const addToCart = (prod) => {
     setCart(prev => {
       const existe = prev.find(item => item.id === prod.id);
-      // Si existe, sumamos 1. Si no, lo agregamos con cantidad 1.
       return existe 
         ? prev.map(item => item.id === prod.id ? {...item, quantity: item.quantity + 1} : item) 
         : [...prev, {...prod, quantity: 1}];
     });
   };
 
-  // 2. RESTAR (nuevo)
   const decreaseQuantity = (id) => {
     setCart(prev => 
-      prev.map(item => 
-        item.id === id 
-          ? { ...item, quantity: Math.max(1, item.quantity - 1) } 
-          : item
-      )
+      prev.map(item => item.id === id ? { ...item, quantity: Math.max(1, item.quantity - 1) } : item)
     );
   };
 
   const removeFromCart = (id) => setCart(prev => prev.filter(item => item.id !== id));
 
-  return (
-    <div className="app-container">
-      <Navbar cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      
-      <Routes>
-        <Route path="/" element={<Home productos={productos} agregarAlCarrito={addToCart} searchTerm={searchTerm} />} />
-        
-        {/* PASAMOS LAS DOS FUNCIONES AL CARRITO */}
-        <Route path="/cart" element={
-            <Cart 
-                cart={cart} 
-                removeFromCart={removeFromCart} 
-                addToCart={addToCart}           // Para el botón +
-                decreaseQuantity={decreaseQuantity} // Para el botón -
-                onStartCheckout={() => setMostrarCheckout(true)} 
-            />
-        } />
-        
-        <Route path="/about" element={<About />} />
-      </Routes>
-      
-      {mostrarCheckout && (
-        <CheckoutForm 
-            enviarPedido={procesarCompra} 
-            cancelar={() => setMostrarCheckout(false)} 
-        />
-      )}
+  const procesarCompra = async (datosUsuario) => {
+    const totalPrecio = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    try {
+      const orden = { comprador: datosUsuario, items: cart, total: totalPrecio, fecha: new Date() };
+      await addDoc(collection(db, "ordenes"), orden);
+    } catch (e) { console.error("Error al guardar", e); }
 
-      <Footer />
-    </div>
+    let mensaje = `Hola Nowin! 👋 Quiero realizar el siguiente pedido:\n\n`;
+    cart.forEach(item => { mensaje += `▪️ ${item.title} x ${item.quantity} - $${item.price * item.quantity}\n`; });
+    mensaje += `\n💰 *Total: $${totalPrecio.toLocaleString()}*`;
+    mensaje += `\n\n📋 *Mis Datos:*\nNombre: ${datosUsuario.nombre}\nDirección: ${datosUsuario.direccion}\nTel: ${datosUsuario.telefono}`;
+
+    const numeroTelefono = "5493764141598"; 
+    window.open(`https://wa.me/${numeroTelefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
+    setCart([]); setMostrarCheckout(false);
+  };
+
+  // --- ESTRUCTURA DE RUTAS (El Router envuelve TODO) ---
+  return (
+    <Router>
+      <div className="app-container">
+        
+        {/* Navbar con las props necesarias */}
+        <Navbar 
+          cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)} 
+          searchTerm={searchTerm} 
+          setSearchTerm={setSearchTerm} 
+        />
+        
+        {/* Rutas */}
+        <Routes>
+          <Route path="/" element={<Home productos={productos} agregarAlCarrito={addToCart} searchTerm={searchTerm} />} />
+          <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} addToCart={addToCart} decreaseQuantity={decreaseQuantity} onStartCheckout={() => setMostrarCheckout(true)} />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+        
+        {/* Modal de Checkout */}
+        {mostrarCheckout && (
+          <CheckoutForm enviarPedido={procesarCompra} cancelar={() => setMostrarCheckout(false)} />
+        )}
+
+        <Footer />
+      </div>
+    </Router>
   );
 }
 

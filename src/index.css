@@ -33,4 +33,14 @@ ul {
 button {
   font-family: var(--font-main);
   cursor: pointer;
+}/* --- Animación para la imagen de About --- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px); /* Empieza más abajo y transparente */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Termina en su posición original y visible */
+  }
 }

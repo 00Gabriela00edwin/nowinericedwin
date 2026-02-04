@@ -365,183 +365,125 @@ body {
    DISEÑO RESPONSIVE (PARA MÓVILES)
    ========================================= */
 
-@media (max-width: 768px) {
-  
-  /* 1. NAVBAR: Reorganizamos para celular */
-  .navbar {
-    position: relative; /* En móvil es mejor que no flote sobre el contenido si molesta */
-    background-color: var(--bg-dark); /* Fondo oscuro sólido para leer mejor */
-  }
+/* =========================================
+   1. ANIMACIONES Y MODALES (EXTRAS)
+   ========================================= */
 
-  .nav-content {
-    flex-wrap: wrap; /* Permite que los elementos bajen de renglón */
-    gap: 15px;
-    padding: 15px;
-  }
-
-  /* El Logo se queda a la izquierda */
-  .logo-container {
-    order: 1;
-  }
-
-  /* El Carrito se va a la derecha absoluta */
-  .nav-links {
-    order: 2;
-    margin-left: auto; /* Empuja el carrito a la derecha */
-    gap: 15px;
-  }
-
-  /* Ocultamos el texto "Sobre Nosotros" en móvil para ahorrar espacio */
-  .nav-link-text {
-    display: none; 
-  }
-
-  /* El Buscador baja a una segunda línea y ocupa todo el ancho */
-  .search-bar-container {
-    order: 3;
-    width: 100%;
-    max-width: 100%;
-    margin-top: 5px;
-  }
-
-  /* 2. HERO: Achicamos el texto gigante */
-  .hero {
-    padding: 40px 20px;
-  }
-  
-  .hero h1 {
-    font-size: 2.2rem; /* Mucho más chico que en PC */
-    line-height: 1.1;
-  }
-
-  .hero p {
-    font-size: 1rem;
-  }
-
-  /* 3. PRODUCTOS: 2 Columnas en lugar de 1 */
-  .grid-condimentos {
-    /* 150px permite que entren dos tarjetas en un iPhone */
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
-    gap: 1rem; /* Menos espacio entre tarjetas */
-  }
-
-  .img-container {
-    height: 140px; /* Imagen más chica */
-    padding: 10px;
-  }
-
-  .card-title {
-    font-size: 1rem; /* Título de producto más chico */
-  }
-
-  .card-price {
-    font-size: 1.2rem;
-  }
-
-  .btn-nowin {
-    padding: 8px;
-    font-size: 0.8rem;
-  }
-
-  /* 4. CARRITO */
-  .cart-total {
-    font-size: 2.5rem; /* Ajuste para que no se salga de la pantalla */
-  }
+/* Animación para la foto de la familia */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-/* --- PEGA ESTO AL FINAL DE src/App.css --- */
 
-/* Fondo oscuro que cubre toda la pantalla */
+/* Modal del Carrito (Fondo oscuro) */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.75); /* Oscuridad del fondo */
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center;     /* Centra verticalmente */
+  justify-content: center;
+  align-items: center;
   z-index: 9999;
 }
 
-/* La cajita blanca del formulario */
+/* Cajita blanca del formulario */
 .modal-content {
   background: #ffffff;
   padding: 30px;
-  border-radius: 15px; /* Bordes redondeados */
+  border-radius: 15px;
   width: 90%;
-  max-width: 400px; /* Ancho máximo */
+  max-width: 400px;
   position: relative;
   text-align: center;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5); /* Sombra elegante */
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
   animation: aparecer 0.3s ease-out;
 }
 
-/* Animación suave al abrir */
 @keyframes aparecer {
   from { transform: translateY(20px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* Inputs del formulario */
-.form-group {
-  margin-bottom: 15px;
-}
-
+/* Elementos del formulario */
+.form-group { margin-bottom: 15px; }
 .form-input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  box-sizing: border-box; /* Importante para que no se salga del borde */
+  width: 100%; padding: 12px; border: 1px solid #ccc;
+  border-radius: 8px; font-size: 1rem; box-sizing: border-box;
 }
-
-/* Botonera de abajo */
 .modal-actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 25px;
+  display: flex; justify-content: space-between; gap: 10px; margin-top: 25px;
 }
-
 .btn-cancelar {
-  background: #f1f1f1;
-  color: #333;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  flex: 1;
-  transition: 0.2s;
+  background: #f1f1f1; color: #333; border: none; padding: 12px 20px;
+  border-radius: 8px; cursor: pointer; font-weight: bold; flex: 1;
 }
-
-.btn-cancelar:hover { background: #e0e0e0; }
-
 .btn-confirmar {
-  background: #FFC400; /* Tu color amarillo */
-  color: #000;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  flex: 1;
-  transition: 0.2s;
+  background: #FFC400; color: #000; border: none; padding: 12px 20px;
+  border-radius: 8px; cursor: pointer; font-weight: bold; flex: 1;
 }
-
-.btn-confirmar:hover { background: #e6b000; }
-
-/* Botón X de cerrar */
 .close-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #999;
-  padding: 5px;
+  position: absolute; top: 15px; right: 15px; background: none;
+  border: none; cursor: pointer; color: #999; padding: 5px;
 }
-.close-btn:hover { color: #333; }
+
+/* =========================================
+   2. DISEÑO RESPONSIVE Y MENÚ MÓVIL
+   ========================================= */
+
+/* Estilos base del menú móvil (ocultos en PC) */
+.mobile-menu-icon { display: none; cursor: pointer; color: var(--text-white); }
+.mobile-text { display: none; }
+
+@media (max-width: 768px) {
+  
+  /* --- NAVBAR MÓVIL --- */
+  .navbar { position: relative; background-color: var(--bg-dark); }
+  
+  .nav-content { padding: 10px 20px; }
+
+  /* Icono de 3 rayitas visible */
+  .mobile-menu-icon {
+    display: block;
+    margin-left: auto;
+    order: 3;
+  }
+
+  /* Menú Desplegable */
+  .nav-links {
+    position: fixed;
+    top: 70px;
+    left: -100%; /* Oculto a la izquierda */
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(10, 10, 10, 0.98); /* Fondo Negro */
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 40px;
+    transition: 0.3s ease;
+    z-index: 99;
+  }
+
+  /* Cuando se abre el menú */
+  .nav-links.active { left: 0; }
+
+  /* Enlaces grandes para tocar con el dedo */
+  .nav-links a { margin: 20px 0; font-size: 1.5rem; width: 100%; text-align: center; }
+
+  /* Forzamos que el texto se vea (arregla el error anterior) */
+  .nav-link-text { display: inline-block !important; }
+  
+  .mobile-text { display: inline; margin-left: 10px; }
+
+  /* Barra de búsqueda abajo */
+  .search-bar-container { order: 4; width: 100%; margin-top: 10px; }
+
+  /* --- AJUSTES GENERALES MÓVIL --- */
+  .hero h1 { font-size: 2.2rem; line-height: 1.1; }
+  .grid-condimentos { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
+  .img-container { height: 140px; }
+  .cart-total { font-size: 2.5rem; }
+}
