@@ -4,15 +4,27 @@ import { ShoppingBag, Plus } from 'lucide-react';
 const CardCondimento = ({ producto, alAgregar }) => {
   return (
     <div className="card-nowin">
-      {/* Contenedor de Imagen */}
-      <div className="img-container">
-        {/* Aquí usamos la imagen que viene de la base de datos o local */}
-        <img src={producto.img} alt={producto.title} />
+      
+      {/* --- CAMBIO AQUÍ: IMAGEN CON ZOOM --- */}
+      <div className="img-container" style={{ 
+          padding: '5px',        /* Reducimos el espacio (antes era mayor) */
+          overflow: 'hidden'     /* Para que si crece mucho no se salga del borde */
+      }}>
+        <img 
+            src={producto.img} 
+            alt={producto.title} 
+            style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                transform: 'scale(1.35)', /* EL TRUCO: Aumentamos al 135% */
+                transition: 'transform 0.3s ease' /* Suavizado */
+            }}
+        />
       </div>
 
-      {/* Información */}
+      {/* --- INFORMACIÓN (SE MANTIENE IGUAL) --- */}
       <div className="card-info">
-        {/* Usamos el color de etiqueta como categoría si existe, sino genérico */}
         <span className="card-category" style={{ color: producto.colorEtiqueta || '#FFC400' }}>
           {producto.category || 'Condimento Premium'}
         </span>
