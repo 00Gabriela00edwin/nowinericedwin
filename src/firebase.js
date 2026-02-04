@@ -1,18 +1,22 @@
+// Importamos las funciones necesarias
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from "firebase/firestore"; // <--- AGREGADO: Importar Firestore
 
-// Tu configuración real de Firebase
+// Tu configuración (La que me pasaste)
 const firebaseConfig = {
-  apiKey: "AIzaSyC1_llfVpLKmtVxxY2bsaf0YiNR54JKwNM",
-  authDomain: "archi-books.firebaseapp.com",
-  projectId: "archi-books",
-  storageBucket: "archi-books.firebasestorage.app",
-  messagingSenderId: "1023306933506",
-  appId: "1:1023306933506:web:ff7551f2e284d853590e1b",
-  measurementId: "G-D0NHKD6K7V"
+  apiKey: "AIzaSyCCjKi1P6vPkF7ogUsCZJrS2tvynNy7z68",
+  authDomain: "nowin-86d07.firebaseapp.com",
+  projectId: "nowin-86d07",
+  storageBucket: "nowin-86d07.firebasestorage.app",
+  messagingSenderId: "43022335973",
+  appId: "1:43022335973:web:10f2b29f5b26db800df90c",
+  measurementId: "G-VMMT5WS2B0"
 };
 
-export const app = initializeApp(firebaseConfig);
+// Inicializar Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
-// 2. Exportamos la referencia a la base de datos para usarla en App.jsx
-export const db = getFirestore(app);
+// Inicializar y exportar la Base de Datos
+export const db = getFirestore(app); // <--- AGREGADO: Esto es lo que usa tu App.jsx
