@@ -2,10 +2,8 @@
 
 :root {
   --bg-dark: #0a0a0a;
-  --bg-card: #161616;
   --primary-yellow: #FFC400;
   --text-white: #ffffff;
-  --text-gray: #cccccc; /* Gris más claro para mejor lectura */
 }
 
 body {
@@ -13,477 +11,138 @@ body {
   color: var(--text-white);
   font-family: 'Montserrat', sans-serif;
   margin: 0;
-  -webkit-font-smoothing: antialiased;
 }
 
-/* --- NAVBAR --- */
-.navbar {
-  background-color: rgba(10, 10, 10, 0.98); /* Más opaco */
-  border-bottom: 1px solid #333;
-  padding: 1rem 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
+/* NAVBAR Y SIDEBAR */
+.navbar { background-color: rgba(10, 10, 10, 0.98); border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100; }
+.nav-content { display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: 10px 20px; height: 70px; }
+.nav-logo-img { height: 50px; object-fit: contain; }
+.menu-btn { background: none; border: none; cursor: pointer; padding: 5px; color: white; }
+.search-bar-container { flex-grow: 1; max-width: 500px; margin: 0 15px; position: relative; display: flex; align-items: center; }
+.search-input { width: 100%; padding: 10px 15px 10px 40px; border-radius: 20px; border: 1px solid #444; background-color: #222; color: white; outline: none; }
+.search-icon-inside { position: absolute; left: 12px; color: #888; }
+@media (max-width: 650px) { .search-bar-container { display: none; } }
 
-.nav-content {
-  display: flex;
-  justify-content: space-between;
+.menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1001; }
+.sidebar { position: fixed; top: 0; left: -300px; width: 280px; height: 100vh; background: #121212; z-index: 1002; transition: 0.3s; padding: 20px; display: flex; flex-direction: column; }
+.sidebar.open { left: 0; }
+.sidebar-header { display: flex; justify-content: space-between; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 15px; }
+.sidebar-item { color: white; text-decoration: none; padding: 12px; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+
+/* HERO */
+.hero { position: relative; text-align: center; padding: 100px 20px; }
+.hero-carousel { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+.hero-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; transition: opacity 1s; }
+.hero-slide.active { opacity: 1; transform: scale(1.05); transition: transform 6s linear, opacity 1s; }
+.hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1; }
+.hero-content { position: relative; z-index: 2; }
+.hero h1 { font-size: 3rem; color: white; margin-bottom: 10px; }
+
+/* ESTILOS DE LA TARJETA */
+.card-condimento { background: white; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; height: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.card-header { height: 160px; display: flex; justify-content: center; align-items: center; padding: 10px; background: white; }
+.card-img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.card-body { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+.card-title { color: #1a1a1a; font-size: 1rem; font-weight: bold; margin: 0 0 10px 0; }
+.card-category { color: #888; font-size: 0.75rem; text-transform: uppercase; font-weight: bold; }
+.card-price { color: var(--primary-yellow); font-size: 1.3rem; font-weight: 800; margin-bottom: 15px; }
+
+.btn-agregar { background: #1a1a1a; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; }
+.btn-agregar:hover { background: var(--primary-yellow); color: black; }
+
+.app-container { min-height: 100vh; display: flex; flex-direction: column; }
+.footer { background: #050505; padding: 40px 20px; text-align: center; margin-top: auto; border-top: 1px solid #222; }
+.social-icons { display: flex; justify-content: center; gap: 20px; margin: 20px 0; }
+.btn-nowin { background: var(--primary-yellow); color: black; border: none; padding: 12px; width: 100%; font-weight: bold; border-radius: 8px; cursor: pointer; }
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; display: flex; align-items: center; justify-content: center; }
+.modal-content { background: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 400px; color: black; }
+.form-input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; }
+.modal-actions { display: flex; gap: 10px; margin-top: 15px; }
+/* =========================================
+   CORRECCIONES VISUALES (PEGAR AL FINAL)
+   ========================================= */
+
+/* 1. ARREGLO DEL CONTADOR DEL CARRITO (EL GLOBITO ROJO) */
+.cart-widget {
+  position: relative; /* Necesario para que el globito se ubique bien */
+  display: inline-flex;
   align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  gap: 20px; /* Espacio entre logo, buscador y links */
-}
-
-.logo {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 800;
-  font-size: 1.8rem;
-  color: var(--text-white);
-  text-decoration: none;
-  font-style: italic;
-  flex-shrink: 0;
-}
-
-/* NUEVO: BARRA DE BÚSQUEDA EN NAV */
-.search-bar-container {
-  flex-grow: 1;
-  max-width: 500px;
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.search-input {
-  width: 100%;
-  padding: 10px 15px 10px 40px; /* Espacio a la izquierda para el icono */
-  border-radius: 20px;
-  border: 1px solid #444;
-  background-color: #222;
-  color: var(--text-white);
-  font-family: 'Montserrat', sans-serif;
-  outline: none;
-  transition: border-color 0.3s;
-}
-
-.search-input:focus {
-  border-color: var(--primary-yellow);
-}
-
-.search-icon-inside {
-  position: absolute;
-  left: 12px;
-  color: var(--text-gray);
-}
-
-.nav-links {
-  display: flex;
-  gap: 25px;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.nav-link-text {
-  color: var(--text-white);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  transition: color 0.3s;
-}
-
-.nav-link-text:hover {
-  color: var(--primary-yellow);
-}
-
-.cart-icon-container {
-  position: relative;
-  color: var(--primary-yellow);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
+  justify-content: center;
+  overflow: visible; /* Importante para que no se corte el numero */
 }
 
 .cart-badge {
   position: absolute;
-  top: -8px;
-  right: -8px;
-  background-color: #D32F2F;
+  top: -5px;    /* Lo subimos un poco */
+  right: -8px;  /* Lo movemos a la derecha */
+  background-color: #D32F2F; /* Rojo intenso */
   color: white;
-  font-size: 0.7rem;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 0.75rem;
   font-weight: bold;
-}
-
-/* --- HERO SECTION (Arreglado contraste) --- */
-/* --- HERO SECTION CON CARRUSEL --- */
-.hero {
-  position: relative; /* Necesario para contener las fotos absolutas */
-  text-align: center;
-  padding: 120px 20px;
-  overflow: hidden;   /* Para que las fotos no se salgan */
-  background: #000;   /* Fondo negro de respaldo */
-}
-
-/* El contenedor de las fotos */
-.hero-carousel {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0; /* Al fondo */
-}
-
-/* Cada diapositiva (foto) */
-.hero-slide {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;   /* Cubre todo el espacio */
-  background-position: center;
-  opacity: 0;               /* Invisible por defecto */
-  transition: opacity 1.5s ease-in-out; /* Transición suave de 1.5s */
-}
-
-/* La clase que activa la foto visible */
-.hero-slide.active {
-  opacity: 1; /* Visible */
-  transform: scale(1.05); /* Un leve efecto de zoom lento queda genial */
-  transition: opacity 1.5s ease-in-out, transform 6s linear;
-}
-
-/* Capa oscura (Overlay) */
-.hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.65); /* Oscurece las fotos al 65% */
-  z-index: 1;
-}
-
-/* El texto (Título y slogan) */
-.hero-content {
-  position: relative;
-  z-index: 2; /* Encima de todo */
-}
-
-.hero h1 {
-  font-size: 3.5rem;
-  margin-bottom: 15px;
-  color: #ffffff;
-  text-shadow: 2px 2px 10px rgba(0,0,0,0.5); /* Sombra para leer mejor */
-}
-
-.hero p {
-  color: #dddddd;
-  font-size: 1.2rem;
-  font-weight: 600;
-  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
-}
-
-/* --- GRID Y TARJETAS --- */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
-}
-
-.grid-condimentos {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 2rem;
-}
-
-.card-nowin {
-  background-color: var(--bg-card);
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid #333;
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-nowin:hover {
-  transform: translateY(-5px);
-  border-color: var(--primary-yellow);
-  box-shadow: 0 5px 15px rgba(255, 196, 0, 0.1);
-}
-
-.img-container {
-  background-color: #ffffff;
-  height: 220px;
+  min-width: 20px; /* Tamaño mínimo del círculo */
+  height: 20px;
+  border-radius: 50%; /* Que sea redondo perfecto */
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 15px;
+  border: 2px solid #1a1a1a; /* Borde oscuro para separarlo del icono */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animación de entrada */
 }
 
-.img-container img {
-  max-height: 100%;
-  max-width: 100%;
-  object-fit: contain;
-  /* Sombra suave para despegar el producto del fondo blanco */
-  filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.1)); 
+/* Animación cuando aparece el número */
+@keyframes popIn {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
 }
 
-.card-info {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  text-align: left;
-}
 
-.card-category {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-/* ARREGLO DE LEGIBILIDAD DEL TÍTULO */
-.card-title {
-  font-size: 1.15rem; /* Un poco más pequeño para que quepa bien */
-  margin: 0 0 15px 0;
-  font-weight: 700;
-  color: var(--text-white); /* Blanco puro */
-  line-height: 1.3;
-}
-
-.card-price {
-  font-size: 1.6rem;
-  font-weight: 800;
-  margin-top: auto;
-  margin-bottom: 15px;
-  color: var(--primary-yellow); /* Precio en amarillo */
-}
-
-.btn-nowin {
-  background-color: var(--primary-yellow);
-  color: #000;
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: 800;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: background 0.2s;
-  width: 100%;
-  font-size: 0.9rem;
-}
-
-.btn-nowin:hover {
-  background-color: #fff;
-}
-
-/* --- FOOTER (Arreglado contraste) --- */
-.footer {
-  background-color: #050505; /* Fondo un poco más oscuro que el body */
-  border-top: 1px solid #222;
-  padding: 50px 20px;
-  text-align: center;
-  margin-top: 60px;
-}
-
-.footer p {
-    color: var(--text-gray); /* Texto gris claro */
-}
-
+/* 2. ANIMACIONES DEL FOOTER (REDES SOCIALES Y TEXTO) */
 .social-icons {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    margin: 25px 0;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin: 30px 0;
 }
 
 .social-link {
-    color: var(--text-white);
-    transition: color 0.3s, transform 0.3s;
-}
-
-.social-link:hover {
-    color: var(--primary-yellow);
-    transform: scale(1.1);
-}
-
-/* Estilos específicos para el icono de WhatsApp */
-.social-link.whatsapp:hover {
-    color: #25D366; /* Color oficial de WhatsApp al pasar el mouse */
-}
-/* Borra o ignora la clase .logo anterior que tenía estilos de letra */
-
-.logo-container {
+  color: #888; /* Color gris inicial */
+  transition: all 0.3s ease; /* Transición suave */
   display: flex;
   align-items: center;
-  padding: 5px 0;
-}
-
-.nav-logo-img {
-  height: 150px; /* Ajusta este número si lo quieres más grande o chico */
-  width: auto;  /* Mantiene la proporción original */
-  object-fit: contain;
-}
-/* --- TIPOGRAFÍA ESPECIAL CARRITO --- */
-
-.cart-title {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 800;       /* Letra muy gorda */
-  font-size: 1.5rem;      /* Tamaño grande */
-  color: #000000;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border-bottom: 2px solid #0b0b0b;
-  padding-bottom: 20px;
-  opacity: 0.9;
-}
-
-.cart-total {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 200;       /* Extra gorda */
-  font-size: 2.5rem;      /* GIGANTE */
-  color: #020202;       
-  margin: 10px 0;
-  text-shadow: 0px 0px 20px rgba(255, 196, 0, 0.3); /* Resplandor amarillo */
-}
-/* =========================================
-   DISEÑO RESPONSIVE (PARA MÓVILES)
-   ========================================= */
-
-/* =========================================
-   1. ANIMACIONES Y MODALES (EXTRAS)
-   ========================================= */
-
-/* Animación para la foto de la familia */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Modal del Carrito (Fondo oscuro) */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.75);
-  display: flex;
   justify-content: center;
-  align-items: center;
-  z-index: 9999;
+  background: #111;
+  padding: 12px;
+  border-radius: 50%; /* Círculo de fondo */
+  border: 1px solid #222;
 }
 
-/* Cajita blanca del formulario */
-.modal-content {
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 15px;
-  width: 90%;
-  max-width: 400px;
-  position: relative;
-  text-align: center;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-  animation: aparecer 0.3s ease-out;
+/* Efecto al pasar el mouse por las redes */
+.social-link:hover {
+  color: #000;
+  background-color: #FFC400; /* Fondo amarillo */
+  transform: translateY(-5px) scale(1.1); /* Flota hacia arriba y crece */
+  box-shadow: 0 5px 15px rgba(255, 196, 0, 0.3); /* Resplandor amarillo */
+  border-color: #FFC400;
 }
 
-@keyframes aparecer {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+/* Icono de WhatsApp con color especial */
+.social-link.whatsapp:hover {
+  background-color: #25D366; /* Verde WhatsApp */
+  color: white;
+  border-color: #25D366;
+  box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
 }
 
-/* Elementos del formulario */
-.form-group { margin-bottom: 15px; }
-.form-input {
-  width: 100%; padding: 12px; border: 1px solid #ccc;
-  border-radius: 8px; font-size: 1rem; box-sizing: border-box;
-}
-.modal-actions {
-  display: flex; justify-content: space-between; gap: 10px; margin-top: 25px;
-}
-.btn-cancelar {
-  background: #f1f1f1; color: #333; border: none; padding: 12px 20px;
-  border-radius: 8px; cursor: pointer; font-weight: bold; flex: 1;
-}
-.btn-confirmar {
-  background: #FFC400; color: #000; border: none; padding: 12px 20px;
-  border-radius: 8px; cursor: pointer; font-weight: bold; flex: 1;
-}
-.close-btn {
-  position: absolute; top: 15px; right: 15px; background: none;
-  border: none; cursor: pointer; color: #999; padding: 5px;
+/* Texto de derechos reservados */
+.footer p {
+  color: #666;
+  font-size: 0.9rem;
+  transition: color 0.3s;
+  letter-spacing: 1px;
 }
 
-/* =========================================
-   2. DISEÑO RESPONSIVE Y MENÚ MÓVIL
-   ========================================= */
-
-/* Estilos base del menú móvil (ocultos en PC) */
-.mobile-menu-icon { display: none; cursor: pointer; color: var(--text-white); }
-.mobile-text { display: none; }
-
-@media (max-width: 768px) {
-  
-  /* --- NAVBAR MÓVIL --- */
-  .navbar { position: relative; background-color: var(--bg-dark); }
-  
-  .nav-content { padding: 10px 20px; }
-
-  /* Icono de 3 rayitas visible */
-  .mobile-menu-icon {
-    display: block;
-    margin-left: auto;
-    order: 3;
-  }
-
-  /* Menú Desplegable */
-  .nav-links {
-    position: fixed;
-    top: 70px;
-    left: -100%; /* Oculto a la izquierda */
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(10, 10, 10, 0.98); /* Fondo Negro */
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding-top: 40px;
-    transition: 0.3s ease;
-    z-index: 99;
-  }
-
-  /* Cuando se abre el menú */
-  .nav-links.active { left: 0; }
-
-  /* Enlaces grandes para tocar con el dedo */
-  .nav-links a { margin: 20px 0; font-size: 1.5rem; width: 100%; text-align: center; }
-
-  /* Forzamos que el texto se vea (arregla el error anterior) */
-  .nav-link-text { display: inline-block !important; }
-  
-  .mobile-text { display: inline; margin-left: 10px; }
-
-  /* Barra de búsqueda abajo */
-  .search-bar-container { order: 4; width: 100%; margin-top: 10px; }
-
-  /* --- AJUSTES GENERALES MÓVIL --- */
-  .hero h1 { font-size: 2.2rem; line-height: 1.1; }
-  .grid-condimentos { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
-  .img-container { height: 140px; }
-  .cart-total { font-size: 2.5rem; }
+.footer p:hover {
+  color: #FFC400; /* Se ilumina al pasar el mouse */
 }
+

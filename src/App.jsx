@@ -1,55 +1,28 @@
+
 import React, { useState, useEffect } from 'react';
-// Importamos el Router para que funcionen los enlaces
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// Importamos iconos
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { db } from './firebase'; 
 import { collection, getDocs, addDoc } from 'firebase/firestore'; 
+import { Search, Plus, Minus, Trash2, ShoppingBag, Instagram, Facebook } from 'lucide-react';
 
-// IMPORTANTE: Importamos tus componentes (asegúrate que los archivos existan en src)
 import Navbar from './Navbar'; 
 import CheckoutForm from './CheckoutForm'; 
 import CardCondimento from './CardCondimento'; 
 
 import './App.css';
 
-// --- DATOS DE EJEMPLO (Por si falla Firebase) ---
+// --- DATOS DEMO ---
 const PRODUCTOS_DEMO = [
-  { id: 1, title: "Sal con Ajo", price: 3500, category: "Saborizados", img: "/img/salconajo.png", colorEtiqueta: "#F5f5f5" },
-  { id: 2, title: "Pimienta Molida", price: 4200, category: "Esenciales", img: "/img/pimienta.png", colorEtiqueta: "#F5F5F5" },
-  { id: 3, title: "Condimento Arroz", price: 3100, category: "Mezclas", img: "/img/condimento dearroz.png", colorEtiqueta: "#F5f5f5" },
-  { id: 4, title: "Sal de Campo", price: 3800, category: "Especiales", img: "/img/saldecampo.png", colorEtiqueta: "#F5F5F5" },
-  { id: 5, title: "Orégano", price: 2500, category: "Hierbas", img: "/img/oregano.png", colorEtiqueta: "#4CAF50" },
-  { id: 6, title: "Sal Ahumada", price: 4500, category: "Gourmet", img: "/img/salaumada.png", colorEtiqueta: "#F5F5F5" },
-  { id: 7, title: "Sal Cebolla y Ajo", price: 3600, category: "Saborizados", img: "/img/salcebollayajo.png", colorEtiqueta: "#F5F5F5" }
+  { id: 1, title: "Sal con Ajo", price: 3500, category: "Saborizados", img: "/img/salconajo.png" },
+  { id: 2, title: "Pimienta Molida", price: 4200, category: "Esenciales", img: "/img/pimienta.png" },
+  { id: 3, title: "Condimento Arroz", price: 3100, category: "Mezclas", img: "/img/condimento dearroz.png" },
+  { id: 4, title: "Sal de Campo", price: 3800, category: "Especiales", img: "/img/saldecampo.png" },
+  { id: 5, title: "Orégano", price: 2500, category: "Hierbas", img: "/img/oregano.png" },
+  { id: 6, title: "Sal Ahumada", price: 4500, category: "Gourmet", img: "/img/salaumada.png" },
+  { id: 7, title: "Sal Cebolla y Ajo", price: 3600, category: "Saborizados", img: "/img/salcebollayajo.png" }
 ];
 
-// --- FOOTER (Lo dejamos aquí porque es sencillo) ---
-import { Instagram, Facebook } from 'lucide-react'; // Importamos iconos del footer
-const Footer = () => (
-  <footer className="footer">
-    <h3 style={{ color: '#ffffff', textTransform: 'uppercase', letterSpacing: '2px', fontSize: '1rem', marginTop: '30px', marginBottom: '15px', fontWeight: 'bold' }}>
-        CONTACTO
-    </h3>
-    <div className="social-icons">
-      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-link"><Instagram size={24} /></a>
-      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-link"><Facebook size={24} /></a>
-      <a href="https://wa.me/5493764141598" target="_blank" rel="noopener noreferrer" className="social-link whatsapp">
-        {/* Icono de WhatsApp SVG manual para asegurar color */}
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="#25D366">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471.148-.67.396-.197.247-.742.967-.919 1.165-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-        </svg>
-      </a>
-    </div>
-    <div style={{marginTop: '30px', borderTop: '1px solid #333', paddingTop: '20px'}}>
-       <p style={{fontSize: '0.9rem', opacity: 0.7}}>© {new Date().getFullYear()} Nowin Argentina. Todos los derechos reservados.</p>
-    </div>
-  </footer>
-);
-
-// --- COMPONENTES DE PÁGINAS ---
-import { Search, Plus, Minus, Trash2, ShoppingBag } from 'lucide-react'; // Iconos extra
-import { Link } from 'react-router-dom';
-
+// --- HOME (AQUÍ FORZAMOS LA GRILLA) ---
 const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
   const heroImages = ["/img/carru1.jpg", "/img/carru2.jpg", "/img/carru3.jpg", "/img/carru4.jpg", "/img/carru5.jpg", "/img/carru6.jpg"];
   const [currentImage, setCurrentImage] = React.useState(0);
@@ -78,13 +51,23 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
           <p>Esa pizca de sabor que tu cocina necesita.</p>
         </div>
       </header>
+      
       <section className="container">
         {filteredProducts.length > 0 ? (
-          <div className="grid-condimentos">
+          
+          /* --- GRILLA FORZADA CON ESTILOS DIRECTOS --- */
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', /* Columnas automáticas */
+            gap: '20px',
+            padding: '20px 0',
+            width: '100%'
+          }}>
             {filteredProducts.map(prod => (
               <CardCondimento key={prod.id} producto={prod} alAgregar={agregarAlCarrito} />
             ))}
           </div>
+
         ) : (
           <div style={{textAlign: 'center', padding: '50px', color: '#888'}}>
             <Search size={40} style={{marginBottom:'20px', opacity: 0.5}}/>
@@ -96,9 +79,10 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
   );
 };
 
+// --- ABOUT ---
 const About = () => (
   <div className="container" style={{paddingTop: '60px', minHeight: '50vh', textAlign: 'center'}}>
-    <h1 style={{fontSize: '3rem', color: '#FFC400'}}>Tradicion Familiar</h1>
+    <h1 style={{fontSize: '3rem', color: '#FFC400'}}>Tradición Familiar</h1>
     <img src="/img/carru1.jpg" alt="Familia" style={{maxWidth: '90%', width: '500px', borderRadius: '20px', marginBottom: '30px'}} />
     <div style={{maxWidth: '700px', margin: '0 auto'}}>
       <p>Detrás de Nowin hay una familia y una obsesión: el sabor auténtico...</p>
@@ -106,6 +90,7 @@ const About = () => (
   </div>
 );
 
+// --- CART ---
 const Cart = ({ cart, removeFromCart, addToCart, decreaseQuantity, onStartCheckout }) => {
   const total = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   return (
@@ -144,6 +129,27 @@ const Cart = ({ cart, removeFromCart, addToCart, decreaseQuantity, onStartChecko
   );
 };
 
+// --- FOOTER (CON WHATSAPP RESTAURADO) ---
+const Footer = () => (
+  <footer className="footer">
+    <h3 style={{ color: '#ffffff', textTransform: 'uppercase', letterSpacing: '2px', fontSize: '1rem', marginTop: '30px', marginBottom: '15px', fontWeight: 'bold' }}>CONTACTO</h3>
+    <div className="social-icons">
+      <a href="https://instagram.com" className="social-link"><Instagram size={24} /></a>
+      <a href="https://facebook.com" className="social-link"><Facebook size={24} /></a>
+      
+      {/* AQUÍ ESTÁ EL WHATSAPP QUE FALTABA */}
+      <a href="https://wa.me/5493764141598" target="_blank" rel="noopener noreferrer" className="social-link whatsapp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="#25D366">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471.148-.67.396-.197.247-.742.967-.919 1.165-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+      </a>
+    </div>
+    <div style={{marginTop: '30px', borderTop: '1px solid #333', paddingTop: '20px'}}>
+       <p style={{fontSize: '0.9rem', opacity: 0.7}}>© {new Date().getFullYear()} Nowin Argentina.</p>
+    </div>
+  </footer>
+);
+
 // --- APP PRINCIPAL ---
 function App() {
   const [cart, setCart] = useState([]);
@@ -151,7 +157,6 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [mostrarCheckout, setMostrarCheckout] = useState(false);
 
-  // Carga de productos desde Firebase
   useEffect(() => {
     const fetchProductos = async () => {
       try {
@@ -160,7 +165,7 @@ function App() {
           const docs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
           setProductos(docs);
         }
-      } catch (error) { console.log("Usando datos locales o error de conexión"); }
+      } catch (error) { console.log("Usando datos locales"); }
     };
     fetchProductos();
   }, []);
@@ -168,61 +173,36 @@ function App() {
   const addToCart = (prod) => {
     setCart(prev => {
       const existe = prev.find(item => item.id === prod.id);
-      return existe 
-        ? prev.map(item => item.id === prod.id ? {...item, quantity: item.quantity + 1} : item) 
-        : [...prev, {...prod, quantity: 1}];
+      return existe ? prev.map(item => item.id === prod.id ? {...item, quantity: item.quantity + 1} : item) : [...prev, {...prod, quantity: 1}];
     });
   };
 
-  const decreaseQuantity = (id) => {
-    setCart(prev => 
-      prev.map(item => item.id === id ? { ...item, quantity: Math.max(1, item.quantity - 1) } : item)
-    );
-  };
-
+  const decreaseQuantity = (id) => setCart(prev => prev.map(item => item.id === id ? { ...item, quantity: Math.max(1, item.quantity - 1) } : item));
   const removeFromCart = (id) => setCart(prev => prev.filter(item => item.id !== id));
 
   const procesarCompra = async (datosUsuario) => {
     const totalPrecio = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
     try {
-      const orden = { comprador: datosUsuario, items: cart, total: totalPrecio, fecha: new Date() };
-      await addDoc(collection(db, "ordenes"), orden);
-    } catch (e) { console.error("Error al guardar", e); }
+      await addDoc(collection(db, "ordenes"), { comprador: datosUsuario, items: cart, total: totalPrecio, fecha: new Date() });
+    } catch (e) { console.error("Error", e); }
 
-    let mensaje = `Hola Nowin! 👋 Quiero realizar el siguiente pedido:\n\n`;
-    cart.forEach(item => { mensaje += `▪️ ${item.title} x ${item.quantity} - $${item.price * item.quantity}\n`; });
-    mensaje += `\n💰 *Total: $${totalPrecio.toLocaleString()}*`;
-    mensaje += `\n\n📋 *Mis Datos:*\nNombre: ${datosUsuario.nombre}\nDirección: ${datosUsuario.direccion}\nTel: ${datosUsuario.telefono}`;
-
-    const numeroTelefono = "5493764141598"; 
-    window.open(`https://wa.me/${numeroTelefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
+    let mensaje = `Hola Nowin! 👋 Pedido:\n\n`;
+    cart.forEach(item => { mensaje += `▪️ ${item.title} x ${item.quantity}\n`; });
+    mensaje += `\n💰 Total: $${totalPrecio.toLocaleString()}\nCliente: ${datosUsuario.nombre}`;
+    window.open(`https://wa.me/5493764141598?text=${encodeURIComponent(mensaje)}`, '_blank');
     setCart([]); setMostrarCheckout(false);
   };
 
-  // --- ESTRUCTURA DE RUTAS (El Router envuelve TODO) ---
   return (
     <Router>
       <div className="app-container">
-        
-        {/* Navbar con las props necesarias */}
-        <Navbar 
-          cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)} 
-          searchTerm={searchTerm} 
-          setSearchTerm={setSearchTerm} 
-        />
-        
-        {/* Rutas */}
+        <Navbar cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         <Routes>
           <Route path="/" element={<Home productos={productos} agregarAlCarrito={addToCart} searchTerm={searchTerm} />} />
           <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} addToCart={addToCart} decreaseQuantity={decreaseQuantity} onStartCheckout={() => setMostrarCheckout(true)} />} />
           <Route path="/about" element={<About />} />
         </Routes>
-        
-        {/* Modal de Checkout */}
-        {mostrarCheckout && (
-          <CheckoutForm enviarPedido={procesarCompra} cancelar={() => setMostrarCheckout(false)} />
-        )}
-
+        {mostrarCheckout && <CheckoutForm enviarPedido={procesarCompra} cancelar={() => setMostrarCheckout(false)} />}
         <Footer />
       </div>
     </Router>

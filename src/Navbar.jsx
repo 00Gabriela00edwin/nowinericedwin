@@ -1,58 +1,74 @@
-import React, { useState } from 'react'; // 1. Importar useState
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, ShoppingBag, Menu, X } from 'lucide-react'; // 2. Importar iconos Menu y X
+import { Search, ShoppingBag, Menu, X, Home, Info } from 'lucide-react';
 
 const Navbar = ({ cartCount, searchTerm, setSearchTerm }) => {
-  // 3. Estado para controlar si el menú está abierto (true) o cerrado (false)
   const [isOpen, setIsOpen] = useState(false);
 
-  // Función para cerrar el menú cuando hacen click en un enlace
-  const closeMenu = () => setIsOpen(false);
-
   return (
-    <nav className="navbar">
-      <div className="nav-content">
-        
-        {/* LOGO */}
-        <Link to="/" className="logo-container" onClick={closeMenu}>
-          <img src="/img/logo2.png" alt="Nowin" className="nav-logo-img" />
-        </Link>
-
-        {/* BARRA DE BÚSQUEDA (La ocultamos en menú abierto en móviles si quieres, o la dejamos) */}
-        <div className="search-bar-container">
-          <Search className="search-icon-inside" size={18} />
-          <input 
-            type="text" 
-            placeholder="Buscar..." 
-            className="search-input"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-
-        {/* BOTÓN HAMBURGUESA (Solo visible en celular gracias al CSS) */}
-        <div className="mobile-menu-icon" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
-        </div>
-
-        {/* ENLACES DE NAVEGACIÓN */}
-        {/* Agregamos la clase 'active' si isOpen es true */}
-        <div className={`nav-links ${isOpen ? 'active' : ''}`}>
+    <>
+      <nav className="navbar">
+        <div className="nav-content">
           
-          <Link to="/about" className="nav-link-text" onClick={closeMenu}>
-            Sobre Nosotros
-          </Link>
-          
-          <Link to="/cart" className="cart-icon-container" onClick={closeMenu}>
-            <ShoppingBag size={28} />
+          {/* GRUPO IZQUIERDO: MENÚ + LOGO (JUNTOS) */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            
+            {/* Botón Menú */}
+            <button className="menu-btn" onClick={() => setIsOpen(true)}>
+              <Menu size={32} color="white" /> {/* Aumenté un poco el tamaño del icono */}
+            </button>
+
+            {/* Logo */}
+            <Link to="/" className="logo-container">
+              <img src="/img/logo2.png" alt="Nowin" className="nav-logo-img" />
+            </Link>
+          </div>
+
+          {/* BUSCADOR (CENTRO) */}
+          <div className="search-bar-container">
+            <Search className="search-icon-inside" size={18} />
+            <input 
+              type="text" 
+              placeholder="Buscar..." 
+              className="search-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+
+          {/* CARRITO (DERECHA) */}
+          <Link to="/cart" className="cart-widget">
+            <ShoppingBag size={28} color="white" />
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-            {/* Texto opcional para el menú móvil */}
-            <span className="mobile-text">Mi Carrito</span> 
           </Link>
 
+        </div>
+      </nav>
+
+      {/* --- SIDEBAR (MENÚ LATERAL) --- */}
+      {isOpen && <div className="menu-overlay" onClick={() => setIsOpen(false)}></div>}
+      
+      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+        <div className="sidebar-header">
+           <h3 style={{color:'#FFC400'}}>MENÚ</h3>
+           <button onClick={() => setIsOpen(false)} style={{background:'none', border:'none', cursor:'pointer'}}>
+             <X size={28} color="white" />
+           </button>
+        </div>
+        
+        <div className="sidebar-links">
+          <Link to="/" onClick={() => setIsOpen(false)} className="sidebar-item">
+             <Home size={20} /> Inicio
+          </Link>
+          <Link to="/about" onClick={() => setIsOpen(false)} className="sidebar-item">
+             <Info size={20} /> Sobre Nosotros
+          </Link>
+          <Link to="/cart" onClick={() => setIsOpen(false)} className="sidebar-item">
+             <ShoppingBag size={20} /> Ver Carrito
+          </Link>
         </div>
       </div>
-    </nav>
+    </>
   );
 };
 
