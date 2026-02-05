@@ -79,16 +79,37 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
   );
 };
 
-// --- ABOUT ---
+// --- ABOUT (SOBRE NOSOTROS - VERSIÓN LIMPIA) ---
 const About = () => (
-  <div className="container" style={{paddingTop: '60px', minHeight: '50vh', textAlign: 'center'}}>
-    <h1 style={{fontSize: '3rem', color: '#FFC400'}}>Tradición Familiar</h1>
-    <img src="/img/carru1.jpg" alt="Familia" style={{maxWidth: '90%', width: '500px', borderRadius: '20px', marginBottom: '30px'}} />
-    <div style={{maxWidth: '700px', margin: '0 auto'}}>
-      <p>Detrás de Nowin hay una familia y una obsesión: el sabor auténtico...</p>
+  <div className="about-hero" style={{ backgroundImage: 'url(/img/carru1.jpg)' }}>
+    <div className="about-overlay">
+      <div className="container about-content">
+        
+        <h1>Tradición Familiar</h1>
+
+        <div className="about-text-body">
+          <p>
+            Detrás de <strong>Nowin</strong> hay una familia y una obsesión: el sabor auténtico. 
+            Lo que nos hace diferentes es nuestro proceso. Mantenemos un espíritu puramente 
+            <strong>artesanal</strong>, cuidando cada ingrediente como si fuera para nuestra propia mesa.
+          </p>
+          <p>
+            Nuestra receta es única, un secreto familiar que hemos guardado y perfeccionado con el tiempo. 
+            No fabricamos simples condimentos, creamos experiencias caseras para que tú puedas cocinar 
+            platos increíbles sin complicaciones. 
+          </p>
+          <p className="highlight-text">
+            Llevamos la esencia de lo artesanal directo a tu cocina.
+          </p>
+        </div>
+
+      </div>
     </div>
   </div>
 );
+
+
+
 
 // --- CART ---
 const Cart = ({ cart, removeFromCart, addToCart, decreaseQuantity, onStartCheckout }) => {

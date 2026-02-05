@@ -16,7 +16,7 @@ body {
 /* NAVBAR Y SIDEBAR */
 .navbar { background-color: rgba(10, 10, 10, 0.98); border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100; }
 .nav-content { display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: 10px 20px; height: 70px; }
-.nav-logo-img { height: 50px; object-fit: contain; }
+.nav-logo-img { height: 58px; object-fit: contain; }
 .menu-btn { background: none; border: none; cursor: pointer; padding: 5px; color: white; }
 .search-bar-container { flex-grow: 1; max-width: 500px; margin: 0 15px; position: relative; display: flex; align-items: center; }
 .search-input { width: 100%; padding: 10px 15px 10px 40px; border-radius: 20px; border: 1px solid #444; background-color: #222; color: white; outline: none; }
@@ -146,3 +146,169 @@ body {
   color: #FFC400; /* Se ilumina al pasar el mouse */
 }
 
+/* =========================================
+   ESTILOS "SOBRE NOSOTROS" (DELICADO Y CURSIVA)
+   ========================================= */
+
+.about-hero {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Efecto fijo elegante */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -70px;
+  padding-top: 70px;
+}
+
+.about-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.75); /* Fondo oscuro para que se lea bien */
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-content {
+  position: relative;
+  z-index: 2;
+  text-align: center; /* Centrado horizontal */
+  padding: 20px;
+  max-width: 800px;
+}
+
+/* TÍTULO */
+.about-content h1 {
+  font-family: 'Georgia', serif; /* Fuente clásica */
+  font-style: italic;            /* Cursiva */
+  font-size: 2.5rem;             /* Grande pero fino */
+  font-weight: 400;              /* No muy grueso */
+  color: #FFC400;                /* Dorado */
+  margin-top: 60px;    /* <-- ESTA ES LA LÍNEA NUEVA PARA BAJARLO */
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+/* CUERPO DEL TEXTO */
+.about-text-body p {
+  font-family: 'Georgia', serif;
+  font-style: italic;   /* Cursiva */
+  font-size: 1.1rem;    /* Tamaño pequeño/delicado */
+  line-height: 1.5;     /* Espaciado ajustado (no tan separado) */
+  color: #e0e0e0;       /* Blanco suave */
+  margin-bottom: 20px;  /* Separación entre párrafos */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+/* Palabras en negrita dentro del texto */
+.about-text-body strong {
+  color: #FFC400;
+  font-weight: normal; /* Mantenemos el peso normal para que sea delicado */
+  text-decoration: underline; /* Opcional: un subrayado fino */
+}
+
+/* La frase final destacada */
+.about-text-body .highlight-text {
+  color: #FFC400;
+  font-size: 1.3rem; /* Un pelín más grande */
+  margin-top: 30px;
+}
+/* =========================================
+   ESTILOS ESPECÍFICOS DEL MODAL (CHECKOUT)
+   ========================================= */
+
+/* Botón de cerrar (X) en la esquina */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.2s;
+  padding: 5px;
+}
+
+.close-btn:hover {
+  color: #000; /* Se pone negro al pasar el mouse */
+}
+
+/* Contenedor de los botones de abajo */
+.modal-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+/* Botón Cancelar (Gris suave) */
+.btn-cancelar {
+  flex: 1; /* Ocupa la mitad */
+  padding: 12px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  color: #666;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-cancelar:hover {
+  background-color: #eee;
+  color: #333;
+}
+
+/* Botón Confirmar (Verde WhatsApp o Amarillo Nowin) */
+.btn-confirmar {
+  flex: 1; /* Ocupa la mitad */
+  padding: 12px;
+  border: none;
+  /* Opción A: Verde WhatsApp */
+  background-color: #25D366; 
+  color: white;
+  
+  /* Opción B: Si prefieres Amarillo Nowin, usa esta línea:
+     background-color: #FFC400; color: black; 
+  */
+  
+  border-radius: 8px;
+  font-weight: 800; /* Letra bien gruesa */
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-confirmar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4); /* Sombra verde */
+}
+
+/* Ajuste para los inputs del formulario */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #f8f8f8;
+  font-family: 'Montserrat', sans-serif;
+  color: #333;
+  box-sizing: border-box; /* Importante para que no se salga del ancho */
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-input:focus {
+  border-color: #FFC400; /* Borde amarillo al escribir */
+  background: white;
+}
