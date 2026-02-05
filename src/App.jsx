@@ -1,16 +1,15 @@
-
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+// 1. IMPORTAMOS SOLO LO NECESARIO (Sin 'Link')
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { db } from './firebase'; 
 import { collection, getDocs, addDoc } from 'firebase/firestore'; 
-import { Search, Plus, Minus, Trash2, ShoppingBag, Instagram, Facebook } from 'lucide-react';
+// 2. IMPORTAMOS SOLO ICONOS USADOS AQUÍ (Sin 'ShoppingBag')
+import { Search, Plus, Minus, Trash2, Instagram, Facebook } from 'lucide-react';
 
 import Navbar from './Navbar'; 
 import CheckoutForm from './CheckoutForm'; 
 import CardCondimento from './CardCondimento'; 
-
 import './App.css';
-
 // --- DATOS DEMO ---
 const PRODUCTOS_DEMO = [
   { id: 1, title: "Sal con Ajo", price: 3500, category: "Saborizados", img: "/img/salconajo.png" },
