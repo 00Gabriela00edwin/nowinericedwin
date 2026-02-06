@@ -1,9 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
-// IMPORTAMOS SOLO LO NECESARIO (Sin 'Link')
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { db } from './firebase'; 
 import { collection, getDocs, addDoc } from 'firebase/firestore'; 
-// IMPORTAMOS SOLO ICONOS USADOS AQUÍ (Sin 'ShoppingBag')
 import { Search, Plus, Minus, Trash2, Instagram, Facebook } from 'lucide-react';
 
 import Navbar from './Navbar'; 
