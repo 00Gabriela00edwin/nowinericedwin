@@ -167,8 +167,8 @@ body {
 
 .about-content h1 {
   font-family: 'Georgia', serif; 
-  font-style: italic;            /* Cursiva */
-  font-size: 2.5rem;             /* Tamaño grande */
+  font-style: italic;           
+  font-size: 2.5rem;           
   font-weight: 400;              
   color: #FFC400;               
   margin-bottom: 30px;
