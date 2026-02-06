@@ -13,7 +13,6 @@ body {
   margin: 0;
 }
 
-/* NAVBAR Y SIDEBAR */
 .navbar { background-color: rgba(10, 10, 10, 0.98); border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100; }
 .nav-content { display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: 10px 20px; height: 70px; }
 .nav-logo-img { height: 50px; object-fit: contain; }
@@ -29,7 +28,7 @@ body {
 .sidebar-header { display: flex; justify-content: space-between; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 15px; }
 .sidebar-item { color: white; text-decoration: none; padding: 12px; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
 
-/* HERO */
+
 .hero { position: relative; text-align: center; padding: 100px 20px; }
 .hero-carousel { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
 .hero-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; transition: opacity 1s; }
@@ -38,7 +37,7 @@ body {
 .hero-content { position: relative; z-index: 2; }
 .hero h1 { font-size: 3rem; color: white; margin-bottom: 10px; }
 
-/* ESTILOS DE LA TARJETA */
+
 .card-condimento { background: white; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; height: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 .card-header { height: 160px; display: flex; justify-content: center; align-items: center; padding: 10px; background: white; }
 .card-img { max-width: 100%; max-height: 100%; object-fit: contain; }
@@ -58,46 +57,38 @@ body {
 .modal-content { background: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 400px; color: black; }
 .form-input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; }
 .modal-actions { display: flex; gap: 10px; margin-top: 15px; }
-/* =========================================
-   CORRECCIONES VISUALES (PEGAR AL FINAL)
-   ========================================= */
-
-/* 1. ARREGLO DEL CONTADOR DEL CARRITO (EL GLOBITO ROJO) */
 .cart-widget {
-  position: relative; /* Necesario para que el globito se ubique bien */
+  position: relative; 
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  overflow: visible; /* Importante para que no se corte el numero */
+  overflow: visible; 
 }
 
 .cart-badge {
   position: absolute;
-  top: -5px;    /* Lo subimos un poco */
-  right: -8px;  /* Lo movemos a la derecha */
-  background-color: #D32F2F; /* Rojo intenso */
+  top: -5px;    
+  right: -8px;  
+  background-color: #D32F2F; 
   color: white;
   font-size: 0.75rem;
   font-weight: bold;
-  min-width: 20px; /* Tamaño mínimo del círculo */
+  min-width: 20px; 
   height: 20px;
-  border-radius: 50%; /* Que sea redondo perfecto */
+  border-radius: 50%; 
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #1a1a1a; /* Borde oscuro para separarlo del icono */
+  border: 2px solid #1a1a1a; 
   box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animación de entrada */
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
 
-/* Animación cuando aparece el número */
 @keyframes popIn {
   from { transform: scale(0); }
   to { transform: scale(1); }
 }
 
-
-/* 2. ANIMACIONES DEL FOOTER (REDES SOCIALES Y TEXTO) */
 .social-icons {
   display: flex;
   justify-content: center;
@@ -106,35 +97,31 @@ body {
 }
 
 .social-link {
-  color: #888; /* Color gris inicial */
-  transition: all 0.3s ease; /* Transición suave */
+  color: #888; 
+  transition: all 0.3s ease; 
   display: flex;
   align-items: center;
   justify-content: center;
   background: #111;
   padding: 12px;
-  border-radius: 50%; /* Círculo de fondo */
+  border-radius: 50%; 
   border: 1px solid #222;
 }
 
-/* Efecto al pasar el mouse por las redes */
 .social-link:hover {
   color: #000;
-  background-color: #FFC400; /* Fondo amarillo */
-  transform: translateY(-5px) scale(1.1); /* Flota hacia arriba y crece */
-  box-shadow: 0 5px 15px rgba(255, 196, 0, 0.3); /* Resplandor amarillo */
+  background-color: #FFC400; 
+  transform: translateY(-5px) scale(1.1); 
+  box-shadow: 0 5px 15px rgba(255, 196, 0, 0.3); 
   border-color: #FFC400;
 }
 
-/* Icono de WhatsApp con color especial */
 .social-link.whatsapp:hover {
-  background-color: #25D366; /* Verde WhatsApp */
+  background-color: #25D366; 
   color: white;
   border-color: #25D366;
   box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
 }
-
-/* Texto de derechos reservados */
 .footer p {
   color: #666;
   font-size: 0.9rem;
@@ -143,11 +130,9 @@ body {
 }
 
 .footer p:hover {
-  color: #FFC400; /* Se ilumina al pasar el mouse */
+  color: #FFC400; 
 }
-/* =========================================
-   ESTILOS "SOBRE NOSOTROS" (DELICADO Y CURSIVA)
-   ========================================= */
+
 
 .about-hero {
   position: relative;
@@ -155,7 +140,7 @@ body {
   width: 100%;
   background-size: cover;
   background-position: center;
-  background-attachment: fixed; /* Efecto fijo elegante */
+  background-attachment: fixed; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -165,7 +150,7 @@ body {
 
 .about-overlay {
   position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.75); /* Fondo oscuro para que se lea bien */
+  background: rgba(0, 0, 0, 0.75); 
   z-index: 1;
   display: flex;
   align-items: center;
@@ -175,18 +160,17 @@ body {
 .about-content {
   position: relative;
   z-index: 2;
-  text-align: center; /* Centrado horizontal */
+  text-align: center;
   padding: 20px;
   max-width: 800px;
 }
 
-/* TÍTULO */
 .about-content h1 {
-  font-family: 'Georgia', serif; /* Fuente clásica */
+  font-family: 'Georgia', serif; 
   font-style: italic;            /* Cursiva */
-  font-size: 2.5rem;             /* Grande pero fino */
-  font-weight: 400;              /* No muy grueso */
-  color: #FFC400;                /* Dorado */
+  font-size: 2.5rem;             /* Tamaño grande */
+  font-weight: 400;              
+  color: #FFC400;               
   margin-bottom: 30px;
   margin-top: 60px;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
