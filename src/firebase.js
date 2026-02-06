@@ -20,3 +20,4 @@ const analytics = getAnalytics(app);
 
 // Inicializar y exportar la Base de Datos
 export const db = getFirestore(app); // <--- AGREGADO: Esto es lo que usa tu App.jsx
+
