@@ -75,20 +75,17 @@ const About = () => (
   <div className="about-hero" style={{ backgroundImage: 'url(/img/carru1.jpg)' }}>
     <div className="about-overlay">
       <div className="container about-content">
-        <h1>Tradición Familiar</h1>
+        <h1>Sobre Nowin</h1>
         <div className="about-text-body">
           <p>
-            Detrás de <strong>Nowin</strong> hay una familia y una obsesión: el sabor auténtico. 
-            Lo que nos hace diferentes es nuestro proceso. Mantenemos un espíritu puramente 
-            <strong>artesanal</strong>, cuidando cada ingrediente como si fuera para nuestra propia mesa.
+NOWIN es una empresa argentina que trabaja de manera federal, integrando y potenciando los mejores sabores de cada región del país. Nacimos con la idea de acercar condimentos y sales de calidad, respetando la identidad, el aroma y la tradición que hacen única a la cocina argentina.
+Seleccionamos cuidadosamente nuestras especias, mezclas y sales, buscando equilibrio entre sabor, frescura y practicidad. Abastecemos supermercados, carnicerías y comercios gastronómicos, ofreciendo productos pensados tanto para el uso diario como para el profesional.
           </p>
-          <p>
-            Nuestra receta es única, un secreto familiar que hemos guardado y perfeccionado con el tiempo. 
-            No fabricamos simples condimentos, creamos experiencias caseras para que tú puedas cocinar 
-            platos increíbles sin complicaciones. 
+          En NOWIN creemos en el emprendimiento nacional, en el crecimiento sostenido y en el trabajo ordenado. Apostamos a una producción responsable, a relaciones comerciales duraderas y a una mejora continua que nos permita llevar a cada mesa un producto confiable y auténtico.<p>
+            
           </p>
           <p className="highlight-text">
-            Llevamos la esencia de lo artesanal directo a tu cocina.
+           NOWIN es sabor, identidad y compromiso con lo nuestro.
           </p>
         </div>
       </div>
