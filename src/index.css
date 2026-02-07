@@ -1,7 +1,7 @@
 :root {
-  --bg-color: #f4f4f4; /* Gris concreto claro */
-  --text-color: #1a1a1a; /* Casi negro */
-  --accent-color: #d0312d; /* Rojo ladrillo o Naranja construcción */
+  --bg-color: #f4f4f4; 
+  --text-color: #1a1a1a; 
+  --accent-color: #d0312d; 
   --secondary-bg: #ffffff;
   --border-c:olor: #cccccc;
   --font-main: 'Space Grotesk', sans-serif;
@@ -33,16 +33,14 @@ ul {
 button {
   font-family: var(--font-main);
   cursor: pointer;
-}/* --- Animación para la imagen de About --- */
+}
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(40px); /* Empieza más abajo y transparente */
+    transform: translateY(40px); 
   }
   to {
     opacity: 1;
-    transform: translateY(0); /* Termina en su posición original y visible */
+    transform: translateY(0); 
   }
-}/* --- ESTILOS DE PRODUCTOS (LAS CAJITAS) --- */
-
-/*
+}

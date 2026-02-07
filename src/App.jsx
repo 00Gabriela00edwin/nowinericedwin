@@ -3,11 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { db } from './firebase'; 
 import { collection, getDocs, addDoc } from 'firebase/firestore'; 
 import { Search, Plus, Minus, Trash2, ShoppingBag, Instagram, Facebook } from 'lucide-react';
-
 import Navbar from './Navbar'; 
 import CheckoutForm from './CheckoutForm'; 
 import CardCondimento from './CardCondimento'; 
-
 import './App.css';
 
 const PRODUCTOS_DEMO = [

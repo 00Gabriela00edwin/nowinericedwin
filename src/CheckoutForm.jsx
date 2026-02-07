@@ -23,8 +23,7 @@ const CheckoutForm = ({ enviarPedido, cancelar }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        
-        {/* Botón X arriba a la derecha */}
+    
         <button className="close-btn" onClick={cancelar} type="button">
           <X size={24} />
         </button>
@@ -72,7 +71,7 @@ const CheckoutForm = ({ enviarPedido, cancelar }) => {
           </div>
 
           <div className="modal-actions">
-            {/* El botón cancelar DEBE tener type="button" */}
+            
             <button type="button" onClick={cancelar} className="btn-cancelar">
               Cancelar
             </button>

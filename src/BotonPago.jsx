@@ -12,9 +12,6 @@ const BotonPago = () => {
 
     try {
       console.log("1. Iniciando proceso de pago...");
-
-      // CORRECCIÓN 1: Enviamos los datos planos (sin array "items")
-      // para que coincidan con "data.titulo" y "data.precio" del backend.
       const datosCompra = {
         titulo: "Libro Arquitectura Moderna",
         precio: 5000,
@@ -24,12 +21,10 @@ const BotonPago = () => {
       const respuesta = await crearPago(datosCompra);
       console.log("2. Respuesta del servidor:", respuesta.data);
 
-      // CORRECCIÓN 2: Tu backend devuelve la propiedad "url", no "init_point".
-      // (Dentro del backend sí era init_point, pero te lo envió envuelto en "url")
       const linkDePago = respuesta.data.url;
 
       if (linkDePago) {
-        // ÉXITO: Redirigimos a Mercado Pago
+  
         window.location.href = linkDePago; 
       } else {
         console.error("No llegó el link de pago", respuesta.data);
