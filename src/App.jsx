@@ -79,10 +79,9 @@ const About = () => (
         <div className="about-text-body">
           <p>
 NOWIN es una empresa argentina que trabaja de manera federal, integrando y potenciando los mejores sabores de cada región del país. Nacimos con la idea de acercar condimentos y sales de calidad, respetando la identidad, el aroma y la tradición que hacen única a la cocina argentina.
-Seleccionamos cuidadosamente nuestras especias, mezclas y sales, buscando equilibrio entre sabor, frescura y practicidad. Abastecemos supermercados, carnicerías y comercios gastronómicos, ofreciendo productos pensados tanto para el uso diario como para el profesional.
+Seleccionamos cuidadosamente nuestras especias, mezclas y sales, buscando equilibrio entre sabor, frescura y practicidad. En NOWIN creemos en el emprendimiento nacional, en el crecimiento sostenido y en el trabajo ordenado. Apostamos a una producción responsable, a relaciones comerciales duraderas y a una mejora continua que nos permita llevar a cada mesa un producto confiable y auténtico.bastecemos supermercados, carnicerías y comercios gastronómicos, ofreciendo productos pensados tanto para el uso diario como para el profesional.
           </p>
-          En NOWIN creemos en el emprendimiento nacional, en el crecimiento sostenido y en el trabajo ordenado. Apostamos a una producción responsable, a relaciones comerciales duraderas y a una mejora continua que nos permita llevar a cada mesa un producto confiable y auténtico.<p>
-            
+          <p> 
           </p>
           <p className="highlight-text">
            NOWIN es sabor, identidad y compromiso con lo nuestro.
