@@ -39,7 +39,9 @@ body {
 
 
 .card-condimento { background: white; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; height: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-.card-header { height: 160px; display: flex; justify-content: center; align-items: center; padding: 10px; background: white; }
+
+.card-header { height: 260px; display: flex; justify-content: center; align-items: center; padding: 10px; background: white;overflow: hidden; }
+
 .card-img { max-width: 100%; max-height: 100%; object-fit: contain; }
 .card-body { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
 .card-title { color: #1a1a1a; font-size: 1rem; font-weight: bold; margin: 0 0 10px 0; }

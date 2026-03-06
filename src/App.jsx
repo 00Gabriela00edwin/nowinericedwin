@@ -43,7 +43,7 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
         </div>
         <div className="container hero-content">
           <h1>SABOR QUE <br /><span style={{color: '#FFC400'}}>TRANSFORMA</span></h1>
-          <p>Esa pizca de sabor que tu cocina necesita.</p>
+      
         </div>
       </header>
       
