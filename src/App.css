@@ -138,27 +138,28 @@ body {
 
 
 .about-hero {
+
   position: relative;
   min-height: 100vh;
   width: 100%;
   background-size: cover;
   background-position: center;
-  background-attachment: fixed; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-attachment: fixed;
   margin-top: -70px;
-  padding-top: 70px;
+  padding-top: 70px; 
 }
 
 .about-overlay {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.75); 
+  /* BORRAMOS el position: absolute, top, left y height: 100% */
+  width: 100%;
+  /* Le damos el min-height aquí para que crezca junto con el texto */
+  min-height: 100vh; 
+  background: rgba(0, 0, 0, 0.75);
   z-index: 1;
+  /* Centramos el contenido desde el overlay */
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 
 .about-content {
@@ -166,9 +167,13 @@ body {
   z-index: 2;
   text-align: center;
   padding: 20px;
-  padding-bottom: 0px;
-  max-width: 800px;
-  margin:0%
+  /* CAMBIO 1: Dale espacio abajo para que no se pegue a los íconos */
+  padding-bottom: 60px; 
+  /* CAMBIO 2: Aumenta este valor si lo quieres más ancho en PC */
+  max-width: 1000px; 
+  /* CAMBIO 3: margin: 0% es raro, usa margin: 0 auto para centrar bien la caja */
+  margin: 0 auto; 
+
 }
 
 .about-content h1 {
@@ -178,7 +183,7 @@ body {
   font-weight: 400;              
   color: #FFC400;               
   margin-bottom: 30px;
-  margin-top: 200px;
+  margin-top: 0px;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
 }
 

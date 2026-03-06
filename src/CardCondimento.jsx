@@ -5,14 +5,20 @@ const CardCondimento = ({ producto, alAgregar }) => {
   return (
     <div className="card-condimento">
       <div className="card-header">
-        <img 
-            src={producto.img} 
-            alt={producto.title} 
-            className="card-img"
-            style={{ transition: 'transform 0.3s' }}
-            onMouseOver={e => e.currentTarget.style.transform = 'scale(1.1)'}
-            onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
-        />
+<img 
+  src={producto.img} 
+  alt={producto.title} 
+  className="card-img" 
+  style={{ 
+    transition: 'transform 0.3s',
+    width: '100%', 
+    height: '700px', 
+    objectFit: 'cover' 
+  }} 
+  onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'} 
+  onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'} 
+/>     
+        
       </div>
       <div className="card-body">
         <div>

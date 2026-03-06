@@ -20,7 +20,12 @@ const Navbar = ({ cartCount, searchTerm, setSearchTerm }) => {
 
             {/* Logo */}
             <Link to="/" className="logo-container">
-              <img src="/img/logo2.png" alt="Nowin" className="nav-logo-img" />
+             <img 
+               src="/img/logo2.png" 
+               alt="Nowin" 
+               className="nav-logo-img" 
+               style={{ transform: 'scale(1.7)', transformOrigin: 'left center' }} 
+                 /> 
             </Link>
           </div>
 
