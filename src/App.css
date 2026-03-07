@@ -391,3 +391,22 @@ body {
     transform: translateY(4px) scale(1);
   }
 }
+/* Ajustes específicos para celulares y tablets pequeñas */
+@media (max-width: 768px) {
+  .about-content {
+    /* Quitamos el margen negativo para que el título baje y se vea */
+    margin-top: 20px; 
+    padding: 15px;
+  }
+  
+  .about-content h1 {
+    /* Achicamos un poco el título en móviles */
+    font-size: 2rem; 
+  }
+
+  .about-text-body p {
+    /* Achicamos un poco la letra del párrafo para mejorar la lectura */
+    font-size: 0.95rem; 
+    line-height: 1.4;
+  }
+}
