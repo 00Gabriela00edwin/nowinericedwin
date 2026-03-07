@@ -214,3 +214,129 @@ body {
  display:block;
  margin-top: 15px;
 }
+/* --- ESTILOS PARA EL DETALLE DEL PRODUCTO --- */
+.detalle-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 20px 40px; /* 100px arriba para que no lo tape la barra de navegación */
+  min-height: 100vh;
+}
+
+.detalle-volver {
+  margin-bottom: 30px;
+}
+
+.btn-volver {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+.btn-volver:hover {
+  color: var(--primary-yellow, #FFC400);
+}
+
+.detalle-grid {
+  display: flex;
+  gap: 50px;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.detalle-imagen-caja {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.detalle-imagen-caja img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  object-fit: contain;
+}
+
+.detalle-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.detalle-categoria {
+  color: #888;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.detalle-titulo {
+  font-size: 2.5rem;
+  margin: 10px 0;
+  color: #1a1a1a;
+}
+
+.detalle-precio {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary-yellow, #FFC400);
+  margin-bottom: 30px;
+}
+
+.detalle-descripcion {
+  margin-bottom: 40px;
+}
+
+.detalle-descripcion h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.detalle-descripcion p {
+  line-height: 1.6;
+  color: #555;
+}
+
+.btn-agregar-detalle {
+  background: #1a1a1a;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-agregar-detalle:hover {
+  background: var(--primary-yellow, #FFC400);
+  color: black;
+}
+
+/* Responsivo para celulares */
+@media (max-width: 768px) {
+  .detalle-grid {
+    flex-direction: column;
+    padding: 20px;
+  }
+  .detalle-titulo {
+    font-size: 2rem;
+  }
+}

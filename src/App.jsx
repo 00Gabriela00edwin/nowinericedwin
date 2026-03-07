@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ProductoDetalle from './ProductoDetalle';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { db } from './firebase'; 
 import { collection, getDocs, addDoc } from 'firebase/firestore'; 
@@ -7,6 +8,7 @@ import Navbar from './Navbar';
 import CheckoutForm from './CheckoutForm'; 
 import CardCondimento from './CardCondimento'; 
 import './App.css';
+
 
 const PRODUCTOS_DEMO = [
   { id: 1, title: "Sal con Ajo", price: 3500, category: "Saborizados", img: "/img/salconajo.png" },
@@ -198,6 +200,8 @@ function App() {
           <Route path="/" element={<Home productos={productos} agregarAlCarrito={addToCart} searchTerm={searchTerm} />} />
           <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} addToCart={addToCart} decreaseQuantity={decreaseQuantity} onStartCheckout={() => setMostrarCheckout(true)} />} />
           <Route path="/about" element={<About />} />
+<Route path="/producto/:id" element={<ProductoDetalle productos={productos} alAgregar={addToCart} />} />
+
         </Routes>
         {mostrarCheckout && <CheckoutForm enviarPedido={procesarCompra} cancelar={() => setMostrarCheckout(false)} />}
         <Footer />
