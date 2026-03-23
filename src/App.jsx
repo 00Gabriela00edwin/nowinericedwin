@@ -9,20 +9,32 @@ import CheckoutForm from './CheckoutForm';
 import CardCondimento from './CardCondimento'; 
 import './App.css';
 
-
 const PRODUCTOS_DEMO = [
-  { id: 1, title: "Sal con Ajo", price: 3500, category: "Saborizados", img: "/img/salconajo.png" },
-  { id: 2, title: "Pimienta Molida", price: 4200, category: "Esenciales", img: "/img/pimienta.png" },
-  { id: 3, title: "Condimento Arroz", price: 3100, category: "Mezclas", img: "/img/condimento dearroz.png" },
-  { id: 4, title: "Sal de Campo", price: 3800, category: "Especiales", img: "/img/saldecampo.png" },
-  { id: 5, title: "Orégano", price: 2500, category: "Hierbas", img: "/img/oregano.png" },
-  { id: 6, title: "Sal Ahumada", price: 4500, category: "Gourmet", img: "/img/salaumada.png" },
-  { id: 7, title: "Sal Cebolla y Ajo", price: 3600, category: "Saborizados", img: "/img/salcebollayajo.png" }
+  { id: 1, title: "Sal con Ajo", price: 3500, category: "Sales Saborizadas", img: "/img/salconajo.png",description:"Es el resultado de mezclar de ajo seco molido y sal de mesa Es el sustituto del ajo fresco en el caso de la sal de ajo Nowin es el aderezo final en carnes pescados y mariscos a plancha o incluso utilizarlo en seco de la misma manera que utilizaríamos la sal Usos sugeridos : Carnes, Pescados ,Mariscos a la plancha Como reemplazo del ajo fresco Uso en seco como sal común."
+},
+  { id: 2, title: "Pimienta Molida", price: 4200, category: "Esenciales", img: "/img/pimienta.png", description:"Disponible molida o en grano.Aroma penetrante.Picor equilibrado.Tamaño homogéneo (en grano).Diferencial NOWIN:Selección de calidad que asegura potencia constante en cada uso."},
+  { id: 3, title: "Condimento Arroz", price: 3100, category: "Esenciales", img: "/img/condimento dearroz.png", description: "Mezcla equilibrada de especias.Color atractivo y natural.Aroma suave y armonioso.Distribución homogénea de ingredientes.Diferencial NOWIN:Fórmula pensada para transformar un arroz común en una preparación especial con solo una pizca."},
+  { id: 4, title: "Sal de Campo", price: 3800, category: "Sales Saborizadas", img: "/img/saldecampo.png", description :"Mezcla artesanal de sal entrefina con especias seleccionadas, inspirada en la tradición del campo argentino Ingredientes destacados:Ají molido,Orégano,Comino,Sal entrefina" },
+  { id: 5, title: "Orégano", price: 2500, category: "Esenciales", img: "/img/oregano.png",description: "Hojas secas seleccionadas.Corte uniforme y baja presencia de tallos.Aroma herbal intenso.Color verde natural (indicador de frescura).Diferencial NOWIN:Mayor potencia aromática y mejor rendimiento por uso Selección cuidada para garantizar sabor auténtico en cada plato"},
+  { id: 6, title: "Sal Ahumada", price: 4500, category: "Sales Saborizadas", img: "/img/salaumada.png", description :"Sabor ahumado sin fuego Permite lograr efecto “a la parrilla” sin necesidad de brasas ni humo real.Aroma natural de madera quemada Los aromas se elaboran a partir de madera quemada, logrando un perfil auténtico Lista para usar Ideal para dar toque final a:Hamburguesas (sabor como hechas a las brasas) Carnes Salmón marinado Verduras grilladas Mezcla especiada equilibrada,No es solo sal ahumada: incluye hierbas que potencian el sabor. " },
+
+  { id: 7, title: "Sal Cebolla y Ajo", price: 3600, category: "Sales Saborizadas", img: "/img/salcebollayajo.png", description :"Descubrí el sabor que no puede faltar en la cocina argentina. Nuestra Sal Especiada Cebolla y Ajo Argentinisima combina sal de calidad con cebolla y ajo deshidratados, logrando el equilibrio perfecto entre intensidad y aroma Ideal para realzar carnes, milanesas, papas al horno, verduras grilladas, pollo, pastas y, por supuesto, el infaltable asado. Una pizca es suficiente para transformar cualquier plato en una experiencia llena de sabor casero y tradición." },
+    { id: 8, title: "Sal Picante", price: 4500, category: "Sales Saborizadas", img: "/img/salpicante.png", description:"DiferencialPicor suave y equilibradoPotencia el sabor sin taparlo Versátil: combina con casi cualquier comida Acompañamiento que no puede faltar “El toque picante ideal para pastas, pescados y mariscos " },
+  { id: 9, title: "Sal con Romero y Tomillo", price: 3600, category: "Sales Saborizadas", img: "/img/salconromeroytomillo.png",description: " Mezcla de sal con hierbas aromáticas seleccionadas, que aporta un sabor intenso y equilibrado, inspirado en aromas mediterráneos Hierbas destacadas Romero Tomillo"},
+  
+  
+
+
+
+
+
+
 ];
 
 const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
   const heroImages = ["/img/carru1.jpg", "/img/carru2.jpg", "/img/carru3.jpg", "/img/carru4.jpg", "/img/carru5.jpg", "/img/carru6.jpg"];
   const [currentImage, setCurrentImage] = React.useState(0);
+  
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentImage((prev) => (prev + 1) % heroImages.length), 4000);
@@ -34,8 +46,10 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
     prod.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+
   return (
     <>
+
       <header className="hero">
         <div className="hero-carousel">
           {heroImages.map((img, index) => (
