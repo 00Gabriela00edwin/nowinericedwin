@@ -56,7 +56,7 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
   const tarjetasCategorias = [
     { id: 'Sales Saborizadas', titulo: 'SALES SABORIZADAS', img: '/img/canelaportada4.jpg', color: '#FFC400' },
     { id: 'Esenciales', titulo: 'ESENCIALES', img: '/img/canelaportada5.jpg', color: '#FFC400' },
-    { id: '1 Kilo', titulo: 'MAYORISTAS', img: '/img/canelaportada2.jpg', color: '#FFC400' }
+    { id: '1 Kilo', titulo: 'MAYORISTAS', img: '/img/canelaportada1.jpg', color: '#FFC400' }
   ];
 
   return (
@@ -92,18 +92,17 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
           )
         ) 
         
-/* --- ESCENARIO 2: DISEÑO DE CATEGORÍAS GIGANTES --- */
+/* --- ESCENARIO 2: CATEGORÍAS GIGANTES CON ANIMACIÓN --- */
 : categoriaActiva === null ? (
   <div style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)', marginTop: '-40px' }}>
     {tarjetasCategorias.map((cat, index) => (
       <div 
         key={cat.id} 
         onClick={() => setCategoriaActiva(cat.id)}
-        className="categoria-gigante"
+        className="categoria-gigante animar-entrada" // <-- Agregamos la clase aquí
         style={{ 
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${cat.img})`,
-          /* Si tenés fotos de ambiente (especias en la mesa), usalas acá. 
-             Si no, el degradado ayudará a que las actuales luzcan pro. */
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${cat.img})`,
+          animationDelay: `${index * 0.2}s` // <-- Esto hace que aparezcan en "escalera" (0.2s, 0.4s, 0.6s)
         }}
       >
         <div className="categoria-gigante-contenido">
@@ -114,6 +113,8 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
     ))}
   </div>
 )
+
+
 
         /* ESCENARIO 3: EL CLIENTE ELIGIÓ UNA CATEGORÍA */
         : (
@@ -211,6 +212,15 @@ const Footer = () => (
     </div>
     <div style={{marginTop: '30px', borderTop: '1px solid #333', paddingTop: '20px'}}>
        <p style={{fontSize: '0.9rem', opacity: 0.7}}>© {new Date().getFullYear()} Nowin Argentina.</p>
+{/* TU FIRMA AQUÍ */}
+       <p style={{
+         fontSize: '0.75rem', 
+         letterSpacing: '1px', 
+         color: '#f1efe8'
+       }}>
+         Desarrollo Web por <span style={{color: '#8a752d', fontWeight: 'bold'}}>GABRIELA EDWIN</span>
+       </p>
+
     </div>
   </footer>
 );
