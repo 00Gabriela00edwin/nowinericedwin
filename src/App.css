@@ -532,4 +532,66 @@ body {
   font-size: 0.9rem;
   text-decoration: underline; /* Subrayado para que parezca un link */
 }
+/* --- VITRINA MINIMALISTA --- */
+
+.vitrina-tarjeta {
+  background: rgba(255, 255, 255, 0.03); /* Un fondo casi invisible */
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  padding: 40px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animación más "elástica" */
+  position: relative;
+  overflow: hidden;
+}
+
+.vitrina-tarjeta:hover {
+  background: rgba(255, 255, 255, 1); /* Se vuelve blanca sólida al pasar el mouse */
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  border-color: transparent;
+}
+
+.vitrina-tarjeta-img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  margin-bottom: 25px;
+  transition: transform 0.4s ease;
+  transform: scale(1.3);
+}
+
+.vitrina-tarjeta:hover .vitrina-tarjeta-img {
+  transform: scale(1.4) rotate(5deg); /* Un pequeño giro artístico al pasar el mouse */
+}
+
+.vitrina-tarjeta-titulo {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+/* BOTÓN "DESCUBRIR" (Aparece en el hover) */
+.vitrina-btn-accion {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 20px;
+  background-color: #1a1a1a;
+  color: #FFC400;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  opacity: 0; /* Invisible al principio */
+  transform: translateY(20px); /* Un poco más abajo */
+  transition: all 0.3s ease;
+}
+
+.vitrina-tarjeta:hover .vitrina-btn-accion {
+  opacity: 1; /* Aparece */
+  transform: translateY(0); /* Sube a su posición */
+}
+
 

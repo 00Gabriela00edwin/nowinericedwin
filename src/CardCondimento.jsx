@@ -22,7 +22,7 @@ const CardCondimento = ({ producto, alAgregar }) => {
               objectFit: 'contain' /* Contain respeta la proporción sin cortar tu producto */
             }}
             onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.6)'}
-            onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1.6)'}
+            onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
           />
         </Link>
       </div>

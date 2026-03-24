@@ -92,38 +92,43 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
           )
         ) 
         
-  /* --- ESCENARIO 2: ESTADO INICIAL (Muestra las 3 tarjetas ajustadas) --- */
-        : categoriaActiva === null ? (
-          <div>
-            {/* Clase nueva para el título */}
-            <h2 className="vitrina-titulo">
-              NUESTRAS <span>LÍNEAS</span>
-            </h2>
-            
-            {/* Clase nueva para la grilla ajustada */}
-            <div className="vitrina-grid">
-              {tarjetasCategorias.map((cat) => (
-                <div 
-                  key={cat.id} 
-                  onClick={() => setCategoriaActiva(cat.id)}
-                  className="vitrina-tarjeta" // Clase nueva para la tarjeta
-                >
-                  <img 
-                    src={cat.img} 
-                    alt={cat.titulo} 
-                    className="vitrina-tarjeta-img" // Clase nueva para la imagen
-                  />
-                  {/* Forzamos el color dorado de la categoría en el título */}
-                  <h3 className="vitrina-tarjeta-titulo" style={{ color: cat.color }}>
-                    {cat.titulo}
-                  </h3>
-                  <p className="vitrina-tarjeta-link">Ver productos &rarr;</p>
-                </div>
-              ))}
-            </div>
+/* --- ESCENARIO 2: ESTADO INICIAL (Tarjetas de Categorías Limpias) --- */
+: categoriaActiva === null ? (
+  <div>
+    <h2 className="vitrina-titulo">
+      NUESTRAS <span>LÍNEAS</span>
+    </h2>
+    
+    <div className="vitrina-grid">
+      {tarjetasCategorias.map((cat) => (
+        <div 
+          key={cat.id} 
+          onClick={() => setCategoriaActiva(cat.id)}
+          className="vitrina-tarjeta"
+        >
+          <div className="vitrina-img-container">
+            <img 
+              src={cat.img} 
+              alt={cat.titulo} 
+              className="vitrina-tarjeta-img" 
+            />
           </div>
-        )
 
+          <h3 className="vitrina-tarjeta-titulo" style={{ color: cat.color }}>
+            {cat.titulo}
+          </h3>
+          
+          {/* Reemplazamos el link por un botón de acción minimalista */}
+          <div className="vitrina-btn-accion">
+             DESCUBRIR
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)
+
+ 
         
         /* ESCENARIO 3: EL CLIENTE ELIGIÓ UNA CATEGORÍA */
         : (
