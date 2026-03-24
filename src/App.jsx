@@ -54,9 +54,9 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
   });
 
   const tarjetasCategorias = [
-    { id: 'Sales Saborizadas', titulo: 'SALES SABORIZADAS', img: '/img/salconajo.png', color: '#FFC400' },
-    { id: 'Esenciales', titulo: 'ESENCIALES', img: '/img/pimienta.png', color: '#FFC400' },
-    { id: '1 Kilo', titulo: 'MAYORISTAS', img: '/img/1kilo/adobodepizza.png', color: '#FFC400' }
+    { id: 'Sales Saborizadas', titulo: 'SALES SABORIZADAS', img: '/img/canelaportada4.jpg', color: '#FFC400' },
+    { id: 'Esenciales', titulo: 'ESENCIALES', img: '/img/canelaportada5.jpg', color: '#FFC400' },
+    { id: '1 Kilo', titulo: 'MAYORISTAS', img: '/img/canelaportada2.jpg', color: '#FFC400' }
   ];
 
   return (
@@ -92,44 +92,29 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
           )
         ) 
         
-/* --- ESCENARIO 2: ESTADO INICIAL (Tarjetas de Categorías Limpias) --- */
+/* --- ESCENARIO 2: DISEÑO DE CATEGORÍAS GIGANTES --- */
 : categoriaActiva === null ? (
-  <div>
-    <h2 className="vitrina-titulo">
-      NUESTRAS <span>LÍNEAS</span>
-    </h2>
-    
-    <div className="vitrina-grid">
-      {tarjetasCategorias.map((cat) => (
-        <div 
-          key={cat.id} 
-          onClick={() => setCategoriaActiva(cat.id)}
-          className="vitrina-tarjeta"
-        >
-          <div className="vitrina-img-container">
-            <img 
-              src={cat.img} 
-              alt={cat.titulo} 
-              className="vitrina-tarjeta-img" 
-            />
-          </div>
-
-          <h3 className="vitrina-tarjeta-titulo" style={{ color: cat.color }}>
-            {cat.titulo}
-          </h3>
-          
-          {/* Reemplazamos el link por un botón de acción minimalista */}
-          <div className="vitrina-btn-accion">
-             DESCUBRIR
-          </div>
+  <div style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)', marginTop: '-40px' }}>
+    {tarjetasCategorias.map((cat, index) => (
+      <div 
+        key={cat.id} 
+        onClick={() => setCategoriaActiva(cat.id)}
+        className="categoria-gigante"
+        style={{ 
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${cat.img})`,
+          /* Si tenés fotos de ambiente (especias en la mesa), usalas acá. 
+             Si no, el degradado ayudará a que las actuales luzcan pro. */
+        }}
+      >
+        <div className="categoria-gigante-contenido">
+          <h2 style={{ color: cat.color }}>{cat.titulo}</h2>
+          <div className="btn-descubrir-gigante">EXPLORAR LÍNEA</div>
         </div>
-      ))}
-    </div>
+      </div>
+    ))}
   </div>
 )
 
- 
-        
         /* ESCENARIO 3: EL CLIENTE ELIGIÓ UNA CATEGORÍA */
         : (
           <div>
@@ -154,16 +139,6 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
     </>
   );
 };
-
-
-
-
-
-
-
-
-
-
 
 const About = () => (
   <div className="about-hero" style={{ backgroundImage: 'url(/img/carru1.jpg)' }}>
