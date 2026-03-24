@@ -10,82 +10,155 @@ import CardCondimento from './CardCondimento';
 import './App.css';
 
 const PRODUCTOS_DEMO = [
-  { id: 1, title: "Sal con Ajo", price: 3500, category: "Sales Saborizadas", img: "/img/salconajo.png",description:"Es el resultado de mezclar de ajo seco molido y sal de mesa Es el sustituto del ajo fresco en el caso de la sal de ajo Nowin es el aderezo final en carnes pescados y mariscos a plancha o incluso utilizarlo en seco de la misma manera que utilizaríamos la sal Usos sugeridos : Carnes, Pescados ,Mariscos a la plancha Como reemplazo del ajo fresco Uso en seco como sal común."
-},
-  { id: 2, title: "Pimienta Molida", price: 4200, category: "Esenciales", img: "/img/pimienta.png", description:"Disponible molida o en grano.Aroma penetrante.Picor equilibrado.Tamaño homogéneo (en grano).Diferencial NOWIN:Selección de calidad que asegura potencia constante en cada uso."},
-  { id: 3, title: "Condimento Arroz", price: 3100, category: "Esenciales", img: "/img/condimento dearroz.png", description: "Mezcla equilibrada de especias.Color atractivo y natural.Aroma suave y armonioso.Distribución homogénea de ingredientes.Diferencial NOWIN:Fórmula pensada para transformar un arroz común en una preparación especial con solo una pizca."},
+  // --- PRODUCTOS CLÁSICOS ---
+  { id: 1, title: "Sal con Ajo", price: 3500, category: "Sales Saborizadas", img: "/img/salconajo.png", description:"Es el resultado de mezclar de ajo seco molido y sal de mesa Es el sustituto del ajo fresco en el caso de la sal de ajo Nowin es el aderezo final en carnes pescados y mariscos a plancha o incluso utilizarlo en seco de la misma manera que utilizaríamos la sal Usos sugeridos : Carnes, Pescados ,Mariscos a la plancha Como reemplazo del ajo fresco Uso en seco como sal común." },
+  { id: 2, title: "Pimienta Molida", price: 4200, category: "Esenciales", img: "/img/pimienta.png", description:"Disponible molida o en grano.Aroma penetrante.Picor equilibrado.Tamaño homogéneo (en grano).Diferencial NOWIN:Selección de calidad que asegura potencia constante en cada uso." },
+  { id: 3, title: "Condimento Arroz", price: 3100, category: "Esenciales", img: "/img/condimento dearroz.png", description: "Mezcla equilibrada de especias.Color atractivo y natural.Aroma suave y armonioso.Distribución homogénea de ingredientes.Diferencial NOWIN:Fórmula pensada para transformar un arroz común en una preparación especial con solo una pizca." },
   { id: 4, title: "Sal de Campo", price: 3800, category: "Sales Saborizadas", img: "/img/saldecampo.png", description :"Mezcla artesanal de sal entrefina con especias seleccionadas, inspirada en la tradición del campo argentino Ingredientes destacados:Ají molido,Orégano,Comino,Sal entrefina" },
-  { id: 5, title: "Orégano", price: 2500, category: "Esenciales", img: "/img/oregano.png",description: "Hojas secas seleccionadas.Corte uniforme y baja presencia de tallos.Aroma herbal intenso.Color verde natural (indicador de frescura).Diferencial NOWIN:Mayor potencia aromática y mejor rendimiento por uso Selección cuidada para garantizar sabor auténtico en cada plato"},
+  { id: 5, title: "Orégano", price: 2500, category: "Esenciales", img: "/img/oregano.png", description: "Hojas secas seleccionadas.Corte uniforme y baja presencia de tallos.Aroma herbal intenso.Color verde natural (indicador de frescura).Diferencial NOWIN:Mayor potencia aromática y mejor rendimiento por uso Selección cuidada para garantizar sabor auténtico en cada plato" },
   { id: 6, title: "Sal Ahumada", price: 4500, category: "Sales Saborizadas", img: "/img/salaumada.png", description :"Sabor ahumado sin fuego Permite lograr efecto “a la parrilla” sin necesidad de brasas ni humo real.Aroma natural de madera quemada Los aromas se elaboran a partir de madera quemada, logrando un perfil auténtico Lista para usar Ideal para dar toque final a:Hamburguesas (sabor como hechas a las brasas) Carnes Salmón marinado Verduras grilladas Mezcla especiada equilibrada,No es solo sal ahumada: incluye hierbas que potencian el sabor. " },
-
   { id: 7, title: "Sal Cebolla y Ajo", price: 3600, category: "Sales Saborizadas", img: "/img/salcebollayajo.png", description :"Descubrí el sabor que no puede faltar en la cocina argentina. Nuestra Sal Especiada Cebolla y Ajo Argentinisima combina sal de calidad con cebolla y ajo deshidratados, logrando el equilibrio perfecto entre intensidad y aroma Ideal para realzar carnes, milanesas, papas al horno, verduras grilladas, pollo, pastas y, por supuesto, el infaltable asado. Una pizca es suficiente para transformar cualquier plato en una experiencia llena de sabor casero y tradición." },
-    { id: 8, title: "Sal Picante", price: 4500, category: "Sales Saborizadas", img: "/img/salpicante.png", description:"DiferencialPicor suave y equilibradoPotencia el sabor sin taparlo Versátil: combina con casi cualquier comida Acompañamiento que no puede faltar “El toque picante ideal para pastas, pescados y mariscos " },
-  { id: 9, title: "Sal con Romero y Tomillo", price: 3600, category: "Sales Saborizadas", img: "/img/salconromeroytomillo.png",description: " Mezcla de sal con hierbas aromáticas seleccionadas, que aporta un sabor intenso y equilibrado, inspirado en aromas mediterráneos Hierbas destacadas Romero Tomillo"},
+  { id: 8, title: "Sal Picante", price: 4500, category: "Sales Saborizadas", img: "/img/salpicante.png", description:"DiferencialPicor suave y equilibradoPotencia el sabor sin taparlo Versátil: combina con casi cualquier comida Acompañamiento que no puede faltar “El toque picante ideal para pastas, pescados y mariscos " },
+  { id: 9, title: "Sal con Romero y Tomillo", price: 3600, category: "Sales Saborizadas", img: "/img/salconromeroytomillo.png", description: " Mezcla de sal con hierbas aromáticas seleccionadas, que aporta un sabor intenso y equilibrado, inspirado en aromas mediterráneos Hierbas destacadas Romero Tomillo" },
   
-  
-
-
-
-
-
-
+  // --- NUEVA CATEGORÍA: 1 KILO ---
+  { id: 10, title: "Adobo para Pizza (1 Kg)", price: 8500, category: "1 Kilo", img: "/img/1kilo/adobodepizza.png", description: "El clásico adobo pimentero ideal para pizzas y salsas, en formato económico de 1 kilo." },
+  { id: 11, title: "Ajo Granulado (1 Kg)", price: 12000, category: "1 Kilo", img: "/img/1kilo/ajogranulado.png", description: "Ajo deshidratado granulado de alta pureza. Excelente rendimiento para cocinas profesionales." },
+  { id: 12, title: "Canela (1 Kg)", price: 14500, category: "1 Kilo", img: "/img/1kilo/canela.png", description: "Canela molida de aroma intenso y dulzor natural. Ideal para repostería y cafetería." },
+  { id: 13, title: "Chimichurri (1 Kg)", price: 9000, category: "1 Kilo", img: "/img/1kilo/chimichurri.png", description: "La mezcla tradicional argentina para carnes y asados. Listo para hidratar y usar." },
+  { id: 14, title: "Coco Rallado (1 Kg)", price: 11000, category: "1 Kilo", img: "/img/1kilo/cocorayado.png", description: "Coco rallado de alta calidad, blanco y aromático. Perfecto para postres y alfajores." },
+  { id: 15, title: "Mix de Especias (1 Kg)", price: 9500, category: "1 Kilo", img: "/img/1kilo/mixexpecias.png", description: "Combinación exclusiva de especias seleccionadas para realzar cualquier preparación." },
+  { id: 16, title: "Orégano (1 Kg)", price: 8000, category: "1 Kilo", img: "/img/1kilo/oregano.png", description: "Hojas de orégano seleccionadas. Sabor y aroma inconfundibles en gran formato." },
+  { id: 17, title: "Pimentón (1 Kg)", price: 10500, category: "1 Kilo", img: "/img/1kilo/pimenton.png", description: "Pimentón dulce de color rojo intenso. Aporta sabor y color vibrante a tus comidas." },
+  { id: 18, title: "Polvo de Hornear (1 Kg)", price: 7500, category: "1 Kilo", img: "/img/1kilo/polvodehornear.png", description: "Leudante químico de acción justa para masas, tortas y bizcochuelos perfectos." },
+  { id: 19, title: "Provenzal (1 Kg)", price: 9800, category: "1 Kilo", img: "/img/1kilo/provensal.png", description: "Clásica mezcla de ajo y perejil deshidratados. Práctica y llena de sabor." }
 ];
 
 const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
   const heroImages = ["/img/carru1.jpg", "/img/carru2.jpg", "/img/carru3.jpg", "/img/carru4.jpg", "/img/carru5.jpg", "/img/carru6.jpg"];
-  const [currentImage, setCurrentImage] = React.useState(0);
+  const [currentImage, setCurrentImage] = useState(0);
   
+  const [categoriaActiva, setCategoriaActiva] = useState(null);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentImage((prev) => (prev + 1) % heroImages.length), 4000);
     return () => clearInterval(timer);
   }, [heroImages.length]);
 
-  const filteredProducts = productos.filter(prod => 
-    prod.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    prod.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredProducts = productos.filter(prod => {
+    if (searchTerm !== "") {
+      return prod.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+             prod.category.toLowerCase().includes(searchTerm.toLowerCase());
+    }
+    return prod.category === categoriaActiva;
+  });
 
+  const tarjetasCategorias = [
+    { id: 'Sales Saborizadas', titulo: 'SALES SABORIZADAS', img: '/img/salconajo.png', color: '#FFC400' },
+    { id: 'Esenciales', titulo: 'ESENCIALES', img: '/img/pimienta.png', color: '#FFC400' },
+    { id: '1 Kilo', titulo: 'MAYORISTAS', img: '/img/1kilo/adobodepizza.png', color: '#FFC400' }
+  ];
 
   return (
     <>
-
       <header className="hero">
         <div className="hero-carousel">
           {heroImages.map((img, index) => (
-            <div key={index} className={`hero-slide ${index === currentImage ? "active" : ""}`} style={{ backgroundImage: `url(${img})` }} />
+            <div key={index} className={`hero-slide ${index === currentImage ? "active" : ""}`} style={{ backgroundImage: `url(${img})` }}></div>
           ))}
           <div className="hero-overlay"></div>
         </div>
         <div className="container hero-content">
           <h1>SABOR QUE <br /><span style={{color: '#FFC400'}}>TRANSFORMA</span></h1>
-      
         </div>
       </header>
       
-      <section className="container">
-        {filteredProducts.length > 0 ? (
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
-            gap: '20px',
-            padding: '20px 0',
-            width: '100%'
-          }}>
-            {filteredProducts.map(prod => (
-              <CardCondimento key={prod.id} producto={prod} alAgregar={agregarAlCarrito} />
-            ))}
+      <section className="container" style={{ padding: '40px 20px', minHeight: '50vh' }}>
+        
+        {/* ESCENARIO 1: EL CLIENTE ESTÁ BUSCANDO ALGO */}
+        {searchTerm !== "" ? (
+           filteredProducts.length > 0 ? (
+            <div>
+              <h3 style={{ marginBottom: '20px', color: '#888' }}>Resultados para "{searchTerm}":</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '20px' }}>
+                {filteredProducts.map(prod => <CardCondimento key={prod.id} producto={prod} alAgregar={agregarAlCarrito} />)}
+              </div>
+            </div>
+          ) : (
+            <div style={{textAlign: 'center', padding: '50px', color: '#888'}}>
+              <Search size={40} style={{marginBottom:'20px', opacity: 0.5}}/>
+              <h3>No encontramos condimentos para "{searchTerm}"</h3>
+            </div>
+          )
+        ) 
+        
+  /* --- ESCENARIO 2: ESTADO INICIAL (Muestra las 3 tarjetas ajustadas) --- */
+        : categoriaActiva === null ? (
+          <div>
+            {/* Clase nueva para el título */}
+            <h2 className="vitrina-titulo">
+              NUESTRAS <span>LÍNEAS</span>
+            </h2>
+            
+            {/* Clase nueva para la grilla ajustada */}
+            <div className="vitrina-grid">
+              {tarjetasCategorias.map((cat) => (
+                <div 
+                  key={cat.id} 
+                  onClick={() => setCategoriaActiva(cat.id)}
+                  className="vitrina-tarjeta" // Clase nueva para la tarjeta
+                >
+                  <img 
+                    src={cat.img} 
+                    alt={cat.titulo} 
+                    className="vitrina-tarjeta-img" // Clase nueva para la imagen
+                  />
+                  {/* Forzamos el color dorado de la categoría en el título */}
+                  <h3 className="vitrina-tarjeta-titulo" style={{ color: cat.color }}>
+                    {cat.titulo}
+                  </h3>
+                  <p className="vitrina-tarjeta-link">Ver productos &rarr;</p>
+                </div>
+              ))}
+            </div>
           </div>
-        ) : (
-          <div style={{textAlign: 'center', padding: '50px', color: '#888'}}>
-            <Search size={40} style={{marginBottom:'20px', opacity: 0.5}}/>
-            <h3>No encontramos condimentos para "{searchTerm}"</h3>
+        )
+
+        
+        /* ESCENARIO 3: EL CLIENTE ELIGIÓ UNA CATEGORÍA */
+        : (
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px', borderBottom: '1px solid #333', paddingBottom: '20px' }}>
+              <h2 style={{ color: '#FFC400', margin: 0, textTransform: 'uppercase' }}>{categoriaActiva}</h2>
+              <button 
+                onClick={() => setCategoriaActiva(null)}
+                style={{ background: 'transparent', border: '1px solid #FFC400', color: ' #FFC400;', padding: '8px 16px', borderRadius: '20px', cursor: 'pointer' }}
+              >
+                &larr; Volver a Categorías
+              </button>
+            </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '20px' }}>
+              {filteredProducts.map(prod => (
+                <CardCondimento key={prod.id} producto={prod} alAgregar={agregarAlCarrito} />
+              ))}
+            </div>
           </div>
         )}
       </section>
     </>
   );
 };
+
+
+
+
+
+
+
+
+
+
 
 const About = () => (
   <div className="about-hero" style={{ backgroundImage: 'url(/img/carru1.jpg)' }}>
@@ -97,10 +170,8 @@ const About = () => (
 NOWIN es una empresa argentina que trabaja de manera federal, integrando y potenciando los mejores sabores de cada región del país. Nacimos con la idea de acercar condimentos y sales de calidad, respetando la identidad, el aroma y la tradición que hacen única a la cocina argentina.
 Seleccionamos cuidadosamente nuestras especias, mezclas y sales, buscando equilibrio entre sabor, frescura y practicidad. En NOWIN creemos en el emprendimiento nacional, en el crecimiento sostenido y en el trabajo ordenado. Apostamos a una producción responsable, a relaciones comerciales duraderas y a una mejora continua que nos permita llevar a cada mesa un producto confiable y auténtico.bastecemos supermercados, carnicerías y comercios gastronómicos, ofreciendo productos pensados tanto para el uso diario como para el profesional.
           </p>
-          <p> 
-          </p>
           <p className="highlight-text">
-           NOWIN es sabor, identidad y compromiso con lo nuestro.
+            NOWIN es sabor, identidad y compromiso con lo nuestro.
           </p>
         </div>
       </div>
@@ -214,8 +285,7 @@ function App() {
           <Route path="/" element={<Home productos={productos} agregarAlCarrito={addToCart} searchTerm={searchTerm} />} />
           <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} addToCart={addToCart} decreaseQuantity={decreaseQuantity} onStartCheckout={() => setMostrarCheckout(true)} />} />
           <Route path="/about" element={<About />} />
-<Route path="/producto/:id" element={<ProductoDetalle productos={productos} alAgregar={addToCart} />} />
-
+          <Route path="/producto/:id" element={<ProductoDetalle productos={productos} alAgregar={addToCart} />} />
         </Routes>
         {mostrarCheckout && <CheckoutForm enviarPedido={procesarCompra} cancelar={() => setMostrarCheckout(false)} />}
         <Footer />
@@ -225,3 +295,4 @@ function App() {
 }
 
 export default App;
+

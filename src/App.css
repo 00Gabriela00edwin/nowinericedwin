@@ -410,3 +410,126 @@ body {
     line-height: 1.4;
   }
 }
+/* --- CATEGORÍAS (Menú scrolleable) --- */
+.categorias-container {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 20px 0;
+  border-bottom: 1px solid #333;
+  margin-bottom: 20px;
+  scrollbar-width: none; /* Oculta la barra de scroll en Firefox */
+  -ms-overflow-style: none; /* Oculta la barra en IE/Edge */
+}
+
+/* Oculta la barra en Chrome/Safari/Edge */
+.categorias-container::-webkit-scrollbar {
+  display: none;
+}
+
+.btn-categoria {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #333;
+  white-space: nowrap;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+  background-color: #111;
+  color: #fff;
+  transition: all 0.2s ease;
+}
+
+.btn-categoria:hover {
+  border-color: #666;
+}
+
+.btn-categoria.activa {
+  background-color: var(--primary-yellow);
+  color: #000;
+  border-color: var(--primary-yellow);
+}
+/* --- ESTILOS DE VITRINA DE CATEGORÍAS (Corregido) --- */
+
+/* 1. Arreglamos el título "NUESTRAS LÍNEAS" */
+.vitrina-titulo {
+  text-align: center;
+  margin-bottom: 40px;
+  letter-spacing: 2px;
+  color: #333; /* Un gris oscuro elegante para que se lea sobre blanco */
+  font-weight: 800; /* Bien gruesita */
+  text-transform: uppercase;
+}
+
+.vitrina-titulo span {
+  color: var(--primary-yellow); /* "LÍNEAS" en amarillo dorado */
+}
+
+/* 2. Arreglamos la grilla para que las cajas NO sean tan anchas */
+.vitrina-grid {
+  display: grid;
+  /* El truco es usar repeat con un ancho Fijo (ej: 250px) en lugar de minmax con 1fr */
+  grid-template-columns: repeat(auto-fit, 250px); 
+  gap: 30px;
+  justify-content: center; /* Centramos las cajas reducidas en la pantalla */
+  width: 100%;
+}
+
+/* 3. Arreglamos la caja individual (la "tarjeta de cristal") */
+.vitrina-tarjeta {
+  /* Al tener la grilla un ancho fijo, ya no necesitamos tocar el width acá */
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.05); /* Un borde muy sutil sobre blanco */
+  border-radius: 15px;
+  padding: 30px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03); /* Sombra casi invisible */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Hover de la tarjeta */
+.vitrina-tarjeta:hover {
+  /* Usamos un borde negro o gris oscuro para que resalte sobre blanco */
+  border-color: #333; 
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px); /* Un pequeño salto hacia arriba */
+}
+
+/* Imagen dentro de la tarjeta */
+.vitrina-tarjeta-img {
+  width: 100%;
+  max-width: 150px; /* Ancho máximo de la imagen */
+  height: 150px;
+  object-fit: contain;
+  margin-bottom: 20px;
+  transform: scale(1.3); /* Mantenemos tu escala */
+  filter: drop-shadow(0 5px 8px rgba(0,0,0,0.1)); /* Sombra suave al producto */
+  transition: transform 0.3s ease;
+}
+
+/* Hover de la imagen */
+.vitrina-tarjeta:hover .vitrina-tarjeta-img {
+  transform: scale(1.4); /* Crece un poquito más en hover */
+}
+
+/* Título de la categoría dentro de la tarjeta */
+.vitrina-tarjeta-titulo {
+  color: #333; /* Texto oscuro para leerse sobre blanco */
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+/* Texto de "Ver productos" */
+.vitrina-tarjeta-link {
+  color: #888;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  text-decoration: underline; /* Subrayado para que parezca un link */
+}
+
