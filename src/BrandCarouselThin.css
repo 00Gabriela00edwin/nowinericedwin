@@ -25,7 +25,7 @@
 }
 
 .marquee-item img {
-  height: 55px; /* Tamaño de los logos */
+  height: 75px; /* Tamaño de los logos */
   width: auto;
   
   transition: 0.3s ease;

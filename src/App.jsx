@@ -237,14 +237,7 @@ const Footer = () => (
     </div>
     <div style={{marginTop: '30px', borderTop: '1px solid #333', paddingTop: '20px'}}>
        <p style={{fontSize: '0.9rem', opacity: 0.7}}>© {new Date().getFullYear()} Nowin Argentina.</p>
-{/* TU FIRMA AQUÍ */}
-       <p style={{
-         fontSize: '0.75rem', 
-         letterSpacing: '1px', 
-         color: '#f1efe8'
-       }}>
-         Desarrollo Web por <span style={{color: '#8a752d', fontWeight: 'bold'}}>GABRIELA EDWIN</span>
-       </p>
+
 
     </div>
   </footer>
@@ -305,6 +298,19 @@ function App() {
         {mostrarCheckout && <CheckoutForm enviarPedido={procesarCompra} cancelar={() => setMostrarCheckout(false)} />}
         <Footer />
         <BrandCarouselThin />
+{/* TU FIRMA AQUÍ */}
+       <p style={{
+         fontSize: '0.50rem', 
+         letterSpacing: '1px', 
+         color: '#22211f',
+         textAlign: 'right',
+         paddingRight: '40px',
+         width: '100%',
+          marginTop: '7px',
+       }}>
+         Desarrollo Web por <span style={{color: '#a16a17', fontWeight: 'bold'}}>GABRIELA EDWIN</span>
+       </p>
+
       </div>
     </Router>
   );
