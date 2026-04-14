@@ -9,6 +9,7 @@ import Navbar from './Navbar';
 import CheckoutForm from './CheckoutForm'; 
 import CardCondimento from './CardCondimento'; 
 import './App.css';
+import MundialCountdown from './MundialCountdown';
 
 
 const PRODUCTOS_DEMO = [
@@ -97,6 +98,7 @@ const [countdown, setCountdown] = useState({ d: 0, h: 0, m: 0, s: 0 });
           <h1>SABOR QUE <br /><span style={{color: '#FFC400'}}>TRANSFORMA</span></h1>
         </div>
       </header>
+      <MundialCountdown />
       
       <section className="container" style={{ padding: '0px 20px', minHeight: '50vh' }}>
         
