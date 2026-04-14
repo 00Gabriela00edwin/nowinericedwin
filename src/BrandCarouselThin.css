@@ -1,0 +1,43 @@
+.thin-marquee {
+  width: 100%;
+  height: 80px;
+  background-color: #000000; /* El negro de Nowin */
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  border-top: 1px solid #1a1a1a;
+}
+
+.marquee-content {
+  display: flex;
+  width: max-content;
+  animation: scroll-thin 25s linear infinite;
+}
+
+/* ESTO DETIENE EL CARRUSEL AL PASAR EL MOUSE */
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+.marquee-item {
+  padding: 0 50px; /* Espacio entre logos */
+}
+
+.marquee-item img {
+  height: 55px; /* Tamaño de los logos */
+  width: auto;
+  
+  transition: 0.3s ease;
+}
+
+.marquee-item img:hover {
+  opacity: 1;
+  filter: none; /* Recuperan su color original al pasar el mouse */
+  transform: scale(1.1); /* Un pequeño zoom sutil */
+}
+
+@keyframes scroll-thin {
+  from { transform: translateX(0); }
+  to { transform: translateX(-33.33%); }
+}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import BrandCarouselThin from './BrandCarouselThin.jsx';
 import ProductoDetalle from './ProductoDetalle';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { db } from './firebase'; 
@@ -8,6 +9,7 @@ import Navbar from './Navbar';
 import CheckoutForm from './CheckoutForm'; 
 import CardCondimento from './CardCondimento'; 
 import './App.css';
+
 
 const PRODUCTOS_DEMO = [
   // --- PRODUCTOS CLÁSICOS ---
@@ -30,7 +32,7 @@ const PRODUCTOS_DEMO = [
   { id: 15, title: "Mix de Especias (1 Kg)", price: 9500, category: "1 Kilo", img: "/img/1kilo/mixexpecias.png", description: "Combinación exclusiva de especias seleccionadas para realzar cualquier preparación." },
   { id: 16, title: "Orégano (1 Kg)", price: 8000, category: "1 Kilo", img: "/img/1kilo/oregano.png", description: "Hojas de orégano seleccionadas. Sabor y aroma inconfundibles en gran formato." },
   { id: 17, title: "Pimentón (1 Kg)", price: 10500, category: "1 Kilo", img: "/img/1kilo/pimenton.png", description: "Pimentón dulce de color rojo intenso. Aporta sabor y color vibrante a tus comidas." },
-  { id: 18, title: "Polvo de Hornear (1 Kg)", price: 7500, category: "1 Kilo", img: "/img/1kilo/polvodehornear.png", description: "Leudante químico de acción justa para masas, tortas y bizcochuelos perfectos." },
+  { id: 18, title: "Polvo de Hornear (1 Kg)", price: 7500, category: "1 Kilo", img: "/img/1kilo/polvoparahornear.png", description: "Leudante químico de acción justa para masas, tortas y bizcochuelos perfectos." },
   { id: 19, title: "Provenzal (1 Kg)", price: 9800, category: "1 Kilo", img: "/img/1kilo/provensal.png", description: "Clásica mezcla de ajo y perejil deshidratados. Práctica y llena de sabor." }
 ];
 
@@ -39,6 +41,29 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
   const [currentImage, setCurrentImage] = useState(0);
   
   const [categoriaActiva, setCategoriaActiva] = useState(null);
+
+const [countdown, setCountdown] = useState({ d: 0, h: 0, m: 0, s: 0 });
+  
+  useEffect(() => {
+    const meta = new Date("2026-06-10T00:00:00").getTime(); 
+    const x = setInterval(() => {
+      const ahora = new Date().getTime();
+      const resto = meta - ahora;
+      if (resto < 0) {
+        clearInterval(x);
+      } else {
+        setCountdown({
+          d: Math.floor(resto / (1000 * 60 * 60 * 24)),
+          h: Math.floor((resto % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          m: Math.floor((resto % (1000 * 60 * 60)) / (1000 * 60)),
+          s: Math.floor((resto % (1000 * 60)) / 1000)
+        });
+      }
+    }, 1000);
+    return () => clearInterval(x);
+  }, []);
+
+
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentImage((prev) => (prev + 1) % heroImages.length), 4000);
@@ -73,7 +98,7 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
         </div>
       </header>
       
-      <section className="container" style={{ padding: '40px 20px', minHeight: '50vh' }}>
+      <section className="container" style={{ padding: '0px 20px', minHeight: '50vh' }}>
         
         {/* ESCENARIO 1: EL CLIENTE ESTÁ BUSCANDO ALGO */}
         {searchTerm !== "" ? (
@@ -279,6 +304,7 @@ function App() {
         </Routes>
         {mostrarCheckout && <CheckoutForm enviarPedido={procesarCompra} cancelar={() => setMostrarCheckout(false)} />}
         <Footer />
+        <BrandCarouselThin />
       </div>
     </Router>
   );
