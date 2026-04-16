@@ -1,94 +1,81 @@
 .mundial-banner {
   width: 100%;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+  background: linear-gradient(135deg, #050505 0%, #111122 100%);
   border-top: 2px solid #ceb348;
   border-bottom: 2px solid #ceb348;
-  padding: 30px 20px;
+  padding: 40px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  margin: 40px 0;
+  margin: 0 0 40px 0;
 }
 
-.mundial-content {
+/* Contenedor principal de 2 columnas */
+.mundial-content-simple {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 1400px;
-  gap: 30px;
+  max-width: 1000px;
+  gap: 60px; /* Separación entre la bolsa y el reloj */
 }
 
-.mundial-text {
-  text-align: left;
-  color: white;
-  min-width: 300px;
-}
-
-/* --- ESTILOS DEL ESCUDO Y EL TÍTULO --- */
-.titulo-con-escudo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 5px;
-}
-
-.escudo-mini {
-  height: 45px;
-  width: auto;
-  filter: drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.5));
-}
-
-.edicion-title {
-  color: #ceb348;
-  font-size: 0.9rem;
-  letter-spacing: 3px;
-  margin: 0;
-}
-
-.producto-title {
-  font-size: 2.8rem;
-  font-weight: 900;
-  margin: 0;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-}
-
-.slogan {
-  font-size: 1.2rem;
-  color: #a0a0a0;
-  margin-top: 5px;
-  font-style: italic;
-}
-
-/* --- ESTILOS DE LA BOLSA DE SAL --- */
-.mundial-product-image {
-  flex: 0 0 auto;
+/* --- ESTILOS DE LA BOLSA --- */
+.mundial-product {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 20px;
 }
 
-.bolsa-sal {
+/* Brillo detrás de la bolsa */
+.mundial-product::before {
+  content: '';
+  position: absolute;
+  width: 250px;
   height: 250px;
+  background: radial-gradient(circle, rgba(206, 179, 72, 0.2) 0%, transparent 70%);
+  z-index: 0;
+}
+
+.bolsa-sal-simple {
+  height: 320px;
   width: auto;
-  filter: drop-shadow(0 0 20px rgba(206, 179, 72, 0.3)); /* Brillo dorado */
-  transition: transform 0.3s ease;
+  z-index: 1;
+  filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.6));
+  animation: flotar-bolsa 4s infinite ease-in-out;
 }
 
-.bolsa-sal:hover {
-  transform: scale(1.08);
+@keyframes flotar-bolsa {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
 }
 
-/* --- ESTILOS DEL CONTADOR --- */
+/* --- ESTILOS DEL AVISO Y EL RELOJ --- */
+.mundial-timer-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* El texto nuevo */
+.cta-mundial {
+  color: #ceb348; /* Dorado */
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 0 25px 0;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
 .countdown-container {
   display: flex;
   gap: 15px;
-  min-width: 380px;
   justify-content: center;
 }
 
@@ -96,52 +83,50 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(206, 179, 72, 0.3);
+  background: rgba(206, 179, 72, 0.05);
+  border: 1px solid rgba(206, 179, 72, 0.4);
   padding: 20px 15px;
-  border-radius: 8px;
-  min-width: 85px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  border-radius: 12px;
+  min-width: 80px;
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.3);
+  backdrop-filter: blur(5px);
 }
 
 .time-number {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   font-weight: bold;
   color: #ffffff;
-  text-shadow: 0 0 12px rgba(206, 179, 72, 0.6);
+  text-shadow: 0 0 15px rgba(206, 179, 72, 0.8);
+  font-family: monospace;
 }
 
 .time-label {
   font-size: 0.8rem;
   color: #ceb348;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-top: 5px;
+  letter-spacing: 2px;
+  margin-top: 8px;
+  font-weight: bold;
 }
 
-/* --- MODO CELULAR / RESPONSIVE --- */
-@media (max-width: 992px) {
-  .mundial-content {
+/* --- MODO CELULAR --- */
+@media (max-width: 768px) {
+  .mundial-content-simple {
     flex-direction: column;
-    text-align: center;
+    gap: 30px;
   }
-  .mundial-text {
-    text-align: center;
+  .bolsa-sal-simple {
+    height: 250px;
   }
-  .titulo-con-escudo {
-    justify-content: center;
-  }
-  .bolsa-sal {
-    height: 180px;
+  .cta-mundial {
+    font-size: 1.3rem; /* Letra un poco más chica en el celu */
+    margin-bottom: 15px;
   }
   .time-number {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
   .time-box {
     min-width: 70px;
-    padding: 10px;
-  }
-  .countdown-container {
-    min-width: 100%;
+    padding: 15px 10px;
   }
 }

@@ -38,7 +38,7 @@ const PRODUCTOS_DEMO = [
 ];
 
 const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
-  const heroImages = ["/img/carru1.jpg", "/img/carru2.jpg", "/img/carru3.jpg", "/img/carru4.jpg", "/img/carru5.jpg", "/img/carru6.jpg"];
+  const heroImages = [ "/img/carru4.jpg", "/img/carru5.jpg"];
   const [currentImage, setCurrentImage] = useState(0);
   
   const [categoriaActiva, setCategoriaActiva] = useState(null);
@@ -319,4 +319,9 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
 
