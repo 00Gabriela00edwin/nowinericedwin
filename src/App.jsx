@@ -300,19 +300,21 @@ function App() {
         {mostrarCheckout && <CheckoutForm enviarPedido={procesarCompra} cancelar={() => setMostrarCheckout(false)} />}
         <Footer />
         <BrandCarouselThin />
-{/* TU FIRMA AQUÍ */}
-       <p style={{
-         fontSize: '0.50rem', 
-         letterSpacing: '1px', 
-         color: '#22211f',
-         textAlign: 'right',
-         paddingRight: '40px',
-         width: '100%',
-          marginTop: '7px',
-       }}>
-         Desarrollo Web por <span style={{color: '#a16a17', fontWeight: 'bold'}}>GABRIELA EDWIN</span>
-       </p>
 
+
+{/* --- TU FIRMA --- */}
+      <div style={{ backgroundColor: '#000000', width: '100%', padding: '15px 0' }}>
+        <p style={{
+          fontSize: '0.6rem',
+          letterSpacing: '2px',
+          color: '#a0a0a0', /* Gris clarito para "Desarrollo Web por" */
+          textAlign: 'center',
+          paddingRight: '30px',
+          margin: 0
+        }}>
+          Desarrollo Web por <span style={{ color: '#f28c27', fontWeight: 'bold' }}>GABRIELA EDWIN</span>
+        </p>
+      </div>
       </div>
     </Router>
   );
