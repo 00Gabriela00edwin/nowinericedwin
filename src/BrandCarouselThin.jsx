@@ -20,7 +20,7 @@ const BrandCarouselThin = () => {
   return (
     <div className="carousel-container">
       {/* Título de clientes */}
-      <h4 className="carousel-title">ELLOS ELIGEN NOWIN ENCONTRANOS EN NUESTROS PUNTOS DE VENTA:</h4>
+      <h4 className="carousel-title"> NUESTROS PUNTOS DE VENTA:</h4>
       
       <div className="thin-marquee">
         <div className="marquee-content">
