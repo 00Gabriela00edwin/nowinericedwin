@@ -690,3 +690,90 @@ body {
   text-shadow: 0 0 10px #FFC400; /* Brillo dorado al pasar el mouse */
   letter-spacing: 2px;
 }
+.footer-moderno {
+  background-color: #000000;
+  padding: 40px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.footer-titulo {
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  font-weight: 700;
+}
+
+.social-icons {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.social-link {
+  color: #ffffff;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-link:hover {
+  transform: translateY(-5px);
+  color: #FFC400; /* Tu color destacado */
+}
+
+.social-link.whatsapp:hover {
+  transform: translateY(-5px) scale(1.1); /* Efecto extra para el SVG */
+}
+
+/* Línea divisoria elegante */
+.footer-linea-divisoria {
+  width: 100%;
+  max-width: 1000px;
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 196, 0, 0.5), transparent);
+  margin-bottom: 20px;
+}
+
+/* Contenedor inferior (Copyright y Firma) */
+.footer-bottom-bar {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  justify-content: space-between; /* Envía uno a la izq y otro a la der */
+  align-items: center;
+}
+
+.copyright {
+  font-size: 0.85rem;
+  color: #a0a0a0;
+  margin: 0;
+}
+
+.firma-dev {
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: #a0a0a0;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.firma-dev span {
+  color: #FFC400; /* El nombre resalta sutilmente */
+  font-weight: bold;
+}
+
+/* Modo teléfono: apila el texto inferior */
+@media (max-width: 768px) {
+  .footer-bottom-bar {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+}
