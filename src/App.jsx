@@ -15,7 +15,9 @@ import MundialCountdown from './MundialCountdown';
 const PRODUCTOS_DEMO = [
   // --- PRODUCTOS CLÁSICOS ---
   { id: 1, title: "Sal con Ajo", price: 3500, category: "Sales Saborizadas", img: "/img/salconajo.png", description:"Es el resultado de mezclar de ajo seco molido y sal de mesa Es el sustituto del ajo fresco en el caso de la sal de ajo Nowin es el aderezo final en carnes pescados y mariscos a plancha o incluso utilizarlo en seco de la misma manera que utilizaríamos la sal Usos sugeridos : Carnes, Pescados ,Mariscos a la plancha Como reemplazo del ajo fresco Uso en seco como sal común." },
-  { id: 2, title: "Pimienta Molida", price: 4200, category: "Esenciales", img: "/img/pimienta.png", description:"Disponible molida o en grano.Aroma penetrante.Picor equilibrado.Tamaño homogéneo (en grano).Diferencial NOWIN:Selección de calidad que asegura potencia constante en cada uso." },
+
+  { id: 2, title: "Pimienta Molida", price: 4200, category: "Esenciales", img: "/img/pimientamolida.png", description:"Disponible molida o en grano.Aroma penetrante.Picor equilibrado.Tamaño homogéneo (en grano).Diferencial NOWIN:Selección de calidad que asegura potencia constante en cada uso." },
+
   { id: 3, title: "Condimento Arroz", price: 3100, category: "Esenciales", img: "/img/condimentoarroz.png", description: "Mezcla equilibrada de especias.Color atractivo y natural.Aroma suave y armonioso.Distribución homogénea de ingredientes.Diferencial NOWIN:Fórmula pensada para transformar un arroz común en una preparación especial con solo una pizca." },
   { id: 4, title: "Sal de Campo", price: 3800, category: "Sales Saborizadas", img: "/img/saldecampo.png", description :"Mezcla artesanal de sal entrefina con especias seleccionadas, inspirada en la tradición del campo argentino Ingredientes destacados:Ají molido,Orégano,Comino,Sal entrefina" },
   { id: 5, title: "Orégano", price: 2500, category: "Esenciales", img: "/img/oregano.png", description: "Hojas secas seleccionadas.Corte uniforme y baja presencia de tallos.Aroma herbal intenso.Color verde natural (indicador de frescura).Diferencial NOWIN:Mayor potencia aromática y mejor rendimiento por uso Selección cuidada para garantizar sabor auténtico en cada plato" },
@@ -23,6 +25,184 @@ const PRODUCTOS_DEMO = [
   { id: 7, title: "Sal Cebolla y Ajo", price: 3600, category: "Sales Saborizadas", img: "/img/salcebollayajo.png", description :"Descubrí el sabor que no puede faltar en la cocina argentina. Nuestra Sal Especiada Cebolla y Ajo Argentinisima combina sal de calidad con cebolla y ajo deshidratados, logrando el equilibrio perfecto entre intensidad y aroma Ideal para realzar carnes, milanesas, papas al horno, verduras grilladas, pollo, pastas y, por supuesto, el infaltable asado. Una pizca es suficiente para transformar cualquier plato en una experiencia llena de sabor casero y tradición." },
   { id: 8, title: "Sal Picante", price: 4500, category: "Sales Saborizadas", img: "/img/salpicante.png", description:"DiferencialPicor suave y equilibradoPotencia el sabor sin taparlo Versátil: combina con casi cualquier comida Acompañamiento que no puede faltar “El toque picante ideal para pastas, pescados y mariscos " },
   { id: 9, title: "Sal con Romero y Tomillo", price: 3600, category: "Sales Saborizadas", img: "/img/salconromeroytomillo.png", description: " Mezcla de sal con hierbas aromáticas seleccionadas, que aporta un sabor intenso y equilibrado, inspirado en aromas mediterráneos Hierbas destacadas Romero Tomillo" },
+   { id: 10, title: "Polvo para hornear", price: 4200, category: "Esenciales", img: "/img/polvoparahornear.png", description:"xxxxxxxxxxxxxxxxxxxxxxxxx." },
+
+   { id: 11, title: "Pimentón", price: 4200, category: "Esenciales", img: "/img/pimenton.png", description:"xxxxxxxxxxxxxxxxxxxxxxxxx." },
+
+{ id: 12, title: "perejil", price: 4200, category: "Esenciales", img: "/img/perejil.png", description:"xxxxxxxxxxxxxxxxxxxxxxxxx." },
+{ id: 13, title: "mixdeespecias", price: 4200, category: "Esenciales", img: "/img/mixdeespecias.png", description:"xxxxxxxxxxxxxxxxxxxxxxxxx." },
+{ id: 14, title: "Adoboparapizzas", price: 4200, category: "Esenciales", img: "/img/adoboparapizzas.png", description:"xxxxxxxxxxxxxxxxxxxxxxxxx." },
+
+{ id: 15, title: "Ajo granulado", price: 4200, category: "Esenciales", img: "/img/ajogranulado.png", description:"xxxxxxxxxxxxxxxxxxxxxxxxx." },
+ { id: 16, title: "Sal Mundial", price: 3600, category: "Sales Saborizadas", img: "/img/salmundial.png", description: " Mezcla de sal con hierbas aromáticas seleccionadas, que aporta un sabor intenso y equilibrado, inspirado en aromas mediterráneos Hierbas destacadas Romero Tomillo" },
+
+{ id: 17, title: "Canela", price: 4200, category: "Esenciales", img: "/img/canela.png", description:"xxxxxxxxxxxxxxxxxxxxxxxxx." },
+
+{ id: 18, title: "Clavo de olor", price: 4200, category: "Esenciales", img: "/img/clavodeolor.png", description:"xxxxxxxxxxxxxxxxxxxxxxxxx." },
+
+{ id: 15, title: "Laurel", price: 4200, category: "Esenciales", img: "/img/laurel.png", description:"xxxxxxxxxxxxxxxxxxxxxxxxx." },
+
+// --- CATEGORÍA: NUESTRAS ESPECIAS ---
+  { 
+    id: 16, 
+    title: "Ají Triturado", 
+    price: 1500, 
+    category: "Nuestras Especias", 
+    img: "/img/1aji.png", 
+    description: "Ají triturado de gran sabor, ideal para darle un toque picante a tus pizzas, guisos y empanadas." 
+  },
+  { 
+    id: 17, 
+    title: "Ajo Granulado", 
+    price: 1800, 
+    category: "Nuestras Especias", 
+    img: "/img/2ajogranuladoo.png", 
+    description: "Ajo deshidratado y granulado. Sabor intenso y práctico para condimentar carnes y salsas al instante." 
+  },
+  { 
+    id: 18, 
+    title: "Condimento para Arroz", 
+    price: 1200, 
+    category: "Nuestras Especias", 
+    img: "/img/3arrozcondimento.png", 
+    description: "Mezcla equilibrada para resaltar el sabor y darle el color perfecto a tus arroces y paellas." 
+  },
+  { 
+    id: 19, 
+    title: "Canela Molida", 
+    price: 1900, 
+    category: "Nuestras Especias", 
+    img: "/img/3canela.png", 
+    description: "Canela de aroma dulce y profundo. El condimento estrella para tu repostería e infusiones." 
+  },
+  { 
+    id: 20, 
+    title: "Cebolla Crispy", 
+    price: 2500, 
+    category: "Nuestras Especias", 
+    img: "/img/4cebollacrispy.png", 
+    description: "Cebolla frita crocante. Perfecta para agregar textura y sabor a hamburguesas, panchos y ensaladas." 
+  },
+  { 
+    id: 21, 
+    title: "Cebolla en Polvo", 
+    price: 1600, 
+    category: "Nuestras Especias", 
+    img: "/img/5cebollaenpolvo.png", 
+    description: "Todo el sabor de la cebolla en una textura fina, ideal para salsas, cremas y marinados." 
+  },
+  { 
+    id: 22, 
+    title: "Chimichurri", 
+    price: 1400, 
+    category: "Nuestras Especias", 
+    img: "/img/6chimi.png", 
+    description: "Blend de hierbas tradicionales para preparar el mejor aderezo de tus asados y carnes a la parrilla." 
+  },
+  { 
+    id: 23, 
+    title: "Clavo de Olor", 
+    price: 2100, 
+    category: "Nuestras Especias", 
+    img: "/img/7clavodeolor.png", 
+    description: "Aroma penetrante y sabor intenso. Clavos de olor seleccionados para cocina dulce y salada." 
+  },
+  { 
+    id: 24, 
+    title: "Coriandro Molido", 
+    price: 1500, 
+    category: "Nuestras Especias", 
+    img: "/img/8coriandro.png", 
+    description: "Semillas de cilantro molidas. Aporta notas cítricas y frescas a tus embutidos y guisos." 
+  },
+  { 
+    id: 25, 
+    title: "Cúrcuma", 
+    price: 1700, 
+    category: "Nuestras Especias", 
+    img: "/img/9curcumamolida.png", 
+    description: "Color y salud en tus platos. Ideal para arroces, vegetales asados y recetas de la cocina oriental." 
+  },
+  { 
+    id: 26, 
+    title: "Laurel en Hojas", 
+    price: 1300, 
+    category: "Nuestras Especias", 
+    img: "/img/10laurelenhojas.png", 
+    description: "Hojas de laurel secas de alta calidad. El aroma fundamental para tucos, sopas y estofados." 
+  },
+  { 
+    id: 27, 
+    title: "Orégano", 
+    price: 1400, 
+    category: "Nuestras Especias", 
+    img: "/img/10oreganoo.png", 
+    description: "Hojas seleccionadas de aroma intenso. El compañero inseparable de la pizza y las salsas rojas." 
+  },
+  { 
+    id: 28, 
+    title: "Perejil Deshidratado", 
+    price: 1200, 
+    category: "Nuestras Especias", 
+    img: "/img/11perejil.png", 
+    description: "Perejil de color vibrante y sabor fresco, listo para usar en cualquier preparación culinaria." 
+  },
+  { 
+    id: 29, 
+    title: "Perejil Selección", 
+    price: 1200, 
+    category: "Nuestras Especias", 
+    img: "/img/12perejill.png", 
+    description: "Variedad de perejil deshidratado ideal para realzar el sabor final de tus platos favoritos." 
+  },
+  { 
+    id: 30, 
+    title: "Romero", 
+    price: 1600, 
+    category: "Nuestras Especias", 
+    img: "/img/13romero.png", 
+    description: "Hierba aromática de sabor boscoso. La pareja perfecta para papas al horno, pollo y carnes rojas." 
+  },
+  { 
+    id: 31, 
+    title: "Provenzal", 
+    price: 1400, 
+    category: "Nuestras Especias", 
+    img: "/img/14provenzal.png", 
+    description: "El equilibrio exacto entre ajo y perejil. Un clásico para milanesas, papas fritas y revueltos." 
+  },
+  { 
+    id: 32, 
+    title: "Condimento para Pizza", 
+    price: 1300, 
+    category: "Nuestras Especias", 
+    img: "/img/15pizza.png", 
+    description: "Mezcla artesanal de especias diseñada para darle el auténtico sabor de pizzería a tus masas." 
+  },
+  { 
+    id: 33, 
+    title: "Pimentón Selección", 
+    price: 1500, 
+    category: "Nuestras Especias", 
+    img: "/img/16pimentonn.png", 
+    description: "Pimentón de color intenso y sabor dulce, ideal para empanadas, tucos y platos regionales." 
+  },
+  { 
+    id: 34, 
+    title: "Pimentón Ahumado", 
+    price: 1800, 
+    category: "Nuestras Especias", 
+    img: "/img/17pimentonn.png", 
+    description: "Aporta un toque ahumado sofisticado y un color profundo a guisos, carnes y salsas." 
+  },
+  { 
+    id: 35, 
+    title: "Tomillo", 
+    price: 1600, 
+    category: "Nuestras Especias", 
+    img: "/img/18tomillo.png", 
+    description: "Hierba delicada y muy aromática. Excelente para marinar aves, pescados y aromatizar aceites." 
+  },
   
   // --- NUEVA CATEGORÍA: 1 KILO ---
   { id: 10, title: "Adobo para Pizza (1 Kg)", price: 8500, category: "1 Kilo", img: "/img/1kilo/adobodepizza.png", description: "El clásico adobo pimentero ideal para pizzas y salsas, en formato económico de 1 kilo." },
@@ -34,7 +214,7 @@ const PRODUCTOS_DEMO = [
   { id: 16, title: "Orégano (1 Kg)", price: 8000, category: "1 Kilo", img: "/img/1kilo/oregano.png", description: "Hojas de orégano seleccionadas. Sabor y aroma inconfundibles en gran formato." },
   { id: 17, title: "Pimentón (1 Kg)", price: 10500, category: "1 Kilo", img: "/img/1kilo/pimenton.png", description: "Pimentón dulce de color rojo intenso. Aporta sabor y color vibrante a tus comidas." },
   { id: 18, title: "Polvo de Hornear (1 Kg)", price: 7500, category: "1 Kilo", img: "/img/1kilo/polvoparahornear.png", description: "Leudante químico de acción justa para masas, tortas y bizcochuelos perfectos." },
-  { id: 19, title: "Provenzal (1 Kg)", price: 9800, category: "1 Kilo", img: "/img/1kilo/provensal.png", description: "Clásica mezcla de ajo y perejil deshidratados. Práctica y llena de sabor." }
+  { id: 19, title: "Provenzal (1 Kg)", price: 9800, category: "1 Kilo", img: "/img/1kilo/provensal.png", description: "Clásica mezcla de ajo y perejil deshidratados. Práctica y llena de sabor." },
 ];
 
 const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
@@ -83,7 +263,7 @@ const [countdown, setCountdown] = useState({ d: 0, h: 0, m: 0, s: 0 });
     { id: 'Sales Saborizadas', titulo: 'SALES SABORIZADAS', img: '/img/canelaportada4.jpg', color: '#FFC400' },
     { id: 'Esenciales', titulo: 'ESENCIALES', img: '/img/canelaportada5.jpg', color: '#FFC400' },
     { id: '1 Kilo', titulo: 'MAYORISTAS', img: '/img/canelaportada1.jpg', color: '#FFC400' },
-    { id: 'especias', titulo: 'NUESTRAS ESPECIAS', img: '/img/especias1.jpg', color: '#FFC400' },
+    { id: 'nuestras especias', titulo: 'NUESTRAS ESPECIAS', img: '/img/especias1.jpg', color: '#FFC400' },
 
 
   ];
