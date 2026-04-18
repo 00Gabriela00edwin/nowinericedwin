@@ -82,7 +82,10 @@ const [countdown, setCountdown] = useState({ d: 0, h: 0, m: 0, s: 0 });
   const tarjetasCategorias = [
     { id: 'Sales Saborizadas', titulo: 'SALES SABORIZADAS', img: '/img/canelaportada4.jpg', color: '#FFC400' },
     { id: 'Esenciales', titulo: 'ESENCIALES', img: '/img/canelaportada5.jpg', color: '#FFC400' },
-    { id: '1 Kilo', titulo: 'MAYORISTAS', img: '/img/canelaportada1.jpg', color: '#FFC400' }
+    { id: '1 Kilo', titulo: 'MAYORISTAS', img: '/img/canelaportada1.jpg', color: '#FFC400' },
+    { id: 'especias', titulo: 'NUESTRAS ESPECIAS', img: '/img/especias1.jpg', color: '#FFC400' },
+
+
   ];
 
   return (
@@ -150,7 +153,7 @@ const [countdown, setCountdown] = useState({ d: 0, h: 0, m: 0, s: 0 });
               <h2 style={{ color: '#FFC400', margin: 0, textTransform: 'uppercase' }}>{categoriaActiva}</h2>
               <button 
                 onClick={() => setCategoriaActiva(null)}
-                style={{ background: 'transparent', border: '1px solid #FFC400', color: ' #FFC400;', padding: '8px 16px', borderRadius: '20px', cursor: 'pointer' }}
+                style={{ background: 'transparent', border: '1px solid #FFC400', color: ' #ffc40000;', padding: '8px 16px', borderRadius: '20px', cursor: 'pointer' }}
               >
                 &larr; Volver a Categorías
               </button>
@@ -202,7 +205,7 @@ const Cart = ({ cart, removeFromCart, addToCart, decreaseQuantity, onStartChecko
                 <img src={item.img} alt="" style={{width: '60px', height: '60px', objectFit: 'contain', background: 'white', borderRadius: '4px', padding:'5px'}} />
                 <div>
                    <h4 style={{margin: '0 0 5px 0', color:'white'}}>{item.title}</h4>
-                   <p style={{margin: 0, color: '#FFC400'}}>${item.price}</p>
+                   <p style={{margin: 0, color: '#ffc40000'}}>${item.price}</p>
                 </div>
               </div>
               <div style={{display:'flex', alignItems:'center', gap: '20px'}}>
@@ -312,7 +315,7 @@ function App() {
           paddingRight: '30px',
           margin: 0
         }}>
-          Desarrollo Web por <span style={{ color: '#f28c27', fontWeight: 'bold' }}>GABRIELA EDWIN</span>
+          Desarrollo Web por <span style={{ color: '#a0a0a0#', fontWeight: 'bold' }}>GABRIELA EDWIN</span>
         </p>
       </div>
       </div>
