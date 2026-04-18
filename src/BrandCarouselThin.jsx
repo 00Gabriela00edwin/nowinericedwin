@@ -11,6 +11,7 @@ const BrandCarouselThin = () => {
     { name: 'Cliente 6', url: '/img/clientes6.png' },
     { name: 'Cliente 7', url: '/img/clientes7.png' },
     { name: 'Cliente 8', url: '/img/cliente8.png' },
+
   ];
 
   // Triplicamos los logos para que el carrusel sea infinito y no se vea el salto
@@ -19,16 +20,13 @@ const BrandCarouselThin = () => {
   return (
     <div className="carousel-container">
       {/* Título de clientes */}
-      <h4 className="carousel-title">ELLOS ELIJEN NOWIN | ENCONTRANOS EN NUESTROS PUNTOS DE VENTA:</h4>
+      <h4 className="carousel-title">ELLOS ELIGEN NOWIN ENCONTRANOS EN NUESTROS PUNTOS DE VENTA:</h4>
       
       <div className="thin-marquee">
         <div className="marquee-content">
           {doubleLogos.map((logo, index) => (
             <div className="marquee-item" key={index}>
-              {/* Aquí agregamos el círculo blanco moderno */}
-              <div className="circulo-logo">
-                <img src={logo.url} alt={logo.name} />
-              </div>
+              <img src={logo.url} alt={logo.name} />
             </div>
           ))}
         </div>

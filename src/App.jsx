@@ -617,13 +617,7 @@ const Footer = () => (
 
     <hr className="footer-linea-divisoria" />
 
-    <div className="footer-bottom-bar">
-       <p className="copyright">© {new Date().getFullYear()} Nowin Argentina.</p>
-       <p className="firma-dev">
-         Desarrollo Web por <span>GABRIELA EDWIN</span>
-       </p>
-    </div>
-    
+   
   </footer>
 );
 
