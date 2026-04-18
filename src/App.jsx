@@ -225,14 +225,7 @@ export const PRODUCTOS_DEMO = [
     img: "/img/6chimi.png", 
     description: "Blend de hierbas tradicionales para preparar el mejor aderezo de tus asados y carnes a la parrilla." 
   },
-  { 
-    id: 27, 
-    title: "Clavo de Olor", 
-    price: 2100, 
-    category: "Nuestras Especias", 
-    img: "/img/7clavodeolor.png", 
-    description: "Aroma penetrante y sabor intenso. Clavos de olor seleccionados para cocina dulce y salada." 
-  },
+  
   { 
     id: 28, 
     title: "Coriandro Molido", 
