@@ -618,6 +618,7 @@ const Footer = () => (
     <hr className="footer-linea-divisoria" />
 
    
+    
   </footer>
 );
 
