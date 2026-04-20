@@ -11,6 +11,8 @@ const BrandCarouselThin = () => {
     { name: 'Cliente 6', url: '/img/clientes6.png' },
     { name: 'Cliente 7', url: '/img/clientes7.png' },
     { name: 'Cliente 8', url: '/img/cliente8.png' },
+     { name: 'Cliente 9', url: '/img/clientes9.png' },
+
 
   ];
 

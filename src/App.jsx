@@ -18,7 +18,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 1, 
     title: "Sal con Ajo", 
-    price: 3500, 
+    price: 4100, 
     category: "Sales Saborizadas", 
     img: "/img/salconajo.png", 
     description: "Es el resultado de mezclar de ajo seco molido y sal de mesa Es el sustituto del ajo fresco en el caso de la sal de ajo Nowin es el aderezo final en carnes pescados y mariscos a plancha o incluso utilizarlo en seco de la misma manera que utilizaríamos la sal Usos sugeridos : Carnes, Pescados ,Mariscos a la plancha Como reemplazo del ajo fresco Uso en seco como sal común." 
@@ -26,7 +26,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 2, 
     title: "Pimienta Molida", 
-    price: 4200, 
+    price: 2500, 
     category: "Esenciales", 
     img: "/img/pimientamolida.png", 
     description: "Disponible molida o en grano.Aroma penetrante.Picor equilibrado.Tamaño homogéneo (en grano).Diferencial NOWIN:Selección de calidad que asegura potencia constante en cada uso." 
@@ -34,7 +34,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 3, 
     title: "Condimento Arroz", 
-    price: 3100, 
+    price: 2100, 
     category: "Esenciales", 
     img: "/img/condimentoarroz.png", 
     description: "Mezcla equilibrada de especias.Color atractivo y natural.Aroma suave y armonioso.Distribución homogénea de ingredientes.Diferencial NOWIN:Fórmula pensada para transformar un arroz común en una preparación especial con solo una pizca." 
@@ -42,7 +42,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 4, 
     title: "Sal de Campo", 
-    price: 3800, 
+    price: 4100, 
     category: "Sales Saborizadas", 
     img: "/img/saldecampo.png", 
     description: "Mezcla artesanal de sal entrefina con especias seleccionadas, inspirada en la tradición del campo argentino Ingredientes destacados:Ají molido,Orégano,Comino,Sal entrefina" 
@@ -58,7 +58,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 6, 
     title: "Sal Ahumada", 
-    price: 4500, 
+    price: 4100, 
     category: "Sales Saborizadas", 
     img: "/img/salahumada.png", 
     description: "Sabor ahumado sin fuego Permite lograr efecto “a la parrilla” sin necesidad de brasas ni humo real.Aroma natural de madera quemada Los aromas se elaboran a partir de madera quemada, logrando un perfil auténtico Lista para usar Ideal para dar toque final a:Hamburguesas (sabor como hechas a las brasas) Carnes Salmón marinado Verduras grilladas Mezcla especiada equilibrada,No es solo sal ahumada: incluye hierbas que potencian el sabor." 
@@ -66,7 +66,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 7, 
     title: "Sal Cebolla y Ajo", 
-    price: 3600, 
+    price: 4100, 
     category: "Sales Saborizadas", 
     img: "/img/salcebollayajo.png", 
     description: "Descubrí el sabor que no puede faltar en la cocina argentina. Nuestra Sal Especiada Cebolla y Ajo Argentinisima combina sal de calidad con cebolla y ajo deshidratados, logrando el equilibrio perfecto entre intensidad y aroma Ideal para realzar carnes, milanesas, papas al horno, verduras grilladas, pollo, pastas y, por supuesto, el infaltable asado. Una pizca es suficiente para transformar cualquier plato en una experiencia llena de sabor casero y tradición." 
@@ -74,7 +74,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 8, 
     title: "Sal Picante", 
-    price: 4500, 
+    price: 4100, 
     category: "Sales Saborizadas", 
     img: "/img/salpicante.png", 
     description: "DiferencialPicor suave y equilibradoPotencia el sabor sin taparlo Versátil: combina con casi cualquier comida Acompañamiento que no puede faltar “El toque picante ideal para pastas, pescados y mariscos" 
@@ -82,7 +82,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 9, 
     title: "Sal con Romero y Tomillo", 
-    price: 3600, 
+    price: 4100, 
     category: "Sales Saborizadas", 
     img: "/img/salconromeroytomillo.png", 
     description: "Mezcla de sal con hierbas aromáticas seleccionadas, que aporta un sabor intenso y equilibrado, inspirado en aromas mediterráneos Hierbas destacadas Romero Tomillo" 
@@ -93,86 +93,89 @@ export const PRODUCTOS_DEMO = [
     price: 4200, 
     category: "Esenciales", 
     img: "/img/polvoparahornear.png", 
-    description: "xxxxxxxxxxxxxxxxxxxxxxxxx." 
+    description: "Nuestro polvo de hornear artesanal está elaborado bajo procesos tradicionales, buscando el equilibrio perfecto entre pureza y rendimiento. A diferencia de las versiones comerciales masivas, prescindimos de conservantes artificiales y el exceso de aluminio, logrando una gasificación constante y uniforme que respeta el sabor original de tus preparaciones." 
   },
   { 
     id: 11, 
     title: "Pimentón", 
-    price: 4200, 
+    price: 2500, 
     category: "Esenciales", 
     img: "/img/pimenton.png", 
-    description: "xxxxxxxxxxxxxxxxxxxxxxxxx." 
+    description: "Nuestro pimentón artesanal nace de pimientos seleccionados en su punto óptimo de maduración. Secados lentamente y molidos en piedra, este proceso preserva los aceites esenciales y el aroma vibrante que se pierde en las moliendas industriales de alta fricción. Es el alma de los guisos, el toque final de las carnes y el secreto de un buen adobo.." 
   },
   { 
     id: 12, 
     title: "Perejil", 
-    price: 4200, 
+    price: 2500, 
     category: "Esenciales", 
     img: "/img/perejil.png", 
-    description: "xxxxxxxxxxxxxxxxxxxxxxxxx." 
+    description: "Perejil fresco y aromático, ideal para realzar salsas, guisos y marinados. Su sabor refrescante aporta un toque especial a cualquier preparación Es perejil 100% natural, cultivado sin químicos y secado lentamente a la sombra. Este proceso artesanal garantiza que conserve su color verde brillante y todo su aroma original, algo que el perejil industrial pierde al ser procesado con calor ."
   },
   { 
     id: 13, 
     title: "Mix de Especias", 
-    price: 4200, 
+    price: 2500, 
     category: "Esenciales", 
     img: "/img/mixdeespecias.png", 
-    description: "xxxxxxxxxxxxxxxxxxxxxxxxx." 
+    description: "Combinación exclusiva de especias seleccionadas para realzar cualquier preparación." 
   },
   { 
     id: 14, 
     title: "Adobo para Pizzas", 
-    price: 4200, 
+    price: 2500, 
     category: "Esenciales", 
     img: "/img/adoboparapizzas.png", 
-    description: "xxxxxxxxxxxxxxxxxxxxxxxxx." 
+    description: " Proporción justa de especias que potencia salsas y rellenos sin opacar otros sabores. Versatilidad: ideal para pizzas, pastas, guisos y marinados. Diferencial NOWIN: Selección de ingredientes de alta calidad, procesados para conservar su aroma y sabor, garantizando un resultado superior en cada uso." 
   },
   { 
     id: 15, 
     title: "Ajo granulado", 
-    price: 4200, 
+    price: 3000, 
     category: "Esenciales", 
     img: "/img/ajogranulado.png", 
-    description: "xxxxxxxxxxxxxxxxxxxxxxxxx." 
+    description: "Granulación equilibrada que permite mejor distribución y mayor rendimiento en carnes y adobos. Sabor intenso y duradero, ideal para realzar el sabor sin necesidad de usar ajo fresco. Versatilidad en la cocina: perfecto para salsas, marinados, guisos y preparaciones al horno. Diferencial NOWIN: Selección de granos de ajo de alta calidad, procesados para conservar su aroma y sabor, garantizando un resultado superior en cada uso." 
   },
   { 
     id: 16, 
     title: "Sal Mundial", 
-    price: 3600, 
+    price: 5000, 
     category: "Sales Saborizadas", 
     img: "/img/salmundial.png", 
-    description: "Mezcla de sal con hierbas aromáticas seleccionadas, que aporta un sabor intenso y equilibrado, inspirado en aromas mediterráneos Hierbas destacadas Romero Tomillo" 
+    description: "Mezcla de sal con hierbas aromáticas seleccionadas, que aporta un sabor intenso y equilibrado, inspirado en aromas mediterráneos Hierbas destacadas Romero Tomillllo"
   },
   { 
     id: 17, 
     title: "Canela", 
-    price: 4200, 
+    price: 2500, 
     category: "Esenciales", 
     img: "/img/canela.png", 
-    description: "xxxxxxxxxxxxxxxxxxxxxxxxx." 
+    description: "Alta intensidad aromática y frescura garantizada, lo que permite utilizar menor cantidad para lograr mayor sabor. Versatilidad en la cocina: ideal para preparaciones dulces como postres, infusiones y repostería, pero también para platos salados como guisos y curries. Diferencial NOWIN: Selección de canela de alta calidad, procesada para conservar su aroma y sabor, asegurando un resultado superior en cada uso." 
   },
   { 
     id: 18, 
     title: "Clavo de olor", 
-    price: 4200, 
+    price: 2500, 
     category: "Esenciales", 
     img: "/img/clavodeolor.png", 
-    description: "xxxxxxxxxxxxxxxxxxxxxxxxx." 
+    description: " El clavo de olor NOWIN es una especia de aroma intenso y sabor cálido, ideal para realzar tanto preparaciones dulces como saladas. Seleccionamos clavos enteros de excelente calidad, conservando su frescura y potencia natural. Perfecto para infusiones, guisos, postres y marinados, el clavo de olor NOWIN es el toque secreto que transforma tus recetas en experiencias inolvidables."
+
   },
   { 
     id: 19, 
     title: "Laurel", 
-    price: 4200, 
+    price: 2500, 
     category: "Esenciales", 
     img: "/img/laurel.png", 
-    description: "xxxxxxxxxxxxxxxxxxxxxxxxx." 
+    description: "  El laurel es una hierba aromática muy utilizada en la cocina por su sabor intenso y característico. Se emplea principalmente para condimentar guisos, sopas, carnes y salsas, aportando un aroma profundo que realza las preparaciones, Sus hojas se utilizan enteras durante la cocción para liberar su sabor de forma gradual, y se retiran antes de servir. Además, el laurel es valorado por sus propiedades digestivas y su aporte natural al equilibrio de los platos" 
+
   },
+
 
   // --- CATEGORÍA: NUESTRAS ESPECIAS ---
   { 
     id: 20, 
     title: "Ají Triturado", 
-    price: 1500, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/1aji.png", 
     description: "Ají triturado de gran sabor, ideal para darle un toque picante a tus pizzas, guisos y empanadas." 
@@ -180,7 +183,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 21, 
     title: "Ajo Granulado", 
-    price: 1800, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/2ajogranuladoo.png", 
     description: "Ajo deshidratado y granulado. Sabor intenso y práctico para condimentar carnes y salsas al instante." 
@@ -188,7 +191,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 22, 
     title: "Condimento para Arroz", 
-    price: 1200, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/3arrozcondimento.png", 
     description: "Mezcla equilibrada para resaltar el sabor y darle el color perfecto a tus arroces y paellas." 
@@ -196,7 +199,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 23, 
     title: "Canela Molida", 
-    price: 1900, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/3canela.png", 
     description: "Canela de aroma dulce y profundo. El condimento estrella para tu repostería e infusiones." 
@@ -204,7 +207,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 24, 
     title: "Cebolla Crispy", 
-    price: 2500, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/4cebollacrispy.png", 
     description: "Cebolla frita crocante. Perfecta para agregar textura y sabor a hamburguesas, panchos y ensaladas." 
@@ -212,7 +215,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 25, 
     title: "Cebolla en Polvo", 
-    price: 1600, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/5cebollaenpolvo.png", 
     description: "Todo el sabor de la cebolla en una textura fina, ideal para salsas, cremas y marinados." 
@@ -220,7 +223,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 26, 
     title: "Chimichurri", 
-    price: 1400, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/6chimi.png", 
     description: "Blend de hierbas tradicionales para preparar el mejor aderezo de tus asados y carnes a la parrilla." 
@@ -229,7 +232,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 28, 
     title: "Coriandro Molido", 
-    price: 1500, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/8coriandro.png", 
     description: "Semillas de cilantro molidas. Aporta notas cítricas y frescas a tus embutidos y guisos." 
@@ -237,7 +240,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 29, 
     title: "Cúrcuma", 
-    price: 1700, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/9curcumamolida.png", 
     description: "Color y salud en tus platos. Ideal para arroces, vegetales asados y recetas de la cocina oriental." 
@@ -245,7 +248,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 30, 
     title: "Laurel en Hojas", 
-    price: 1300, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/10laurelenhojas.png", 
     description: "Hojas de laurel secas de alta calidad. El aroma fundamental para tucos, sopas y estofados." 
@@ -253,7 +256,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 31, 
     title: "Orégano", 
-    price: 1400, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/10oreganoo.png", 
     description: "Hojas seleccionadas de aroma intenso. El compañero inseparable de la pizza y las salsas rojas." 
@@ -262,7 +265,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 33, 
     title: "Perejil Selección", 
-    price: 1200, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/12perejill.png", 
     description: "Variedad de perejil deshidratado ideal para realzar el sabor final de tus platos favoritos." 
@@ -270,7 +273,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 34, 
     title: "Romero", 
-    price: 1600, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/13romero.png", 
     description: "Hierba aromática de sabor boscoso. La pareja perfecta para papas al horno, pollo y carnes rojas." 
@@ -278,7 +281,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 35, 
     title: "Provenzal", 
-    price: 1400, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/14provenzal.png", 
     description: "El equilibrio exacto entre ajo y perejil. Un clásico para milanesas, papas fritas y revueltos." 
@@ -286,7 +289,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 36, 
     title: "Condimento para Pizza", 
-    price: 1300, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/15pizza.png", 
     description: "Mezcla artesanal de especias diseñada para darle el auténtico sabor de pizzería a tus masas." 
@@ -294,7 +297,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 37, 
     title: "Pimentón Selección", 
-    price: 1500, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/16pimentonn.png", 
     description: "Pimentón de color intenso y sabor dulce, ideal para empanadas, tucos y platos regionales." 
@@ -302,7 +305,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 38, 
     title: "Pimentón Ahumado", 
-    price: 1800, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/17pimentonn.png", 
     description: "Aporta un toque ahumado sofisticado y un color profundo a guisos, carnes y salsas." 
@@ -310,7 +313,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 39, 
     title: "Tomillo", 
-    price: 1600, 
+    price: 0, 
     category: "Nuestras Especias", 
     img: "/img/18tomillo.png", 
     description: "Hierba delicada y muy aromática. Excelente para marinar aves, pescados y aromatizar aceites." 
@@ -320,7 +323,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 40, 
     title: "Adobo para Pizza (1 Kg)", 
-    price: 8500, 
+    price: 0, 
     category: "Mayoristas", 
     img: "/img/1kilo/adobodepizza.png", 
     description: "El clásico adobo pimentero ideal para pizzas y salsas, en formato económico de 1 kilo." 
@@ -328,7 +331,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 41, 
     title: "Ajo Granulado (1 Kg)", 
-    price: 12000, 
+    price: 0, 
     category: "Mayoristas", 
     img: "/img/1kilo/ajogranulado.png", 
     description: "Ajo deshidratado granulado de alta pureza. Excelente rendimiento para cocinas profesionales." 
@@ -336,7 +339,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 42, 
     title: "Canela (1 Kg)", 
-    price: 14500, 
+    price: 0, 
     category: "Mayoristas", 
     img: "/img/1kilo/canela.png", 
     description: "Canela molida de aroma intenso y dulzor natural. Ideal para repostería y cafetería." 
@@ -344,7 +347,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 43, 
     title: "Chimichurri (1 Kg)", 
-    price: 9000, 
+    price: 2500, 
     category: "Mayoristas", 
     img: "/img/1kilo/chimichurri.png", 
     description: "La mezcla tradicional argentina para carnes y asados. Listo para hidratar y usar." 
@@ -352,7 +355,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 44, 
     title: "Coco Rallado (1 Kg)", 
-    price: 11000, 
+    price: 0, 
     category: "Mayoristas", 
     img: "/img/1kilo/cocorayado.png", 
     description: "Coco rallado de alta calidad, blanco y aromático. Perfecto para postres y alfajores." 
@@ -360,7 +363,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 45, 
     title: "Mix de Especias (1 Kg)", 
-    price: 9500, 
+    price: 0, 
     category: "Mayoristas", 
     img: "/img/1kilo/mixexpecias.png", 
     description: "Combinación exclusiva de especias seleccionadas para realzar cualquier preparación." 
@@ -368,7 +371,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 46, 
     title: "Orégano (1 Kg)", 
-    price: 8000, 
+    price: 0, 
     category: "Mayoristas", 
     img: "/img/1kilo/oregano.png", 
     description: "Hojas de orégano seleccionadas. Sabor y aroma inconfundibles en gran formato." 
@@ -376,9 +379,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 47, 
     title: "Pimentón (1 Kg)", 
-
-
-    price: 10500, 
+    price: 0, 
     category: "Mayoristas", 
     img: "/img/1kilo/pimenton.png", 
     description: "Pimentón dulce de color rojo intenso. Aporta sabor y color vibrante a tus comidas." 
@@ -386,7 +387,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 48, 
     title: "Polvo de Hornear (1 Kg)", 
-    price: 7500, 
+    price: 0, 
     category: "Mayoristas", 
     img: "/img/1kilo/polvoparahornear.png", 
     description: "Leudante químico de acción justa para masas, tortas y bizcochuelos perfectos." 
@@ -394,13 +395,40 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 49, 
     title: "Provenzal (1 Kg)", 
-    price: 9800, 
+    price: 0, 
     category: "Mayoristas", 
     img: "/img/1kilo/provensal.png", 
     description: "Clásica mezcla de ajo y perejil deshidratados. Práctica y llena de sabor." 
-  }
-];
+  },
 
+  { 
+    id: 50, 
+    title: "Chimichurri", 
+    price: 2500, 
+    category: "Esenciales", 
+    img: "/img/chimichurri2.png", 
+    description: " Descubrí el equilibrio perfecto entre tradición y frescura. Nuestro preparado de especias está diseñado para quienes buscan el sabor auténtico del campo en su mesa. Solo necesitás hidratarlo con aceite y vinagre para obtener una salsa con cuerpo, aroma intenso y el picor justoo que caracteriza al verdadero chimichurri argentino. Ideal para acompañar tus asados, carnes a la parrilla, milanesas o incluso como aderezo para verduras grilladas. Con nuestro chimichurri, cada bocado se convierte en una experiencia llena de sabor y tradición." 
+  },
+
+    { 
+    id: 51, 
+    title: "Coco Rallado", 
+    price: 2500, 
+    category: "Esenciales", 
+    img: "/img/cocorayado2.png", 
+    description: "Nuestro Coco Rallado se destaca por su textura ligera y su aroma intenso y natural. Es el ingrediente esencial para quienes buscan calidad profesional en su cocina, aportando ese sabor dulce y exótico característico del fruto recién procesado. Ideal para la elaboración de postres, alfajores, tortas y cualquier preparación que requiera un toque de coco auténtico. Con nuestro Coco Rallado, cada receta se transforma en una experiencia culinaria llena de sabor y aroma tropical."
+  },
+    { 
+    id: 52, 
+    title: "PROVENZAL", 
+    price: 2500, 
+    category: "Esenciales", 
+    img: "/img/provenzal2.png", 
+    description: "Nuestra mezcla Provenzal es la combinación perfecta de ajo deshidratado y perejil seleccionado. Logramos el equilibrio justo para que tus comidas tengan ese toque casero y aromático en segundos, sin necesidad de picar vegetales frescos cada vez. Ideal para milanesas, revueltos y cualquier plato que quieras realzar con un sabor tradicional y delicioso. Con nuestra Provenzal, cada preparación se convierte en una experiencia llena de sabor y aroma casero, ¡el secreto para darle vida a tus recetas favoritas!" 
+
+  },
+
+];
 
 
 const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
@@ -544,8 +572,11 @@ const About = () => (
         <h1>Sobre Nowin</h1>
         <div className="about-text-body">
           <p>
-NOWIN es una empresa argentina que trabaja de manera federal, integrando y potenciando los mejores sabores de cada región del país. Nacimos con la idea de acercar condimentos y sales de calidad, respetando la identidad, el aroma y la tradición que hacen única a la cocina argentina.
-Seleccionamos cuidadosamente nuestras especias, mezclas y sales, buscando equilibrio entre sabor, frescura y practicidad. En NOWIN creemos en el emprendimiento nacional, en el crecimiento sostenido y en el trabajo ordenado. Apostamos a una producción responsable, a relaciones comerciales duraderas y a una mejora continua que nos permita llevar a cada mesa un producto confiable y auténtico.bastecemos supermercados, carnicerías y comercios gastronómicos, ofreciendo productos pensados tanto para el uso diario como para el profesional.
+NOWIN es una empresa argentina con base en Posadas, Misiones, que trabaja de manera federal, integrando y potenciando los mejores sabores de cada región del país.
+Nacimos con la idea de acercar condimentos y sales condimentadas de calidad, respetando la identidad, el aroma y la tradición que hacen única a la cocina argentina. Seleccionamos cuidadosamente cada especia, mezcla y sal, logrando un equilibrio entre sabor, frescura y practicidad.
+En NOWIN creemos,en el crecimiento sostenido y en el trabajo ordenado como base de un proyecto sólido. Nos inspira un enfoque donde el desarrollo no se basa solo en vender más, sino en construir una estructura firme, eficiente y preparada para crecer en el tiempo.
+Apostamos a una producción responsable, a relaciones comerciales duraderas y a la mejora continua, con el objetivo de ofrecer productos confiables y auténticos en cada etapa.
+Abastecemos supermercados, carnicerías y comercios gastronómicos, desarrollando soluciones pensadas tanto para el uso diario como para el ámbito profesional.
           </p>
           <p className="highlight-text">
             NOWIN es sabor, identidad y compromiso con lo nuestro.
