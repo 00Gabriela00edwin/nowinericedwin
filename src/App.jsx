@@ -429,7 +429,7 @@ export const PRODUCTOS_DEMO = [
   },
 
 ];
-s
+
 
 const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
   const heroImages = [ "/img/carru4.jpg", "/img/carru5.jpg"];
