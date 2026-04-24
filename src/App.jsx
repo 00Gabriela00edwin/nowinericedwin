@@ -175,7 +175,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 20, 
     title: "Ají Triturado", 
-    price: 0, 
+    price: 10100, 
     category: "Nuestras Especias", 
     img: "/img/1aji.png", 
     description: "Ají triturado de gran sabor, ideal para darle un toque picante a tus pizzas, guisos y empanadas." 
@@ -183,7 +183,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 21, 
     title: "Ajo Granulado", 
-    price: 0, 
+    price: 14000, 
     category: "Nuestras Especias", 
     img: "/img/2ajogranuladoo.png", 
     description: "Ajo deshidratado y granulado. Sabor intenso y práctico para condimentar carnes y salsas al instante." 
@@ -191,7 +191,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 22, 
     title: "Condimento para Arroz", 
-    price: 0, 
+    price: 7200, 
     category: "Nuestras Especias", 
     img: "/img/3arrozcondimento.png", 
     description: "Mezcla equilibrada para resaltar el sabor y darle el color perfecto a tus arroces y paellas." 
@@ -199,7 +199,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 23, 
     title: "Canela Molida", 
-    price: 0, 
+    price: 9200, 
     category: "Nuestras Especias", 
     img: "/img/3canela.png", 
     description: "Canela de aroma dulce y profundo. El condimento estrella para tu repostería e infusiones." 
@@ -207,7 +207,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 24, 
     title: "Cebolla Crispy", 
-    price: 0, 
+    price: 6300, 
     category: "Nuestras Especias", 
     img: "/img/4cebollacrispy.png", 
     description: "Cebolla frita crocante. Perfecta para agregar textura y sabor a hamburguesas, panchos y ensaladas." 
@@ -215,7 +215,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 25, 
     title: "Cebolla en Polvo", 
-    price: 0, 
+    price: 8700, 
     category: "Nuestras Especias", 
     img: "/img/5cebollaenpolvo.png", 
     description: "Todo el sabor de la cebolla en una textura fina, ideal para salsas, cremas y marinados." 
@@ -223,7 +223,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 26, 
     title: "Chimichurri", 
-    price: 0, 
+    price: 6800, 
     category: "Nuestras Especias", 
     img: "/img/6chimi.png", 
     description: "Blend de hierbas tradicionales para preparar el mejor aderezo de tus asados y carnes a la parrilla." 
@@ -232,7 +232,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 28, 
     title: "Coriandro Molido", 
-    price: 0, 
+    price: 5600, 
     category: "Nuestras Especias", 
     img: "/img/8coriandro.png", 
     description: "Semillas de cilantro molidas. Aporta notas cítricas y frescas a tus embutidos y guisos." 
@@ -240,7 +240,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 29, 
     title: "Cúrcuma", 
-    price: 0, 
+    price: 9000, 
     category: "Nuestras Especias", 
     img: "/img/9curcumamolida.png", 
     description: "Color y salud en tus platos. Ideal para arroces, vegetales asados y recetas de la cocina oriental." 
@@ -248,7 +248,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 30, 
     title: "Laurel en Hojas", 
-    price: 0, 
+    price: 9200, 
     category: "Nuestras Especias", 
     img: "/img/10laurelenhojas.png", 
     description: "Hojas de laurel secas de alta calidad. El aroma fundamental para tucos, sopas y estofados." 
@@ -256,7 +256,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 31, 
     title: "Orégano", 
-    price: 0, 
+    price: 8500, 
     category: "Nuestras Especias", 
     img: "/img/10oreganoo.png", 
     description: "Hojas seleccionadas de aroma intenso. El compañero inseparable de la pizza y las salsas rojas." 
@@ -265,7 +265,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 33, 
     title: "Perejil Selección", 
-    price: 0, 
+    price: 9500, 
     category: "Nuestras Especias", 
     img: "/img/12perejill.png", 
     description: "Variedad de perejil deshidratado ideal para realzar el sabor final de tus platos favoritos." 
@@ -273,7 +273,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 34, 
     title: "Romero", 
-    price: 0, 
+    price: 8100, 
     category: "Nuestras Especias", 
     img: "/img/13romero.png", 
     description: "Hierba aromática de sabor boscoso. La pareja perfecta para papas al horno, pollo y carnes rojas." 
@@ -281,7 +281,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 35, 
     title: "Provenzal", 
-    price: 0, 
+    price: 8500, 
     category: "Nuestras Especias", 
     img: "/img/14provenzal.png", 
     description: "El equilibrio exacto entre ajo y perejil. Un clásico para milanesas, papas fritas y revueltos." 
@@ -289,7 +289,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 36, 
     title: "Condimento para Pizza", 
-    price: 0, 
+    price: 7200, 
     category: "Nuestras Especias", 
     img: "/img/15pizza.png", 
     description: "Mezcla artesanal de especias diseñada para darle el auténtico sabor de pizzería a tus masas." 
@@ -297,7 +297,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 37, 
     title: "Pimentón Selección", 
-    price: 0, 
+    price: 9200, 
     category: "Nuestras Especias", 
     img: "/img/16pimentonn.png", 
     description: "Pimentón de color intenso y sabor dulce, ideal para empanadas, tucos y platos regionales." 
@@ -305,7 +305,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 38, 
     title: "Pimentón Ahumado", 
-    price: 0, 
+    price: 9500, 
     category: "Nuestras Especias", 
     img: "/img/17pimentonn.png", 
     description: "Aporta un toque ahumado sofisticado y un color profundo a guisos, carnes y salsas." 
@@ -313,7 +313,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 39, 
     title: "Tomillo", 
-    price: 0, 
+    price: 8600, 
     category: "Nuestras Especias", 
     img: "/img/18tomillo.png", 
     description: "Hierba delicada y muy aromática. Excelente para marinar aves, pescados y aromatizar aceites." 
@@ -323,7 +323,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 40, 
     title: "Adobo para Pizza (1 Kg)", 
-    price: 0, 
+    price: 6800, 
     category: "Mayoristas", 
     img: "/img/1kilo/adobodepizza.png", 
     description: "El clásico adobo pimentero ideal para pizzas y salsas, en formato económico de 1 kilo." 
@@ -331,7 +331,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 41, 
     title: "Ajo Granulado (1 Kg)", 
-    price: 0, 
+    price: 14200, 
     category: "Mayoristas", 
     img: "/img/1kilo/ajogranulado.png", 
     description: "Ajo deshidratado granulado de alta pureza. Excelente rendimiento para cocinas profesionales." 
@@ -339,7 +339,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 42, 
     title: "Canela (1 Kg)", 
-    price: 0, 
+    price: 9200, 
     category: "Mayoristas", 
     img: "/img/1kilo/canela.png", 
     description: "Canela molida de aroma intenso y dulzor natural. Ideal para repostería y cafetería." 
@@ -347,7 +347,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 43, 
     title: "Chimichurri (1 Kg)", 
-    price: 2500, 
+    price: 6800, 
     category: "Mayoristas", 
     img: "/img/1kilo/chimichurri.png", 
     description: "La mezcla tradicional argentina para carnes y asados. Listo para hidratar y usar." 
@@ -355,7 +355,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 44, 
     title: "Coco Rallado (1 Kg)", 
-    price: 0, 
+    price: 14200, 
     category: "Mayoristas", 
     img: "/img/1kilo/cocorayado.png", 
     description: "Coco rallado de alta calidad, blanco y aromático. Perfecto para postres y alfajores." 
@@ -363,7 +363,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 45, 
     title: "Mix de Especias (1 Kg)", 
-    price: 0, 
+    price: 7300, 
     category: "Mayoristas", 
     img: "/img/1kilo/mixexpecias.png", 
     description: "Combinación exclusiva de especias seleccionadas para realzar cualquier preparación." 
@@ -371,7 +371,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 46, 
     title: "Orégano (1 Kg)", 
-    price: 0, 
+    price: 8500, 
     category: "Mayoristas", 
     img: "/img/1kilo/oregano.png", 
     description: "Hojas de orégano seleccionadas. Sabor y aroma inconfundibles en gran formato." 
@@ -379,7 +379,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 47, 
     title: "Pimentón (1 Kg)", 
-    price: 0, 
+    price: 9200, 
     category: "Mayoristas", 
     img: "/img/1kilo/pimenton.png", 
     description: "Pimentón dulce de color rojo intenso. Aporta sabor y color vibrante a tus comidas." 
@@ -387,7 +387,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 48, 
     title: "Polvo de Hornear (1 Kg)", 
-    price: 0, 
+    price: 6000, 
     category: "Mayoristas", 
     img: "/img/1kilo/polvoparahornear.png", 
     description: "Leudante químico de acción justa para masas, tortas y bizcochuelos perfectos." 
@@ -395,7 +395,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 49, 
     title: "Provenzal (1 Kg)", 
-    price: 0, 
+    price: 8500, 
     category: "Mayoristas", 
     img: "/img/1kilo/provensal.png", 
     description: "Clásica mezcla de ajo y perejil deshidratados. Práctica y llena de sabor." 
