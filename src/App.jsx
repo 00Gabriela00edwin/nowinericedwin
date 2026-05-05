@@ -19,7 +19,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 1, 
     title: "Sal con Ajo", 
-    price: 4100, 
+    price: 3000, 
     category: "Sales Saborizadas", 
     img: "/img/salconajo.png", 
     description: "Es el resultado de mezclar de ajo seco molido y sal de mesa Es el sustituto del ajo fresco en el caso de la sal de ajo Nowin es el aderezo final en carnes pescados y mariscos a plancha o incluso utilizarlo en seco de la misma manera que utilizaríamos la sal Usos sugeridos : Carnes, Pescados ,Mariscos a la plancha Como reemplazo del ajo fresco Uso en seco como sal común." 
@@ -27,7 +27,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 2, 
     title: "Pimienta Molida", 
-    price: 2500, 
+    price: 1800, 
     category: "Esenciales", 
     img: "/img/pimientamolida.png", 
     description: "Disponible molida o en grano.Aroma penetrante.Picor equilibrado.Tamaño homogéneo (en grano).Diferencial NOWIN:Selección de calidad que asegura potencia constante en cada uso." 
@@ -35,7 +35,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 3, 
     title: "Condimento Arroz", 
-    price: 2100, 
+    price: 1800, 
     category: "Esenciales", 
     img: "/img/condimentoarroz.png", 
     description: "Mezcla equilibrada de especias.Color atractivo y natural.Aroma suave y armonioso.Distribución homogénea de ingredientes.Diferencial NOWIN:Fórmula pensada para transformar un arroz común en una preparación especial con solo una pizca." 
@@ -43,7 +43,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 4, 
     title: "Sal de Campo", 
-    price: 4100, 
+    price: 3000, 
     category: "Sales Saborizadas", 
     img: "/img/saldecampo.png", 
     description: "Mezcla artesanal de sal entrefina con especias seleccionadas, inspirada en la tradición del campo argentino Ingredientes destacados:Ají molido,Orégano,Comino,Sal entrefina" 
@@ -51,7 +51,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 5, 
     title: "Orégano", 
-    price: 2500, 
+    price: 1800, 
     category: "Esenciales", 
     img: "/img/oregano.png", 
     description: "Hojas secas seleccionadas.Corte uniforme y baja presencia de tallos.Aroma herbal intenso.Color verde natural (indicador de frescura).Diferencial NOWIN:Mayor potencia aromática y mejor rendimiento por uso Selección cuidada para garantizar sabor auténtico en cada plato" 
@@ -59,7 +59,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 6, 
     title: "Sal Ahumada", 
-    price: 4100, 
+    price: 3000, 
     category: "Sales Saborizadas", 
     img: "/img/salahumada.png", 
     description: "Sabor ahumado sin fuego Permite lograr efecto “a la parrilla” sin necesidad de brasas ni humo real.Aroma natural de madera quemada Los aromas se elaboran a partir de madera quemada, logrando un perfil auténtico Lista para usar Ideal para dar toque final a:Hamburguesas (sabor como hechas a las brasas) Carnes Salmón marinado Verduras grilladas Mezcla especiada equilibrada,No es solo sal ahumada: incluye hierbas que potencian el sabor." 
@@ -67,7 +67,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 7, 
     title: "Sal Cebolla y Ajo", 
-    price: 4100, 
+    price: 3000, 
     category: "Sales Saborizadas", 
     img: "/img/salcebollayajo.png", 
     description: "Descubrí el sabor que no puede faltar en la cocina argentina. Nuestra Sal Especiada Cebolla y Ajo Argentinisima combina sal de calidad con cebolla y ajo deshidratados, logrando el equilibrio perfecto entre intensidad y aroma Ideal para realzar carnes, milanesas, papas al horno, verduras grilladas, pollo, pastas y, por supuesto, el infaltable asado. Una pizca es suficiente para transformar cualquier plato en una experiencia llena de sabor casero y tradición." 
@@ -75,7 +75,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 8, 
     title: "Sal Picante", 
-    price: 4100, 
+    price: 3000, 
     category: "Sales Saborizadas", 
     img: "/img/salpicante.png", 
     description: "DiferencialPicor suave y equilibradoPotencia el sabor sin taparlo Versátil: combina con casi cualquier comida Acompañamiento que no puede faltar “El toque picante ideal para pastas, pescados y mariscos" 
@@ -83,7 +83,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 9, 
     title: "Sal con Romero y Tomillo", 
-    price: 4100, 
+    price: 3000, 
     category: "Sales Saborizadas", 
     img: "/img/salconromeroytomillo.png", 
     description: "Mezcla de sal con hierbas aromáticas seleccionadas, que aporta un sabor intenso y equilibrado, inspirado en aromas mediterráneos Hierbas destacadas Romero Tomillo" 
@@ -91,7 +91,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 10, 
     title: "Polvo para hornear", 
-    price: 4200, 
+    price: 1800, 
     category: "Esenciales", 
     img: "/img/polvoparahornear.png", 
     description: "Nuestro polvo de hornear artesanal está elaborado bajo procesos tradicionales, buscando el equilibrio perfecto entre pureza y rendimiento. A diferencia de las versiones comerciales masivas, prescindimos de conservantes artificiales y el exceso de aluminio, logrando una gasificación constante y uniforme que respeta el sabor original de tus preparaciones." 
@@ -99,7 +99,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 11, 
     title: "Pimentón", 
-    price: 2500, 
+    price: 1800, 
     category: "Esenciales", 
     img: "/img/pimenton.png", 
     description: "Nuestro pimentón artesanal nace de pimientos seleccionados en su punto óptimo de maduración. Secados lentamente y molidos en piedra, este proceso preserva los aceites esenciales y el aroma vibrante que se pierde en las moliendas industriales de alta fricción. Es el alma de los guisos, el toque final de las carnes y el secreto de un buen adobo.." 
@@ -107,7 +107,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 12, 
     title: "Perejil", 
-    price: 2500, 
+    price: 1800, 
     category: "Esenciales", 
     img: "/img/perejil.png", 
     description: "Perejil fresco y aromático, ideal para realzar salsas, guisos y marinados. Su sabor refrescante aporta un toque especial a cualquier preparación Es perejil 100% natural, cultivado sin químicos y secado lentamente a la sombra. Este proceso artesanal garantiza que conserve su color verde brillante y todo su aroma original, algo que el perejil industrial pierde al ser procesado con calor ."
@@ -115,7 +115,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 13, 
     title: "Mix de Especias", 
-    price: 2500, 
+    price: 1800, 
     category: "Esenciales", 
     img: "/img/mixdeespecias.png", 
     description: "Combinación exclusiva de especias seleccionadas para realzar cualquier preparación." 
@@ -123,7 +123,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 14, 
     title: "Adobo para Pizzas", 
-    price: 2500, 
+    price: 1800, 
     category: "Esenciales", 
     img: "/img/adoboparapizzas.png", 
     description: " Proporción justa de especias que potencia salsas y rellenos sin opacar otros sabores. Versatilidad: ideal para pizzas, pastas, guisos y marinados. Diferencial NOWIN: Selección de ingredientes de alta calidad, procesados para conservar su aroma y sabor, garantizando un resultado superior en cada uso." 
@@ -131,7 +131,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 15, 
     title: "Ajo granulado", 
-    price: 3000, 
+    price: 2000, 
     category: "Esenciales", 
     img: "/img/ajogranulado.png", 
     description: "Granulación equilibrada que permite mejor distribución y mayor rendimiento en carnes y adobos. Sabor intenso y duradero, ideal para realzar el sabor sin necesidad de usar ajo fresco. Versatilidad en la cocina: perfecto para salsas, marinados, guisos y preparaciones al horno. Diferencial NOWIN: Selección de granos de ajo de alta calidad, procesados para conservar su aroma y sabor, garantizando un resultado superior en cada uso." 
@@ -139,7 +139,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 16, 
     title: "Sal Mundial", 
-    price: 5000, 
+    price: 4500, 
     category: "Sales Saborizadas", 
     img: "/img/salmundial.png", 
     description: "Mezcla de sal con hierbas aromáticas seleccionadas, que aporta un sabor intenso y equilibrado, inspirado en aromas mediterráneos Hierbas destacadas Romero Tomillllo"
@@ -147,7 +147,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 17, 
     title: "Canela", 
-    price: 2500, 
+    price: 1800, 
     category: "Esenciales", 
     img: "/img/canela.png", 
     description: "Alta intensidad aromática y frescura garantizada, lo que permite utilizar menor cantidad para lograr mayor sabor. Versatilidad en la cocina: ideal para preparaciones dulces como postres, infusiones y repostería, pero también para platos salados como guisos y curries. Diferencial NOWIN: Selección de canela de alta calidad, procesada para conservar su aroma y sabor, asegurando un resultado superior en cada uso." 
@@ -155,7 +155,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 18, 
     title: "Clavo de olor", 
-    price: 2500, 
+    price: 1800, 
     category: "Esenciales", 
     img: "/img/clavodeolor.png", 
     description: " El clavo de olor NOWIN es una especia de aroma intenso y sabor cálido, ideal para realzar tanto preparaciones dulces como saladas. Seleccionamos clavos enteros de excelente calidad, conservando su frescura y potencia natural. Perfecto para infusiones, guisos, postres y marinados, el clavo de olor NOWIN es el toque secreto que transforma tus recetas en experiencias inolvidables."
@@ -164,7 +164,7 @@ export const PRODUCTOS_DEMO = [
   { 
     id: 19, 
     title: "Laurel", 
-    price: 2500, 
+    price: 1800, 
     category: "Esenciales", 
     img: "/img/laurel.png", 
     description: "  El laurel es una hierba aromática muy utilizada en la cocina por su sabor intenso y característico. Se emplea principalmente para condimentar guisos, sopas, carnes y salsas, aportando un aroma profundo que realza las preparaciones, Sus hojas se utilizan enteras durante la cocción para liberar su sabor de forma gradual, y se retiran antes de servir. Además, el laurel es valorado por sus propiedades digestivas y su aporte natural al equilibrio de los platos" 
