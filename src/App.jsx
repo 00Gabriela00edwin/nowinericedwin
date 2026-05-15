@@ -633,12 +633,15 @@ const Footer = () => (
     <h3 className="footer-titulo">CONTACTO</h3>
     
     <div className="social-icons">
-      <a href="https://instagram.com" className="social-link">
-        <Instagram size={28} />
-      </a>
-      <a href="https://facebook.com" className="social-link">
-        <Facebook size={28} />
-      </a>
+     <a 
+  href="https://www.instagram.com/nowin_especias?igsh=MWFxcTVxdmJ4ZWMyOA==" 
+  target="_blank" 
+  rel="noopener noreferrer" 
+  className="social-link"
+>
+  <Instagram size={28} />
+</a>
+     
       <a href="https://wa.me/5493764141598" target="_blank" rel="noopener noreferrer" className="social-link whatsapp">
         {/* Tu SVG original intacto */}
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="#25D366">
