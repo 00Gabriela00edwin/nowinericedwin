@@ -1,0 +1,115 @@
+/* --- BANNER SAL MARINA FULL WIDTH --- */
+
+.marina-banner {
+  background: linear-gradient(135deg, #061b26 0%, #10374a 100%);
+  padding: 80px 20px;
+  
+  /* Truco para ocupar el 100% de la pantalla de borde a borde */
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  border-radius: 0; 
+  max-width: none; 
+  
+  border-top: 2px solid #FFC400;
+  border-bottom: 2px solid #FFC400;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Brillo marino de fondo */
+.marina-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.marina-wrapper {
+  display: flex;
+  flex-direction: column; /* Apila todo de arriba hacia abajo */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 15px;
+  position: relative;
+  z-index: 2;
+}
+
+.marina-info {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.badge-marina {
+  display: inline-block;
+  background-color: transparent;
+  color: #7ce3ff;
+  border: 1px solid #7ce3ff;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.marina-titulo {
+  font-size: 4rem;
+  color: #ffffff;
+  font-weight: 900;
+  margin: 0 0 15px 0;
+  letter-spacing: 2px;
+}
+
+.marina-desc {
+  font-size: 1.2rem;
+  color: #b0cddb;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+/* EL PRODUCTO GIGANTE */
+.img-marina-flotante {
+  width: 450px; /* Tamaño mucho más grande */
+  max-width: 90vw;
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.7));
+  animation: floteMarino 4s ease-in-out infinite;
+  margin: 20px 0 40px 0; /* Separación con el texto y el botón */
+}
+
+@keyframes floteMarino {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.btn-marina {
+  background: #FFC400;
+  color: #000;
+  border: none;
+  padding: 15px 45px;
+  font-size: 1.1rem;
+  font-weight: 900;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(255, 196, 0, 0.3);
+  letter-spacing: 1px;
+}
+
+.btn-marina:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(255, 196, 0, 0.5);
+}
+
+/* Ajustes para celulares */
+@media (max-width: 768px) {
+  .marina-titulo { font-size: 2.8rem; }
+  .img-marina-flotante { width: 300px; margin: 10px 0 20px 0; }
+  .marina-banner { padding: 50px 20px; }
+}

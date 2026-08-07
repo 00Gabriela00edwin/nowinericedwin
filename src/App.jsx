@@ -9,7 +9,7 @@ import Navbar from './Navbar';
 import CheckoutForm from './CheckoutForm'; 
 import CardCondimento from './CardCondimento'; 
 import './App.css';
-import MundialCountdown from './MundialCountdown';
+import BannerMarina from './BannerMarina';
 
 
 
@@ -438,28 +438,6 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
   
   const [categoriaActiva, setCategoriaActiva] = useState(null);
 
-const [countdown, setCountdown] = useState({ d: 0, h: 0, m: 0, s: 0 });
-  
-  useEffect(() => {
-    const meta = new Date("2026-06-10T00:00:00").getTime(); 
-    const x = setInterval(() => {
-      const ahora = new Date().getTime();
-      const resto = meta - ahora;
-      if (resto < 0) {
-        clearInterval(x);
-      } else {
-        setCountdown({
-          d: Math.floor(resto / (1000 * 60 * 60 * 24)),
-          h: Math.floor((resto % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          m: Math.floor((resto % (1000 * 60 * 60)) / (1000 * 60)),
-          s: Math.floor((resto % (1000 * 60)) / 1000)
-        });
-      }
-    }, 1000);
-    return () => clearInterval(x);
-  }, []);
-
-
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentImage((prev) => (prev + 1) % heroImages.length), 4000);
@@ -496,7 +474,10 @@ const [countdown, setCountdown] = useState({ d: 0, h: 0, m: 0, s: 0 });
           <h1>SABOR QUE <br /><span style={{color: '#FFC400'}}>TRANSFORMA</span></h1>
         </div>
       </header>
-      <MundialCountdown />
+
+      
+      <BannerMarina />
+    
       
       <section className="container" style={{ padding: '0px 20px', minHeight: '50vh' }}>
         
