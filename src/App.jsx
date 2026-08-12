@@ -432,6 +432,8 @@ export const PRODUCTOS_DEMO = [
 ];
 
 
+
+
 const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
   const heroImages = [ "/img/carru4.jpg", "/img/carru5.jpg"];
   const [currentImage, setCurrentImage] = useState(0);
@@ -460,6 +462,9 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
 
 
   ];
+
+
+
 
   return (
     <>
@@ -641,14 +646,14 @@ const Footer = () => (
 
 function App() {
   const [cart, setCart] = useState([]);
-  const [productos, setProductos] = useState(PRODUCTOS_DEMO);
+  const [productos, setProductos] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [mostrarCheckout, setMostrarCheckout] = useState(false);
 
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "condimentos"));
+        const querySnapshot = await getDocs(collection(db, "productos"));
         if (!querySnapshot.empty) {
           const docs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
           setProductos(docs);
@@ -668,19 +673,33 @@ function App() {
   const decreaseQuantity = (id) => setCart(prev => prev.map(item => item.id === id ? { ...item, quantity: Math.max(1, item.quantity - 1) } : item));
   const removeFromCart = (id) => setCart(prev => prev.filter(item => item.id !== id));
 
-  const procesarCompra = async (datosUsuario) => {
+const procesarCompra = async (datosUsuario) => {
     const totalPrecio = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    
     try {
-      await addDoc(collection(db, "ordenes"), { comprador: datosUsuario, items: cart, total: totalPrecio, fecha: new Date() });
-    } catch (e) { console.error("Error", e); }
+      // Guardamos la orden silenciosamente antes de abrir WhatsApp
+      await addDoc(collection(db, "ventas"), { 
+        comprador: datosUsuario, 
+        items: cart, 
+        total: totalPrecio, 
+        fecha: new Date(),
+        estado: "pendiente" // <-- ¡Aquí está la etiqueta clave!
+      });
+    } catch (e) { 
+      console.error("Error al guardar la venta:", e); 
+    }
 
-    let mensaje = `Hola Nowin! 👋 Pedido:\n\n`;
-    cart.forEach(item => { mensaje += `▪️ ${item.title} x ${item.quantity}\n`; });
+    // Armamos el mensaje para WhatsApp (tu formato se mantiene intacto)
+    let mensaje = `Hola Nowin! 🙋 Pedido:\n\n`;
+    cart.forEach(item => { mensaje += `▫️ ${item.title} x ${item.quantity}\n`; });
     mensaje += `\n💰 Total: $${totalPrecio.toLocaleString()}\nCliente: ${datosUsuario.nombre}`;
+    
+    // Abrimos el chat y vaciamos el carrito
     window.open(`https://wa.me/5493764141598?text=${encodeURIComponent(mensaje)}`, '_blank');
-    setCart([]); setMostrarCheckout(false);
+    setCart([]);
+    setMostrarCheckout(false);
   };
-
+  
   return (
     <Router>
       <div className="app-container">
