@@ -34,9 +34,9 @@ const CardCondimento = ({ producto, alAgregar }) => {
           </Link>
         </div>
         <div>
-          <div className="card-price">${producto.price.toLocaleString()}</div>
+          <div className="card-price">${producto.price.toLocaleString('es-AR')}</div>
           <button className="btn-agregar" onClick={() => alAgregar(producto)} aria-label={`Agregar ${producto.title} al carrito`}>
-            <Plus size={18} /> AGREGAR AL PEDIDO
+            <Plus size={18} aria-hidden="true" /> Agregar
           </button>
         </div>
       </div>

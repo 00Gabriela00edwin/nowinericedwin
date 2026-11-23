@@ -4,7 +4,7 @@ import ProductoDetalle from './ProductoDetalle';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { db } from './firebase'; 
 import { collection, getDocs, addDoc } from 'firebase/firestore'; 
-import { Search, Plus, Minus, Trash2, ShoppingBag, Instagram, Truck, MapPin, MessageCircle, ArrowDown } from 'lucide-react';
+import { Search, Plus, Minus, Trash2, ShoppingBag, Instagram, Truck, MapPin, MessageCircle, ArrowDown, Leaf, Store } from 'lucide-react';
 import Navbar from './Navbar'; 
 import CheckoutForm from './CheckoutForm'; 
 import CardCondimento from './CardCondimento'; 
@@ -471,11 +471,27 @@ const CATEGORIAS_PRODUCTOS = [
   'Nuestras Especias',
 ];
 
+const normalizeSearchText = (value) =>
+  String(value ?? '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+
+const getProductFormat = (product) =>
+  product.category?.toLowerCase().includes('mayorista') ||
+  /1\s?(kg|kilo)/i.test(product.title)
+    ? 'wholesale'
+    : 'retail';
+
 const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
-  const heroImages = [ "/img/carru4.jpg", "/img/carru5.jpg"];
+  const heroImages = [ "/img/carru4.webp", "/img/carru5.webp"];
   const [currentImage, setCurrentImage] = useState(0);
   
   const [categoriaActiva, setCategoriaActiva] = useState(null);
+  const [formatoActivo, setFormatoActivo] = useState('all');
+  const [ordenActivo, setOrdenActivo] = useState('recommended');
+  const hasSearch = searchTerm.trim().length > 0;
 
 
   useEffect(() => {
@@ -483,19 +499,29 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
     return () => clearInterval(timer);
   }, [heroImages.length]);
 
-  const filteredProducts = productos.filter(prod => {
-    if (searchTerm !== "") {
-      return prod.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-             prod.category.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredProducts = productos.filter((prod) => {
+    if (hasSearch) {
+      const searchableText = normalizeSearchText(
+        `${prod.title} ${prod.category} ${prod.description || ''}`
+      );
+      return searchableText.includes(normalizeSearchText(searchTerm));
     }
     return categoriaActiva === 'Todas' || prod.category === categoriaActiva;
-  });
+  }).filter((prod) => formatoActivo === 'all' || getProductFormat(prod) === formatoActivo);
+
+  if (ordenActivo === 'price-asc') {
+    filteredProducts.sort((a, b) => Number(a.price) - Number(b.price));
+  } else if (ordenActivo === 'price-desc') {
+    filteredProducts.sort((a, b) => Number(b.price) - Number(a.price));
+  } else if (ordenActivo === 'name-asc') {
+    filteredProducts.sort((a, b) => a.title.localeCompare(b.title, 'es', { sensitivity: 'base' }));
+  }
 
   const tarjetasCategorias = [
-    { id: 'Sales Saborizadas', titulo: 'SALES SABORIZADAS', img: '/img/canelaportada4.jpg', color: '#FFC400' },
-    { id: 'Esenciales', titulo: 'ESENCIALES', img: '/img/canelaportada5.jpg', color: '#FFC400' },
-    { id: 'Mayoristas', titulo: 'MAYORISTAS', img: '/img/canelaportada1.jpg', color: '#FFC400' },
-    { id: 'Nuestras Especias', titulo: 'NUESTRAS ESPECIAS', img: '/img/especias1.jpg', color: '#FFC400' },
+    { id: 'Sales Saborizadas', titulo: 'SALES SABORIZADAS', img: '/img/canelaportada4.webp', color: '#FFC400' },
+    { id: 'Esenciales', titulo: 'ESENCIALES', img: '/img/canelaportada5.webp', color: '#FFC400' },
+    { id: 'Mayoristas', titulo: 'MAYORISTAS', img: '/img/canelaportada1.webp', color: '#FFC400' },
+    { id: 'Nuestras Especias', titulo: 'NUESTRAS ESPECIAS', img: '/img/especias1.webp', color: '#FFC400' },
 
 
   ];
@@ -530,36 +556,87 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
       </section>
 
       <section id="catalogo" className="container" style={{ padding: '0px 20px', minHeight: '50vh' }}>
-        
-        {/* ESCENARIO 1: EL CLIENTE ESTÁ BUSCANDO ALGO */}
-        {searchTerm !== "" ? (
+        {!hasSearch && (
+          <div className="category-browser">
+            <p className="category-browser-label">Explorá por categoría</p>
+            <nav className="category-pills" aria-label="Filtrar productos por categoría">
+              {CATEGORIAS_PRODUCTOS.map((categoria) => (
+                <button
+                  type="button"
+                  key={categoria}
+                  className={`category-pill${categoriaActiva === categoria ? ' active' : ''}`}
+                  aria-pressed={categoriaActiva === categoria}
+                  onClick={() => setCategoriaActiva(categoria)}
+                >
+                  {categoria}
+                </button>
+              ))}
+            </nav>
+          </div>
+        )}
+
+        {(hasSearch || categoriaActiva !== null) && (
+          <div className="catalog-toolbar">
+            <p className="catalog-count">
+              {filteredProducts.length} {filteredProducts.length === 1 ? 'producto' : 'productos'}
+            </p>
+            <div className="catalog-toolbar-controls">
+              <label>
+                Formato
+                <select value={formatoActivo} onChange={(event) => setFormatoActivo(event.target.value)}>
+                  <option value="all">Todos</option>
+                  <option value="retail">Minorista</option>
+                  <option value="wholesale">Mayorista / 1 kg</option>
+                </select>
+              </label>
+              <label>
+                Ordenar
+                <select value={ordenActivo} onChange={(event) => setOrdenActivo(event.target.value)}>
+                  <option value="recommended">Recomendados</option>
+                  <option value="price-asc">Precio: menor a mayor</option>
+                  <option value="price-desc">Precio: mayor a menor</option>
+                  <option value="name-asc">Nombre: A–Z</option>
+                </select>
+              </label>
+            </div>
+          </div>
+        )}
+
+        {hasSearch ? (
            filteredProducts.length > 0 ? (
             <div>
-              <h3 style={{ marginBottom: '20px', color: '#888' }}>Resultados para "{searchTerm}":</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '20px' }}>
+              <h3 className="search-results-title">
+                Resultados para “{searchTerm.trim()}”
+              </h3>
+              <div className="product-grid">
                 {filteredProducts.map(prod => <CardCondimento key={prod.id} producto={prod} alAgregar={agregarAlCarrito} />)}
               </div>
             </div>
           ) : (
-            <div style={{textAlign: 'center', padding: '50px', color: '#888'}}>
-              <Search size={40} style={{marginBottom:'20px', opacity: 0.5}}/>
-              <h3>No encontramos condimentos para "{searchTerm}"</h3>
+            <div className="search-empty-state">
+              <Search size={36} aria-hidden="true" />
+              <h3>No encontramos productos para “{searchTerm.trim()}”</h3>
+              <p>Probá con otro nombre, ingrediente o categoría.</p>
+              {formatoActivo !== 'all' && (
+                <button type="button" className="catalog-reset-filter" onClick={() => setFormatoActivo('all')}>
+                  Ver todos los formatos
+                </button>
+              )}
             </div>
           )
         ) 
         
-/* --- ESCENARIO 2: CATEGORÍAS GIGANTES CON ANIMACIÓN --- */
 : categoriaActiva === null ? (
-  <div style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)', marginTop: '-40px' }}>
+  <div className="category-tiles">
     {tarjetasCategorias.map((cat, index) => (
       <button
         type="button"
         key={cat.id} 
         onClick={() => setCategoriaActiva(cat.id)}
-        className="categoria-gigante animar-entrada" // <-- Agregamos la clase aquí
+        className="categoria-gigante animar-entrada"
         style={{ 
           backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${cat.img})`,
-          animationDelay: `${index * 0.2}s` // <-- Esto hace que aparezcan en "escalera" (0.2s, 0.4s, 0.6s)
+          animationDelay: `${index * 0.1}s`
         }}
       >
         <div className="categoria-gigante-contenido">
@@ -573,7 +650,6 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
 
 
 
-        /* ESCENARIO 3: EL CLIENTE ELIGIÓ UNA CATEGORÍA */
         : (
           <div>
             <div className="category-header">
@@ -588,25 +664,22 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
               </button>
             </div>
 
-            <nav className="category-pills" aria-label="Filtrar productos por categoría">
-              {CATEGORIAS_PRODUCTOS.map((categoria) => (
-                <button
-                  type="button"
-                  key={categoria}
-                  className={`category-pill${categoriaActiva === categoria ? ' active' : ''}`}
-                  aria-pressed={categoriaActiva === categoria}
-                  onClick={() => setCategoriaActiva(categoria)}
-                >
-                  {categoria}
+            {filteredProducts.length > 0 ? (
+              <div className="product-grid">
+                {filteredProducts.map(prod => (
+                  <CardCondimento key={prod.id} producto={prod} alAgregar={agregarAlCarrito} />
+                ))}
+              </div>
+            ) : (
+              <div className="search-empty-state">
+                <Search size={36} aria-hidden="true" />
+                <h3>No hay productos con esos filtros</h3>
+                <p>Probá con otro formato o restablecé el filtro.</p>
+                <button type="button" className="catalog-reset-filter" onClick={() => setFormatoActivo('all')}>
+                  Ver todos los formatos
                 </button>
-              ))}
-            </nav>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '20px' }}>
-              {filteredProducts.map(prod => (
-                <CardCondimento key={prod.id} producto={prod} alAgregar={agregarAlCarrito} />
-              ))}
-            </div>
+              </div>
+            )}
           </div>
         )}
       </section>
@@ -615,25 +688,37 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
 };
 
 const About = () => (
-  <div className="about-hero" style={{ backgroundImage: 'url(/img/carru1.jpg)' }}>
+  <main className="about-hero" style={{ backgroundImage: 'url(/img/carru1.jpg)' }}>
     <div className="about-overlay">
       <div className="container about-content">
-        <h1>Sobre Nowin</h1>
-        <div className="about-text-body">
-          <p>
-NOWIN es una empresa argentina con base en Posadas, Misiones, que trabaja de manera federal, integrando y potenciando los mejores sabores de cada región del país.
-Nacimos con la idea de acercar condimentos y sales condimentadas de calidad, respetando la identidad, el aroma y la tradición que hacen única a la cocina argentina. Seleccionamos cuidadosamente cada especia, mezcla y sal, logrando un equilibrio entre sabor, frescura y practicidad.
-En NOWIN creemos,en el crecimiento sostenido y en el trabajo ordenado como base de un proyecto sólido. Nos inspira un enfoque donde el desarrollo no se basa solo en vender más, sino en construir una estructura firme, eficiente y preparada para crecer en el tiempo.
-Apostamos a una producción responsable, a relaciones comerciales duraderas y a la mejora continua, con el objetivo de ofrecer productos confiables y auténticos en cada etapa.
-Abastecemos supermercados, carnicerías y comercios gastronómicos, desarrollando soluciones pensadas tanto para el uso diario como para el ámbito profesional.
-          </p>
-          <p className="highlight-text">
-            NOWIN es sabor, identidad y compromiso con lo nuestro.
-          </p>
+        <p className="about-kicker">NOWIN · POSADAS, MISIONES</p>
+        <h1>Sabores con identidad</h1>
+        <p className="about-intro">
+          Acercamos especias, condimentos y sales saborizadas que celebran la cocina argentina y acompañan tanto a hogares como a comercios gastronómicos.
+        </p>
+
+        <div className="about-pillars">
+          <article className="about-pillar">
+            <Leaf size={24} aria-hidden="true" />
+            <h2>Selección de calidad</h2>
+            <p>Elegimos cada especia y mezcla cuidando su aroma, frescura y practicidad para la cocina diaria.</p>
+          </article>
+          <article className="about-pillar">
+            <MapPin size={24} aria-hidden="true" />
+            <h2>Alcance federal</h2>
+            <p>Desde Posadas, Misiones, integramos sabores de distintas regiones con una mirada federal.</p>
+          </article>
+          <article className="about-pillar">
+            <Store size={24} aria-hidden="true" />
+            <h2>Soluciones gastronómicas</h2>
+            <p>Abastecemos supermercados, carnicerías y comercios con opciones para el uso diario y profesional.</p>
+          </article>
         </div>
+
+        <p className="about-highlight">NOWIN es sabor, identidad y compromiso con lo nuestro.</p>
       </div>
     </div>
-  </div>
+  </main>
 );
 
 const Cart = ({ cart, removeFromCart, addToCart, decreaseQuantity, onStartCheckout }) => {
@@ -668,9 +753,10 @@ const Cart = ({ cart, removeFromCart, addToCart, decreaseQuantity, onStartChecko
               </div>
             </div>
           ))}
-          <div style={{marginTop: '40px', textAlign: 'right', borderTop:'1px solid #333', paddingTop:'20px'}}>
-            <h3 className="cart-total">${total.toLocaleString()}</h3>
-            <button onClick={onStartCheckout} className="btn-nowin" style={{maxWidth: '300px', marginLeft: 'auto', fontSize:'1.1rem'}}>FINALIZAR COMPRA</button>
+          <div className="cart-page-summary">
+            <p>El subtotal corresponde solo a productos. El envío se coordina al confirmar por WhatsApp.</p>
+            <h3 className="cart-total">Subtotal de productos: ${total.toLocaleString('es-AR')}</h3>
+            <button type="button" onClick={onStartCheckout} className="btn-nowin" style={{maxWidth: '300px', marginLeft: 'auto', fontSize:'1.1rem'}}>FINALIZAR COMPRA</button>
           </div>
         </div>
       )}
@@ -702,7 +788,44 @@ const Footer = () => (
       </a>
     </div>
 
+    <div className="footer-layout">
+      <div className="footer-brand">
+        <Link to="/" aria-label="NOWIN, inicio">
+          <img src="/img/logo2.png" alt="NOWIN" loading="lazy" decoding="async" />
+        </Link>
+        <p>Especias, condimentos y sales saborizadas con identidad.</p>
+      </div>
+
+      <nav className="footer-column" aria-label="Enlaces rápidos">
+        <h2>Explorá</h2>
+        <Link to="/">Inicio y catálogo</Link>
+        <Link to="/about">Sobre Nowin</Link>
+        <Link to="/cart">Mi carrito</Link>
+      </nav>
+
+      <div className="footer-column">
+        <h2>Contacto</h2>
+        <p><MapPin size={17} aria-hidden="true" /> Posadas, Misiones</p>
+        <a href="https://wa.me/5493764141598" target="_blank" rel="noopener noreferrer">
+          <MessageCircle size={17} aria-hidden="true" /> WhatsApp
+        </a>
+      </div>
+
+      <div className="footer-column">
+        <h2>Redes</h2>
+        <a
+          href="https://www.instagram.com/nowin_especias?igsh=MWFxcTVxdmJ4ZWMyOA=="
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Seguir a NOWIN en Instagram"
+        >
+          <Instagram size={19} aria-hidden="true" /> Instagram
+        </a>
+      </div>
+    </div>
+
     <hr className="footer-linea-divisoria" />
+    <p className="footer-copyright">© {new Date().getFullYear()} NOWIN. Todos los derechos reservados.</p>
 
    
     
@@ -747,14 +870,17 @@ function App() {
     fetchProductos();
   }, []);
 
-  const addToCart = (prod) => {
+  const addToCart = (prod, quantity = 1) => {
+    const cantidad = Number.isInteger(quantity) && quantity > 0 ? quantity : 1;
     setCart(prev => {
       const existe = prev.find(item => item.id === prod.id);
-      return existe ? prev.map(item => item.id === prod.id ? {...item, quantity: item.quantity + 1} : item) : [...prev, {...prod, quantity: 1}];
+      return existe
+        ? prev.map(item => item.id === prod.id ? {...item, quantity: item.quantity + cantidad} : item)
+        : [...prev, {...prod, quantity: cantidad}];
     });
     setToast((current) => ({
       id: (current?.id ?? 0) + 1,
-      message: `${prod.title} agregado al carrito`,
+      message: `${prod.title}${cantidad > 1 ? ` × ${cantidad}` : ''} agregado al carrito`,
     }));
   };
 
@@ -817,7 +943,7 @@ const procesarCompra = async (datosUsuario) => {
             onStartCheckout={startCheckout}
           />
         )}
-        {mostrarCheckout && <CheckoutForm enviarPedido={procesarCompra} cancelar={() => setMostrarCheckout(false)} />}
+        {mostrarCheckout && <CheckoutForm cart={cart} enviarPedido={procesarCompra} cancelar={() => setMostrarCheckout(false)} />}
         {toast && <div className="cart-toast" role="status" aria-live="polite" key={toast.id}>{toast.message}</div>}
         <WhatsAppFloat />
         <Footer />

@@ -28,7 +28,7 @@ const BrandCarouselThin = () => {
         <div className="marquee-content">
           {doubleLogos.map((logo, index) => (
             <div className="marquee-item" key={index}>
-              <img src={logo.url} alt={logo.name} />
+              <img src={logo.url} alt={logo.name} loading="lazy" decoding="async" />
             </div>
           ))}
         </div>

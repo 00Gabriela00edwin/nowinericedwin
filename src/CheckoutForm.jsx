@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { X } from 'lucide-react'; 
+import React, { useRef, useState } from 'react';
+import { ShoppingBag, X } from 'lucide-react';
+import useDialogFocus from './useDialogFocus';
 
-const CheckoutForm = ({ enviarPedido, cancelar }) => {
+const CheckoutForm = ({ enviarPedido, cancelar, cart = [] }) => {
+  const modalRef = useRef(null);
   const [formError, setFormError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -9,6 +11,9 @@ const CheckoutForm = ({ enviarPedido, cancelar }) => {
     telefono: '',
     direccion: ''
   });
+  const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+
+  useDialogFocus(true, modalRef, cancelar);
 
   const handleChange = (e) => {
     setFormData({
@@ -54,16 +59,40 @@ const CheckoutForm = ({ enviarPedido, cancelar }) => {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+      <div ref={modalRef} className="modal-content" role="dialog" aria-modal="true" aria-labelledby="checkout-title" tabIndex={-1}>
     
         <button className="close-btn" onClick={cancelar} type="button" aria-label="Cerrar formulario">
           <X size={24} />
         </button>
 
-        <h2 id="checkout-title" style={{color: '#FFC400', marginBottom: '10px', marginTop:'0'}}>Finalizar Compra</h2>
-        <p style={{marginBottom: '20px', color: '#666', fontSize:'0.95rem'}}>
+        <h2 id="checkout-title" className="checkout-title">Finalizar pedido</h2>
+        <p className="checkout-lead">
             Completa tus datos para coordinar el envío.
         </p>
+
+        <section className="checkout-summary" aria-label="Resumen del pedido">
+          <div className="checkout-summary-heading">
+            <ShoppingBag size={18} aria-hidden="true" />
+            <h3>Tu pedido</h3>
+          </div>
+          <ul>
+            {cart.map((item) => (
+              <li key={item.id}>
+                <span>{item.title} <small>× {item.quantity}</small></span>
+                <strong>${(item.price * item.quantity).toLocaleString('es-AR')}</strong>
+              </li>
+            ))}
+          </ul>
+          <div className="checkout-summary-shipping">
+            <span>Envío</span>
+            <strong>A coordinar</strong>
+          </div>
+          <div className="checkout-summary-total">
+            <span>Subtotal de productos</span>
+            <strong>${subtotal.toLocaleString('es-AR')}</strong>
+          </div>
+          <p>El subtotal corresponde solo a los productos. El envío se coordina al confirmar por WhatsApp.</p>
+        </section>
 
         <form onSubmit={handleSubmit} aria-busy={isSubmitting}>
           <div className="form-group checkout-field">
@@ -76,6 +105,7 @@ const CheckoutForm = ({ enviarPedido, cancelar }) => {
               autoComplete="name"
               minLength={3}
               required
+              data-dialog-autofocus
               value={formData.nombre}
               onChange={handleChange}
               className="form-input"

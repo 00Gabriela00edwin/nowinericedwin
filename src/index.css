@@ -1,8 +1,8 @@
 :root {
-  --bg-color: #f4f4f4; 
-  --text-color: #1a1a1a; 
-  --accent-color: #d0312d; 
-  --secondary-bg: #ffffff;
+  --bg-color: #0a0a0a;
+  --text-color: #f5f5f5;
+  --accent-color: #ffc400;
+  --secondary-bg: #141414;
   --border-c:olor: #cccccc;
   --font-main: 'Space Grotesk', sans-serif;
 }

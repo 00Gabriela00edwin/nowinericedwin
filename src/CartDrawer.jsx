@@ -1,40 +1,37 @@
-import { useEffect } from 'react';
+import { useRef } from 'react';
 import { Minus, Plus, ShoppingBag, Trash2, X } from 'lucide-react';
+import useDialogFocus from './useDialogFocus';
 import './CartDrawer.css';
 
 export const FREE_SHIPPING_THRESHOLD = 100000;
 
 const CartDrawer = ({ cart, onClose, addToCart, decreaseQuantity, removeFromCart, onStartCheckout }) => {
+  const drawerRef = useRef(null);
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const progress = Math.min((total / FREE_SHIPPING_THRESHOLD) * 100, 100);
   const amountToFreeShipping = Math.max(FREE_SHIPPING_THRESHOLD - total, 0);
 
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') onClose();
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
+  useDialogFocus(true, drawerRef, onClose);
 
   return (
     <div className="cart-drawer-layer">
-      <button className="cart-drawer-backdrop" onClick={onClose} aria-label="Cerrar carrito" />
-      <aside className="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title">
+      <button type="button" className="cart-drawer-backdrop" onClick={onClose} aria-label="Cerrar carrito" />
+      <aside ref={drawerRef} className="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title" tabIndex={-1}>
         <header className="cart-drawer-header">
           <div>
             <p className="cart-drawer-eyebrow">TU SELECCIÓN</p>
             <h2 id="cart-drawer-title">Mi carrito</h2>
           </div>
-          <button className="cart-drawer-close" onClick={onClose} aria-label="Cerrar carrito">
+          <button type="button" className="cart-drawer-close" onClick={onClose} aria-label="Cerrar carrito" data-dialog-autofocus>
             <X size={22} />
           </button>
         </header>
 
         <section className="shipping-progress" aria-label="Progreso para envío bonificado">
           <p>
-            {amountToFreeShipping > 0
+            {cart.length === 0
+              ? 'Sumá productos para acceder al envío bonificado'
+              : amountToFreeShipping > 0
               ? `Te faltan $${amountToFreeShipping.toLocaleString('es-AR')} para el envío bonificado`
               : '¡Alcanzaste el envío bonificado!'}
           </p>
@@ -44,6 +41,7 @@ const CartDrawer = ({ cart, onClose, addToCart, decreaseQuantity, removeFromCart
             aria-valuemin={0}
             aria-valuemax={FREE_SHIPPING_THRESHOLD}
             aria-valuenow={Math.min(total, FREE_SHIPPING_THRESHOLD)}
+            aria-valuetext={`$${Math.min(total, FREE_SHIPPING_THRESHOLD).toLocaleString('es-AR')} de $${FREE_SHIPPING_THRESHOLD.toLocaleString('es-AR')}`}
             aria-label="Progreso hacia el envío bonificado"
           >
             <span style={{ width: `${progress}%` }} />
@@ -56,7 +54,7 @@ const CartDrawer = ({ cart, onClose, addToCart, decreaseQuantity, removeFromCart
             <div className="cart-drawer-empty">
               <ShoppingBag size={36} aria-hidden="true" />
               <p>Tu carrito está vacío.</p>
-              <button onClick={onClose}>Seguir explorando</button>
+              <button type="button" onClick={onClose}>Seguir explorando</button>
             </div>
           ) : cart.map((item) => (
             <article className="cart-drawer-item" key={item.id}>
@@ -90,18 +88,20 @@ const CartDrawer = ({ cart, onClose, addToCart, decreaseQuantity, removeFromCart
         </div>
 
         <footer className="cart-drawer-footer">
+          <p className="cart-drawer-shipping-note">El subtotal no incluye el envío; se coordina al confirmar el pedido por WhatsApp.</p>
           <div className="cart-drawer-total">
-            <span>Subtotal</span>
+            <span>Subtotal de productos</span>
             <strong>${total.toLocaleString('es-AR')}</strong>
           </div>
           <button
+            type="button"
             className="cart-drawer-checkout"
             onClick={onStartCheckout}
             disabled={cart.length === 0}
           >
             Continuar con el pedido
           </button>
-          <button className="cart-drawer-continue" onClick={onClose}>Seguir comprando</button>
+          <button type="button" className="cart-drawer-continue" onClick={onClose}>Seguir comprando</button>
         </footer>
       </aside>
     </div>

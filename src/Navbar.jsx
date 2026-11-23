@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, ShoppingBag, Menu, X, Home, Info } from 'lucide-react';
+import useDialogFocus from './useDialogFocus';
 
 const Navbar = ({ cartCount, searchTerm, setSearchTerm, onCartClick }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef(null);
+  const menuButtonRef = useRef(null);
+  const closeMenu = () => setIsOpen(false);
+
+  useDialogFocus(isOpen, menuRef, closeMenu);
 
   return (
     <>
@@ -11,6 +17,7 @@ const Navbar = ({ cartCount, searchTerm, setSearchTerm, onCartClick }) => {
         <div className="nav-content">
           <div className="nav-brand">
             <button
+              ref={menuButtonRef}
               className="menu-btn"
               onClick={() => setIsOpen(true)}
               aria-label="Abrir menú"
@@ -57,24 +64,32 @@ const Navbar = ({ cartCount, searchTerm, setSearchTerm, onCartClick }) => {
       </nav>
 
       {/* --- SIDEBAR (MENÚ LATERAL) --- */}
-      {isOpen && <button className="menu-overlay" onClick={() => setIsOpen(false)} aria-label="Cerrar menú"></button>}
+      {isOpen && <button type="button" className="menu-overlay" onClick={closeMenu} aria-label="Cerrar menú"></button>}
       
-      {isOpen && <nav id="primary-menu" className="sidebar open" aria-label="Menú principal">
+      {isOpen && <nav
+        ref={menuRef}
+        id="primary-menu"
+        className="sidebar open"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="primary-menu-title"
+        tabIndex={-1}
+      >
         <div className="sidebar-header">
-           <h3 style={{color:'#FFC400'}}>MENÚ</h3>
-           <button onClick={() => setIsOpen(false)} aria-label="Cerrar menú" style={{background:'none', border:'none', cursor:'pointer'}}>
+           <h3 id="primary-menu-title" style={{color:'#FFC400'}}>MENÚ</h3>
+           <button type="button" onClick={closeMenu} aria-label="Cerrar menú" data-dialog-autofocus style={{background:'none', border:'none', cursor:'pointer'}}>
              <X size={28} color="white" />
            </button>
         </div>
         
         <div className="sidebar-links">
-          <Link to="/" onClick={() => setIsOpen(false)} className="sidebar-item">
+          <Link to="/" onClick={closeMenu} className="sidebar-item">
              <Home size={20} /> Inicio
           </Link>
-          <Link to="/about" onClick={() => setIsOpen(false)} className="sidebar-item">
+          <Link to="/about" onClick={closeMenu} className="sidebar-item">
              <Info size={20} /> Sobre Nosotros
           </Link>
-          <Link to="/cart" onClick={() => setIsOpen(false)} className="sidebar-item">
+          <Link to="/cart" onClick={closeMenu} className="sidebar-item">
              <ShoppingBag size={20} /> Ver Carrito
           </Link>
         </div>
