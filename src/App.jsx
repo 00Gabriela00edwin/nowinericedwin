@@ -79,7 +79,6 @@ const CATEGORIAS_PRODUCTOS = [
   'Todas',
   'Sales',
   'Especias',
-  'Repostería',
   'Mayoristas',
   'Esenciales',
 ];
@@ -129,7 +128,6 @@ const Home = ({ productos, agregarAlCarrito, searchTerm, catalogLoading, catalog
   const tarjetasCategorias = [
     { id: 'Sales', titulo: 'SALES', img: '/img/canelaportada4.webp', color: '#FFC400' },
     { id: 'Especias', titulo: 'ESPECIAS', img: '/img/especias1.webp', color: '#FFC400' },
-    { id: 'Repostería', titulo: 'REPOSTERÍA', img: null, color: '#FFC400' },
     { id: 'Mayoristas', titulo: 'MAYORISTAS', img: '/img/canelaportada1.webp', color: '#FFC400' },
   ];
 
