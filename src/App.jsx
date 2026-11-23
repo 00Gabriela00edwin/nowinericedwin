@@ -1,12 +1,13 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Search, Plus, Minus, Trash2, ShoppingBag, Instagram, Truck, MapPin, MessageCircle, ArrowDown, Leaf, Store } from 'lucide-react';
+import { Search, Plus, Minus, Trash2, ShoppingBag, Instagram, Truck, MapPin, MessageCircle, ArrowDown, Leaf, Store, X } from 'lucide-react';
 import Navbar from './Navbar'; 
 import CardCondimento from './CardCondimento'; 
 import { FREE_SHIPPING_THRESHOLD } from './shipping';
 import ProductImage from './ProductImage';
 import { normalizeSearchText } from './searchText';
 import WhatsAppFloat from './WhatsAppFloat';
+import useDialogFocus from './useDialogFocus';
 import './App.css';
 
 const BrandCarouselThin = lazy(() => import('./BrandCarouselThin.jsx'));
@@ -89,7 +90,7 @@ const getProductFormat = (product) =>
     ? 'wholesale'
     : 'retail';
 
-const Home = ({ productos, agregarAlCarrito, searchTerm, catalogLoading, catalogError }) => {
+const Home = ({ productos, agregarAlCarrito, alAbrirProducto, searchTerm, catalogLoading, catalogError }) => {
   const heroImages = [ "/img/carru4.webp", "/img/carru5.webp"];
   const [currentImage, setCurrentImage] = useState(0);
   
@@ -238,7 +239,7 @@ const Home = ({ productos, agregarAlCarrito, searchTerm, catalogLoading, catalog
                 Resultados para “{searchTerm.trim()}”
               </h3>
               <div className="product-grid">
-                {filteredProducts.map(prod => <CardCondimento key={prod.id} producto={prod} alAgregar={agregarAlCarrito} />)}
+                {filteredProducts.map(prod => <CardCondimento key={prod.id} producto={prod} alAgregar={agregarAlCarrito} alAbrir={alAbrirProducto} />)}
               </div>
             </div>
           ) : (
@@ -298,7 +299,7 @@ const Home = ({ productos, agregarAlCarrito, searchTerm, catalogLoading, catalog
             {filteredProducts.length > 0 ? (
               <div className="product-grid">
                 {filteredProducts.map(prod => (
-                  <CardCondimento key={prod.id} producto={prod} alAgregar={agregarAlCarrito} />
+                  <CardCondimento key={prod.id} producto={prod} alAgregar={agregarAlCarrito} alAbrir={alAbrirProducto} />
                 ))}
               </div>
             ) : (
@@ -484,6 +485,40 @@ const Footer = () => (
   </footer>
 );
 
+const ProductModal = ({ productoId, productos, alAgregar, onClose }) => {
+  const dialogRef = useRef(null);
+  useDialogFocus(true, dialogRef, onClose, true);
+
+  return (
+    <div className="product-modal-overlay" onClick={(event) => {
+      event.stopPropagation();
+      onClose();
+    }}>
+      <div
+        ref={dialogRef}
+        className="product-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Detalle del producto"
+        tabIndex={-1}
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="product-modal-header">
+          <button type="button" className="product-modal-close" onClick={(event) => {
+            event.stopPropagation();
+            onClose();
+          }} aria-label="Cerrar detalle del producto" data-dialog-autofocus>
+            <X size={22} aria-hidden="true" />
+          </button>
+        </div>
+        <Suspense fallback={<div className="product-modal-body" role="status">Cargando producto...</div>}>
+          <ProductoDetalle productos={productos} alAgregar={alAgregar} productoId={productoId} modal />
+        </Suspense>
+      </div>
+    </div>
+  );
+};
+
 
 function App() {
   const [cart, setCart] = useState(loadCart);
@@ -494,6 +529,7 @@ function App() {
   const [mostrarCheckout, setMostrarCheckout] = useState(false);
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const [toast, setToast] = useState(null);
+  const [productoAbierto, setProductoAbierto] = useState(null);
 
   useEffect(() => {
     try {
@@ -601,13 +637,16 @@ function App() {
         </PublicOnly>
         <Suspense fallback={<div className="container" role="status" style={{ padding: '80px 20px', textAlign: 'center' }}>Cargando...</div>}>
           <Routes>
-            <Route path="/" element={<Home productos={productos} agregarAlCarrito={addToCart} searchTerm={searchTerm} catalogLoading={catalogLoading} catalogError={catalogError} />} />
+            <Route path="/" element={<Home productos={productos} agregarAlCarrito={addToCart} alAbrirProducto={setProductoAbierto} searchTerm={searchTerm} catalogLoading={catalogLoading} catalogError={catalogError} />} />
             <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} addToCart={addToCart} decreaseQuantity={decreaseQuantity} onStartCheckout={startCheckout} />} />
             <Route path="/about" element={<About />} />
-            <Route path="/producto/:id" element={<ProductoDetalle productos={productos} alAgregar={addToCart} />} />
+            <Route path="/producto/:id" element={<ProductoDetalle productos={productos} alAgregar={addToCart} alAbrir={setProductoAbierto} />} />
             <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
         </Suspense>
+        <PublicOnly>{productoAbierto !== null && (
+          <ProductModal productoId={productoAbierto} productos={productos} alAgregar={addToCart} onClose={() => setProductoAbierto(null)} />
+        )}</PublicOnly>
         <PublicOnly>{cartDrawerOpen && (
           <Suspense fallback={null}>
             <CartDrawer

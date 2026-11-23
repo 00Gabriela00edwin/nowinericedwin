@@ -1,27 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation, useParams, Link } from 'react-router-dom';
 import { Plus, Minus, ArrowLeft, MessageCircle, Star, Truck } from 'lucide-react';
 import CardCondimento from './CardCondimento';
 import ProductImage from './ProductImage';
 import { FREE_SHIPPING_THRESHOLD } from './shipping';
 
-const ProductoDetalle = ({ productos, alAgregar }) => {
-  const { id } = useParams();
+const ProductoDetalle = ({ productos, alAgregar, alAbrir, productoId, modal = false }) => {
+  const { id: routeId } = useParams();
+  const id = productoId ?? routeId;
+  const location = useLocation();
+  const detalleRef = useRef(null);
   const [cantidad, setCantidad] = useState(1);
   const [imagenActiva, setImagenActiva] = useState(0);
+  const producto = productos.find((p) => p.id.toString() === id);
+  const productoDisponible = Boolean(producto);
 
   useEffect(() => {
     setCantidad(1);
     setImagenActiva(0);
   }, [id]);
 
-  const producto = productos.find((p) => p.id.toString() === id);
+  useEffect(() => {
+    if (!modal && location.state?.scrollToProduct && productoDisponible) {
+      detalleRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [location.key, location.state, productoDisponible, modal]);
 
   if (!producto) {
     return (
-      <div className="detalle-no-encontrado">
+      <div className={modal ? 'product-modal-body detalle-no-encontrado' : 'detalle-no-encontrado'}>
         <h2>Producto no encontrado</h2>
-        <Link to="/">Volver al inicio</Link>
+        {!modal && <Link to="/">Volver al inicio</Link>}
       </div>
     );
   }
@@ -75,15 +84,62 @@ const ProductoDetalle = ({ productos, alAgregar }) => {
     .filter((item) => item.id !== producto.id && item.category === producto.category)
     .slice(0, 4);
 
-  return (
+  const compra = (
+    <>
+      <div className="detalle-compra">
+        <div className="detalle-cantidad" role="group" aria-label="Seleccionar cantidad">
+          <button
+            type="button"
+            onClick={() => setCantidad((actual) => Math.max(1, actual - 1))}
+            disabled={cantidad <= 1}
+            aria-label="Restar una unidad"
+          >
+            <Minus size={18} />
+          </button>
+          <span aria-live="polite">{cantidad}</span>
+          <button
+            type="button"
+            onClick={() => setCantidad((actual) => Math.min(99, actual + 1))}
+            disabled={cantidad >= 99}
+            aria-label="Sumar una unidad"
+          >
+            <Plus size={18} />
+          </button>
+        </div>
+
+        <button
+          type="button"
+          className="btn-agregar-detalle"
+          onClick={() => {
+            alAgregar(producto, cantidad);
+            setCantidad(1);
+          }}
+        >
+          <Plus size={20} /> AGREGAR AL PEDIDO
+        </button>
+      </div>
+      {esMayorista && descripcion && (
+        <a
+          className="btn-consulta-producto"
+          href={`https://wa.me/5493764141598?text=${mensajeMayorista}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <MessageCircle size={18} aria-hidden="true" /> Consultar condiciones mayoristas
+        </a>
+      )}
+    </>
+  );
+
+  const contenido = (
     <div className="detalle-container">
-      <div className="detalle-volver">
+      {!modal && <div className="detalle-volver">
         <Link to="/" className="btn-volver">
           <ArrowLeft size={20} /> Volver a los productos
         </Link>
-      </div>
+      </div>}
 
-      <div className="detalle-grid">
+      <div className="detalle-grid" ref={detalleRef}>
         <div className="detalle-imagen-caja">
           <div className="detalle-galeria">
             <div className="detalle-galeria-principal">
@@ -151,56 +207,15 @@ const ProductoDetalle = ({ productos, alAgregar }) => {
             )}
           </section>
 
-          <div className="detalle-compra">
-            <div className="detalle-cantidad" role="group" aria-label="Seleccionar cantidad">
-              <button
-                type="button"
-                onClick={() => setCantidad((actual) => Math.max(1, actual - 1))}
-                disabled={cantidad <= 1}
-                aria-label="Restar una unidad"
-              >
-                <Minus size={18} />
-              </button>
-              <span aria-live="polite">{cantidad}</span>
-              <button
-                type="button"
-                onClick={() => setCantidad((actual) => Math.min(99, actual + 1))}
-                disabled={cantidad >= 99}
-                aria-label="Sumar una unidad"
-              >
-                <Plus size={18} />
-              </button>
-            </div>
-
-            <button
-              type="button"
-              className="btn-agregar-detalle"
-              onClick={() => {
-                alAgregar(producto, cantidad);
-                setCantidad(1);
-              }}
-            >
-              <Plus size={20} /> AGREGAR AL PEDIDO
-            </button>
-          </div>
-          {esMayorista && descripcion && (
-            <a
-              className="btn-consulta-producto"
-              href={`https://wa.me/5493764141598?text=${mensajeMayorista}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <MessageCircle size={18} aria-hidden="true" /> Consultar condiciones mayoristas
-            </a>
-          )}
+          {!modal && compra}
         </div>
       </div>
       {reseñasVerificadas.length > 0 && (
-        <section className="detalle-resenas" aria-labelledby="resenas-title">
+        <section className="detalle-resenas" aria-labelledby={modal ? 'modal-resenas-title' : 'resenas-title'}>
           <div className="detalle-resenas-heading">
             <div>
               <p>EXPERIENCIAS REALES</p>
-              <h2 id="resenas-title">Opiniones verificadas</h2>
+              <h2 id={modal ? 'modal-resenas-title' : 'resenas-title'}>Opiniones verificadas</h2>
             </div>
             <span>{calificacionPromedio.toFixed(1)} / 5 · {reseñasVerificadas.length} reseñas</span>
           </div>
@@ -224,7 +239,7 @@ const ProductoDetalle = ({ productos, alAgregar }) => {
           </div>
         </section>
       )}
-      {productosRelacionados.length > 0 && (
+      {!modal && productosRelacionados.length > 0 && (
         <section className="detalle-relacionados" aria-labelledby="relacionados-title">
           <div className="detalle-relacionados-heading">
             <div>
@@ -235,13 +250,20 @@ const ProductoDetalle = ({ productos, alAgregar }) => {
           </div>
           <div className="product-grid">
             {productosRelacionados.map((item) => (
-              <CardCondimento key={item.id} producto={item} alAgregar={alAgregar} />
+              <CardCondimento key={item.id} producto={item} alAgregar={alAgregar} alAbrir={alAbrir} />
             ))}
           </div>
         </section>
       )}
     </div>
   );
+
+  return modal ? (
+    <>
+      <div className="product-modal-body">{contenido}</div>
+      <div className="product-modal-footer">{compra}</div>
+    </>
+  ) : contenido;
 };
 
 export default ProductoDetalle;

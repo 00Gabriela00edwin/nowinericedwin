@@ -3,18 +3,31 @@ import { Plus } from 'lucide-react';
 import { Link } from 'react-router-dom'; // <-- NUEVO: Importamos Link
 import ProductImage from './ProductImage';
 
-const CardCondimento = ({ producto, alAgregar }) => {
+const CardCondimento = ({ producto, alAgregar, alAbrir }) => {
   const esMayorista =
     producto.category?.toLowerCase().includes('mayorista') ||
     /1\s?(kg|kilo)/i.test(producto.title);
 
+  const abrirDesdeEnlace = (event) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    alAbrir(producto.id);
+  };
+
   return (
-    <div className="card-condimento">
+    <div
+      className="card-condimento"
+      onClick={(event) => {
+        if (!event.target.closest('a, button')) alAbrir(producto.id);
+      }}
+    >
      <div className="card-header">
         {esMayorista && <span className="wholesale-badge">FORMATO 1 KG</span>}
         {/* Le damos flex y 100% al Link para que ocupe el header correctamente */}
         <Link 
           to={`/producto/${producto.id}`} 
+          state={{ scrollToProduct: true }}
+          onClick={abrirDesdeEnlace}
           style={{ display: 'flex', width: '100%', height: '100%', justifyContent: 'center' }}
         >
           <ProductImage
@@ -31,7 +44,7 @@ const CardCondimento = ({ producto, alAgregar }) => {
         <div>
           <div className="card-category">{producto.category}</div>
           {/* <-- NUEVO: Envolvemos el título en el Link (con estilos para que no se ponga azul/subrayado) */}
-          <Link to={`/producto/${producto.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Link to={`/producto/${producto.id}`} state={{ scrollToProduct: true }} onClick={abrirDesdeEnlace} style={{ textDecoration: 'none', color: 'inherit' }}>
             <h3 className="card-title">{producto.title}</h3>
           </Link>
         </div>

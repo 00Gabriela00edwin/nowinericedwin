@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-const useDialogFocus = (open, dialogRef, onClose) => {
+const useDialogFocus = (open, dialogRef, onClose, preserveScroll = false) => {
   const onCloseRef = useRef(onClose);
 
   useEffect(() => {
@@ -15,7 +15,13 @@ const useDialogFocus = (open, dialogRef, onClose) => {
 
     const previousFocus = document.activeElement;
     const previousOverflow = document.body.style.overflow;
+    const previousGutter = document.documentElement.style.scrollbarGutter;
+    const scrollPosition = { left: window.scrollX, top: window.scrollY };
+    if (preserveScroll && window.innerWidth > document.documentElement.clientWidth) {
+      document.documentElement.style.scrollbarGutter = 'stable';
+    }
     document.body.style.overflow = 'hidden';
+    if (preserveScroll) window.scrollTo({ ...scrollPosition, behavior: 'instant' });
 
     const getFocusableElements = () =>
       Array.from(dialog.querySelectorAll(FOCUSABLE_SELECTOR)).filter(
@@ -24,7 +30,7 @@ const useDialogFocus = (open, dialogRef, onClose) => {
 
     const focusables = getFocusableElements();
     const initialFocus = dialog.querySelector('[data-dialog-autofocus]') || focusables[0] || dialog;
-    initialFocus.focus();
+    initialFocus.focus({ preventScroll: true });
 
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
@@ -60,9 +66,13 @@ const useDialogFocus = (open, dialogRef, onClose) => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = previousOverflow;
-      if (previousFocus instanceof HTMLElement && previousFocus.isConnected) previousFocus.focus();
+      if (preserveScroll) {
+        document.documentElement.style.scrollbarGutter = previousGutter;
+        window.scrollTo({ ...scrollPosition, behavior: 'instant' });
+      }
+      if (previousFocus instanceof HTMLElement && previousFocus.isConnected) previousFocus.focus({ preventScroll: true });
     };
-  }, [open, dialogRef]);
+  }, [open, dialogRef, preserveScroll]);
 };
 
 export default useDialogFocus;
