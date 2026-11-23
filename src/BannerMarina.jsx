@@ -1,39 +1,42 @@
 import React from 'react';
+import { ArrowUpRight } from 'lucide-react';
 import './BannerMarina.css';
 
 const BannerMarina = () => {
+  const message = encodeURIComponent('Hola NOWIN! Quiero consultar por la Sal Marina y su disponibilidad.');
+
   return (
-    <div className="marina-banner">
-      <div className="marina-wrapper">
-        
-        {/* TEXTOS ARRIBA */}
-        <div className="marina-info">
-          <span className="badge-marina">NUEVO LANZAMIENTO</span>
-          <h2 className="marina-titulo">SAL MARINA</h2>
-          <p className="marina-desc">
-            Descubrí la pureza en cada cristal. Un toque gourmet, natural y crujiente, ideal para realzar los sabores más exclusivos de tu cocina.
-          </p>
+    <section className="marina-section" aria-labelledby="marina-title">
+      <div className="marina-banner">
+        <div className="marina-wrapper">
+          <div className="marina-info">
+            <span className="badge-marina"><span aria-hidden="true" /> NUEVO LANZAMIENTO</span>
+            <h2 className="marina-titulo" id="marina-title">SAL MARINA</h2>
+            <p className="marina-desc">
+              Descubrí la pureza en cada cristal. Un toque gourmet, natural y crujiente, ideal para realzar los sabores más exclusivos de tu cocina.
+            </p>
+            <a
+              className="btn-marina"
+              href={`https://wa.me/5493764141598?text=${message}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              CONSULTAR POR WHATSAPP <ArrowUpRight size={18} aria-hidden="true" />
+            </a>
+          </div>
+
+          <div className="marina-imagen-container">
+            <img
+              src="/img/salmarina.png"
+              alt="Sal Marina Nowin"
+              loading="lazy"
+              decoding="async"
+              className="img-marina-flotante"
+            />
+          </div>
         </div>
-
-        {/* PRODUCTO GIGANTE EN EL MEDIO */}
-        <div className="marina-imagen-container">
-          <img 
-            src="/img/salmarina.png" 
-            alt="Nueva Sal Marina Nowin" 
-            className="img-marina-flotante" 
-          />
-        </div>
-
-        {/* BOTÓN ABAJO */}
-        <button 
-          className="btn-marina" 
-          onClick={() => window.open('https://wa.me/5493764141598?text=Hola NOWIN! Quiero probar el nuevo lanzamiento de Sal Marina', '_blank')}
-        >
-          PROBAR AHORA
-        </button>
-
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -30,7 +30,7 @@ const ProductoDetalle = ({ productos, alAgregar }) => {
       <div className="detalle-grid">
         {/* Columna Izquierda: Imagen */}
         <div className="detalle-imagen-caja">
-          <img src={producto.img} alt={producto.title} />
+          <img src={producto.img} alt={producto.title} loading="lazy" />
         </div>
 
         {/* Columna Derecha: Información y Descripción */}
@@ -48,7 +48,7 @@ const ProductoDetalle = ({ productos, alAgregar }) => {
           </div>
 
           <button className="btn-agregar-detalle" onClick={() => alAgregar(producto)}>
-            <Plus size={20} /> AGREGAR AL CARRITO
+            <Plus size={20} /> AGREGAR AL PEDIDO
           </button>
         </div>
       </div>

@@ -2,61 +2,67 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, ShoppingBag, Menu, X, Home, Info } from 'lucide-react';
 
-const Navbar = ({ cartCount, searchTerm, setSearchTerm }) => {
+const Navbar = ({ cartCount, searchTerm, setSearchTerm, onCartClick }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
       <nav className="navbar">
         <div className="nav-content">
-          
-          {/* GRUPO IZQUIERDO: MENÚ + LOGO (JUNTOS) */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            
-            {/* Botón Menú */}
-            <button className="menu-btn" onClick={() => setIsOpen(true)}>
-              <Menu size={32} color="white" /> {/* Aumenté un poco el tamaño del icono */}
+          <div className="nav-brand">
+            <button
+              className="menu-btn"
+              onClick={() => setIsOpen(true)}
+              aria-label="Abrir menú"
+              aria-expanded={isOpen}
+              aria-controls="primary-menu"
+            >
+              <Menu size={24} aria-hidden="true" />
             </button>
 
-            {/* Logo */}
             <Link to="/" className="logo-container">
-             <img 
-               src="/img/logo2.png" 
-               alt="Nowin" 
-               className="nav-logo-img" 
-               style={{ transform: 'scale(1.7)', transformOrigin: 'left center' }} 
-                 /> 
+              <img
+                src="/img/logo2.png"
+                alt="Nowin"
+                className="nav-logo-img"
+                loading="lazy"
+                decoding="async"
+              />
             </Link>
           </div>
 
-          {/* BUSCADOR (CENTRO) */}
-          <div className="search-bar-container">
-            <Search className="search-icon-inside" size={18} />
+          <div className="search-bar-container" role="search">
+            <Search className="search-icon-inside" size={18} aria-hidden="true" />
             <input 
-              type="text" 
-              placeholder="Buscar..." 
+              type="search"
+              placeholder="Buscar especias y sales"
               className="search-input"
+              aria-label="Buscar productos"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
 
-          {/* CARRITO (DERECHA) */}
-          <Link to="/cart" className="cart-widget">
-            <ShoppingBag size={28} color="white" />
+          <button
+            type="button"
+            className="cart-widget"
+            aria-label={`Ver carrito${cartCount > 0 ? `, ${cartCount} productos` : ''}`}
+            onClick={onCartClick}
+          >
+            <ShoppingBag size={24} aria-hidden="true" />
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-          </Link>
+          </button>
 
         </div>
       </nav>
 
       {/* --- SIDEBAR (MENÚ LATERAL) --- */}
-      {isOpen && <div className="menu-overlay" onClick={() => setIsOpen(false)}></div>}
+      {isOpen && <button className="menu-overlay" onClick={() => setIsOpen(false)} aria-label="Cerrar menú"></button>}
       
-      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+      {isOpen && <nav id="primary-menu" className="sidebar open" aria-label="Menú principal">
         <div className="sidebar-header">
            <h3 style={{color:'#FFC400'}}>MENÚ</h3>
-           <button onClick={() => setIsOpen(false)} style={{background:'none', border:'none', cursor:'pointer'}}>
+           <button onClick={() => setIsOpen(false)} aria-label="Cerrar menú" style={{background:'none', border:'none', cursor:'pointer'}}>
              <X size={28} color="white" />
            </button>
         </div>
@@ -72,7 +78,7 @@ const Navbar = ({ cartCount, searchTerm, setSearchTerm }) => {
              <ShoppingBag size={20} /> Ver Carrito
           </Link>
         </div>
-      </div>
+      </nav>}
     </>
   );
 };

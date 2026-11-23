@@ -4,13 +4,42 @@ import ProductoDetalle from './ProductoDetalle';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { db } from './firebase'; 
 import { collection, getDocs, addDoc } from 'firebase/firestore'; 
-import { Search, Plus, Minus, Trash2, ShoppingBag, Instagram, Facebook } from 'lucide-react';
+import { Search, Plus, Minus, Trash2, ShoppingBag, Instagram, Truck, MapPin, MessageCircle, ArrowDown } from 'lucide-react';
 import Navbar from './Navbar'; 
 import CheckoutForm from './CheckoutForm'; 
 import CardCondimento from './CardCondimento'; 
+import CartDrawer, { FREE_SHIPPING_THRESHOLD } from './CartDrawer';
+import WhatsAppFloat from './WhatsAppFloat';
 import './App.css';
 import BannerMarina from './BannerMarina';
 
+
+const loadCart = () => {
+  if (typeof window === 'undefined') return [];
+
+  try {
+    const savedCart = window.localStorage.getItem('nowin_cart');
+    if (!savedCart) return [];
+
+    const parsedCart = JSON.parse(savedCart);
+    if (!Array.isArray(parsedCart)) {
+      console.error('El carrito guardado no tiene un formato válido.');
+      return [];
+    }
+
+    return parsedCart.filter((item) =>
+      item &&
+      (typeof item.id === 'string' || typeof item.id === 'number') &&
+      typeof item.title === 'string' &&
+      Number.isFinite(item.price) &&
+      Number.isInteger(item.quantity) &&
+      item.quantity > 0
+    );
+  } catch (error) {
+    console.error('No se pudo recuperar el carrito guardado.', error);
+    return [];
+  }
+};
 
 
 
@@ -434,6 +463,14 @@ export const PRODUCTOS_DEMO = [
 
 
 
+const CATEGORIAS_PRODUCTOS = [
+  'Todas',
+  'Sales Saborizadas',
+  'Esenciales',
+  'Mayoristas',
+  'Nuestras Especias',
+];
+
 const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
   const heroImages = [ "/img/carru4.jpg", "/img/carru5.jpg"];
   const [currentImage, setCurrentImage] = useState(0);
@@ -451,7 +488,7 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
       return prod.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
              prod.category.toLowerCase().includes(searchTerm.toLowerCase());
     }
-    return prod.category === categoriaActiva;
+    return categoriaActiva === 'Todas' || prod.category === categoriaActiva;
   });
 
   const tarjetasCategorias = [
@@ -476,22 +513,30 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
           <div className="hero-overlay"></div>
         </div>
         <div className="container hero-content">
+          <span className="hero-kicker">ESPECIAS · SALES · CONDIMENTOS</span>
           <h1>SABOR QUE <br /><span style={{color: '#FFC400'}}>TRANSFORMA</span></h1>
+          <p>Sabores seleccionados con envíos a todo el país. Venta minorista y mayorista.</p>
+          <a className="hero-cta" href="#catalogo">EXPLORAR CATÁLOGO <ArrowDown size={18} aria-hidden="true" /></a>
         </div>
       </header>
 
       
       <BannerMarina />
-    
-      
-      <section className="container" style={{ padding: '0px 20px', minHeight: '50vh' }}>
+
+      <section className="store-assurance" aria-label="Información de Nowin">
+        <div><Truck size={20} aria-hidden="true" /><span>Envío bonificado desde <strong>${FREE_SHIPPING_THRESHOLD.toLocaleString('es-AR')}</strong></span></div>
+        <div><MapPin size={20} aria-hidden="true" /><span>Base en Posadas, Misiones</span></div>
+        <div><MessageCircle size={20} aria-hidden="true" /><span>Consultas mayoristas por WhatsApp</span></div>
+      </section>
+
+      <section id="catalogo" className="container" style={{ padding: '0px 20px', minHeight: '50vh' }}>
         
         {/* ESCENARIO 1: EL CLIENTE ESTÁ BUSCANDO ALGO */}
         {searchTerm !== "" ? (
            filteredProducts.length > 0 ? (
             <div>
               <h3 style={{ marginBottom: '20px', color: '#888' }}>Resultados para "{searchTerm}":</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '20px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '20px' }}>
                 {filteredProducts.map(prod => <CardCondimento key={prod.id} producto={prod} alAgregar={agregarAlCarrito} />)}
               </div>
             </div>
@@ -507,7 +552,8 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
 : categoriaActiva === null ? (
   <div style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)', marginTop: '-40px' }}>
     {tarjetasCategorias.map((cat, index) => (
-      <div 
+      <button
+        type="button"
         key={cat.id} 
         onClick={() => setCategoriaActiva(cat.id)}
         className="categoria-gigante animar-entrada" // <-- Agregamos la clase aquí
@@ -518,9 +564,9 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
       >
         <div className="categoria-gigante-contenido">
           <h2 style={{ color: cat.color }}>{cat.titulo}</h2>
-          <div className="btn-descubrir-gigante">EXPLORAR LÍNEA</div>
+          <span className="btn-descubrir-gigante">EXPLORAR LÍNEA</span>
         </div>
-      </div>
+      </button>
     ))}
   </div>
 )
@@ -530,17 +576,33 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
         /* ESCENARIO 3: EL CLIENTE ELIGIÓ UNA CATEGORÍA */
         : (
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px', borderBottom: '1px solid #333', paddingBottom: '20px' }}>
-              <h2 style={{ color: '#FFC400', margin: 0, textTransform: 'uppercase' }}>{categoriaActiva}</h2>
+            <div className="category-header">
+              <h2>
+                {categoriaActiva === 'Todas' ? 'Todos los productos' : categoriaActiva}
+              </h2>
               <button 
                 onClick={() => setCategoriaActiva(null)}
-                style={{ background: 'transparent', border: '1px solid #FFC400', color: ' #ffc40000;', padding: '8px 16px', borderRadius: '20px', cursor: 'pointer' }}
+                className="back-to-categories"
               >
                 &larr; Volver a Categorías
               </button>
             </div>
-            
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '20px' }}>
+
+            <nav className="category-pills" aria-label="Filtrar productos por categoría">
+              {CATEGORIAS_PRODUCTOS.map((categoria) => (
+                <button
+                  type="button"
+                  key={categoria}
+                  className={`category-pill${categoriaActiva === categoria ? ' active' : ''}`}
+                  aria-pressed={categoriaActiva === categoria}
+                  onClick={() => setCategoriaActiva(categoria)}
+                >
+                  {categoria}
+                </button>
+              ))}
+            </nav>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '20px' }}>
               {filteredProducts.map(prod => (
                 <CardCondimento key={prod.id} producto={prod} alAgregar={agregarAlCarrito} />
               ))}
@@ -580,25 +642,29 @@ const Cart = ({ cart, removeFromCart, addToCart, decreaseQuantity, onStartChecko
     <div className="container" style={{minHeight: '60vh', padding: '40px 20px'}}>
       <h2 className="cart-title">TU PEDIDO</h2>
       {cart.length === 0 ? (
-        <p style={{color:'#ccc'}}>Tu carrito está vacío.</p>
+        <div className="cart-empty">
+          <ShoppingBag size={36} aria-hidden="true" />
+          <p>Tu carrito está vacío.</p>
+          <Link to="/" className="btn-nowin cart-empty-link">Explorar productos</Link>
+        </div>
       ) : (
         <div style={{marginTop: '30px'}}>
           {cart.map(item => (
-            <div key={item.id} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#161616', padding: '15px', marginBottom: '10px', borderRadius: '8px', border:'1px solid #333'}}>
+            <div key={item.id} className="cart-item">
               <div style={{display:'flex', alignItems:'center', gap: '15px'}}>
-                <img src={item.img} alt="" style={{width: '60px', height: '60px', objectFit: 'contain', background: 'white', borderRadius: '4px', padding:'5px'}} />
+                <img src={item.img} alt="" loading="lazy" style={{width: '60px', height: '60px', objectFit: 'contain', background: 'white', borderRadius: '4px', padding:'5px'}} />
                 <div>
                    <h4 style={{margin: '0 0 5px 0', color:'white'}}>{item.title}</h4>
-                   <p style={{margin: 0, color: '#ffc40000'}}>${item.price}</p>
+                   <p className="cart-item-price">${item.price.toLocaleString()}</p>
                 </div>
               </div>
-              <div style={{display:'flex', alignItems:'center', gap: '20px'}}>
+              <div className="cart-item-controls">
                 <div style={{display:'flex', alignItems:'center', background: '#000', borderRadius: '6px', padding: '5px'}}>
-                    <button onClick={() => decreaseQuantity(item.id)} style={{background:'transparent', border:'none', color:'white', cursor:'pointer'}}><Minus size={16} /></button>
+                    <button aria-label={`Quitar una unidad de ${item.title}`} onClick={() => decreaseQuantity(item.id)} style={{background:'transparent', border:'none', color:'white', cursor:'pointer'}}><Minus size={16} /></button>
                     <span style={{color:'white', fontWeight:'bold', minWidth:'25px', textAlign:'center'}}>{item.quantity}</span>
-                    <button onClick={() => addToCart(item)} style={{background:'transparent', border:'none', color:'white', cursor:'pointer'}}><Plus size={16} /></button>
+                    <button aria-label={`Agregar una unidad de ${item.title}`} onClick={() => addToCart(item)} style={{background:'transparent', border:'none', color:'white', cursor:'pointer'}}><Plus size={16} /></button>
                 </div>
-                <button onClick={() => removeFromCart(item.id)} style={{background:'none', border:'none', color:'#d32f2f', cursor:'pointer'}}><Trash2 size={22} /></button>
+                <button aria-label={`Eliminar ${item.title} del carrito`} onClick={() => removeFromCart(item.id)} style={{background:'none', border:'none', color:'#d32f2f', cursor:'pointer'}}><Trash2 size={22} /></button>
               </div>
             </div>
           ))}
@@ -645,10 +711,26 @@ const Footer = () => (
 
 
 function App() {
-  const [cart, setCart] = useState([]);
-  const [productos, setProductos] = useState([]);
+  const [cart, setCart] = useState(loadCart);
+  const [productos, setProductos] = useState(PRODUCTOS_DEMO);
   const [searchTerm, setSearchTerm] = useState("");
   const [mostrarCheckout, setMostrarCheckout] = useState(false);
+  const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
+  const [toast, setToast] = useState(null);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem('nowin_cart', JSON.stringify(cart));
+    } catch (error) {
+      console.error('No se pudo guardar el carrito en este dispositivo.', error);
+    }
+  }, [cart]);
+
+  useEffect(() => {
+    if (!toast) return undefined;
+    const timeoutId = window.setTimeout(() => setToast(null), 2500);
+    return () => window.clearTimeout(timeoutId);
+  }, [toast]);
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -658,7 +740,9 @@ function App() {
           const docs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
           setProductos(docs);
         }
-      } catch (error) { console.log("Usando datos locales"); }
+      } catch (error) {
+        console.error("No se pudieron cargar los productos de Firestore. Se mantiene el catálogo local.", error);
+      }
     };
     fetchProductos();
   }, []);
@@ -668,10 +752,18 @@ function App() {
       const existe = prev.find(item => item.id === prod.id);
       return existe ? prev.map(item => item.id === prod.id ? {...item, quantity: item.quantity + 1} : item) : [...prev, {...prod, quantity: 1}];
     });
+    setToast((current) => ({
+      id: (current?.id ?? 0) + 1,
+      message: `${prod.title} agregado al carrito`,
+    }));
   };
 
   const decreaseQuantity = (id) => setCart(prev => prev.map(item => item.id === id ? { ...item, quantity: Math.max(1, item.quantity - 1) } : item));
   const removeFromCart = (id) => setCart(prev => prev.filter(item => item.id !== id));
+  const startCheckout = () => {
+    setCartDrawerOpen(false);
+    setMostrarCheckout(true);
+  };
 
 const procesarCompra = async (datosUsuario) => {
     const totalPrecio = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
@@ -703,14 +795,31 @@ const procesarCompra = async (datosUsuario) => {
   return (
     <Router>
       <div className="app-container">
-        <Navbar cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <Navbar
+          cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          onCartClick={() => setCartDrawerOpen(true)}
+        />
         <Routes>
           <Route path="/" element={<Home productos={productos} agregarAlCarrito={addToCart} searchTerm={searchTerm} />} />
-          <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} addToCart={addToCart} decreaseQuantity={decreaseQuantity} onStartCheckout={() => setMostrarCheckout(true)} />} />
+          <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} addToCart={addToCart} decreaseQuantity={decreaseQuantity} onStartCheckout={startCheckout} />} />
           <Route path="/about" element={<About />} />
           <Route path="/producto/:id" element={<ProductoDetalle productos={productos} alAgregar={addToCart} />} />
         </Routes>
+        {cartDrawerOpen && (
+          <CartDrawer
+            cart={cart}
+            onClose={() => setCartDrawerOpen(false)}
+            addToCart={addToCart}
+            decreaseQuantity={decreaseQuantity}
+            removeFromCart={removeFromCart}
+            onStartCheckout={startCheckout}
+          />
+        )}
         {mostrarCheckout && <CheckoutForm enviarPedido={procesarCompra} cancelar={() => setMostrarCheckout(false)} />}
+        {toast && <div className="cart-toast" role="status" aria-live="polite" key={toast.id}>{toast.message}</div>}
+        <WhatsAppFloat />
         <Footer />
         <BrandCarouselThin />
       </div>

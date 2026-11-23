@@ -1,115 +1,170 @@
-/* --- BANNER SAL MARINA FULL WIDTH --- */
-
-.marina-banner {
-  background: linear-gradient(135deg, #061b26 0%, #10374a 100%);
-  padding: 80px 20px;
-  
-  /* Truco para ocupar el 100% de la pantalla de borde a borde */
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  border-radius: 0; 
-  max-width: none; 
-  
-  border-top: 2px solid #FFC400;
-  border-bottom: 2px solid #FFC400;
-  position: relative;
-  overflow: hidden;
+.marina-section {
+  padding: clamp(24px, 4vw, 48px) 0;
+  background: #0a0a0a;
 }
 
-/* Brillo marino de fondo */
+.marina-banner {
+  position: relative;
+  isolation: isolate;
+  width: min(calc(100% - 32px), 1180px);
+  margin: 0 auto;
+  padding: clamp(28px, 6vw, 72px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 196, 0, 0.18);
+  border-radius: 24px;
+  background:
+    radial-gradient(ellipse at 82% 50%, rgba(255, 196, 0, 0.09), transparent 38%),
+    linear-gradient(135deg, #191919 0%, #0e0e0e 100%);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+}
+
 .marina-banner::before {
-  content: '';
   position: absolute;
+  z-index: -1;
   top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 50%);
-  pointer-events: none;
+  right: -15%;
+  width: 65%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 196, 0, 0.08);
+  border-radius: 50%;
+  content: '';
 }
 
 .marina-wrapper {
-  display: flex;
-  flex-direction: column; /* Apila todo de arriba hacia abajo */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.85fr);
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 15px;
-  position: relative;
-  z-index: 2;
+  gap: clamp(24px, 5vw, 72px);
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .marina-info {
-  max-width: 800px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .badge-marina {
-  display: inline-block;
-  background-color: transparent;
-  color: #7ce3ff;
-  border: 1px solid #7ce3ff;
-  padding: 5px 15px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  letter-spacing: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
   margin-bottom: 20px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 196, 0, 0.35);
+  border-radius: 999px;
+  background: rgba(255, 196, 0, 0.08);
+  color: #ffd84d;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.badge-marina > span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ffc400;
+  box-shadow: 0 0 12px rgba(255, 196, 0, 0.65);
 }
 
 .marina-titulo {
-  font-size: 4rem;
-  color: #ffffff;
-  font-weight: 900;
-  margin: 0 0 15px 0;
-  letter-spacing: 2px;
+  margin: 0 0 16px;
+  color: #fff;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
 }
 
 .marina-desc {
-  font-size: 1.2rem;
-  color: #b0cddb;
-  line-height: 1.6;
-  margin-bottom: 10px;
+  max-width: 46ch;
+  margin: 0 0 26px;
+  color: #c4c4c4;
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  line-height: 1.7;
 }
 
-/* EL PRODUCTO GIGANTE */
+.marina-imagen-container {
+  display: grid;
+  min-height: 260px;
+  place-items: center;
+}
+
 .img-marina-flotante {
-  width: 450px; /* Tamaño mucho más grande */
-  max-width: 90vw;
-  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.7));
-  animation: floteMarino 4s ease-in-out infinite;
-  margin: 20px 0 40px 0; /* Separación con el texto y el botón */
+  display: block;
+  width: min(100%, 390px);
+  max-height: 400px;
+  object-fit: contain;
+  filter: drop-shadow(0 24px 30px rgba(0, 0, 0, 0.5));
+  animation: floteMarino 6s ease-in-out infinite;
+}
+
+.btn-marina {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 50px;
+  padding: 0 20px;
+  border: 1px solid #ffc400;
+  border-radius: 999px;
+  background: #ffc400;
+  color: #111;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.025em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-marina:hover {
+  transform: translateY(-2px);
+  background: #ffd84d;
+  box-shadow: 0 10px 24px rgba(255, 196, 0, 0.2);
+}
+
+.btn-marina:active {
+  transform: scale(0.98);
 }
 
 @keyframes floteMarino {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+  50% { transform: translateY(-10px); }
 }
 
-.btn-marina {
-  background: #FFC400;
-  color: #000;
-  border: none;
-  padding: 15px 45px;
-  font-size: 1.1rem;
-  font-weight: 900;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 5px 15px rgba(255, 196, 0, 0.3);
-  letter-spacing: 1px;
+@media (max-width: 700px) {
+  .marina-wrapper {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .marina-imagen-container {
+    min-height: 220px;
+    grid-row: 1;
+  }
+
+  .img-marina-flotante {
+    width: min(78%, 300px);
+    max-height: 270px;
+  }
 }
 
-.btn-marina:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(255, 196, 0, 0.5);
-}
+@media (max-width: 420px) {
+  .marina-banner {
+    width: calc(100% - 24px);
+    padding: 24px 20px;
+    border-radius: 18px;
+  }
 
-/* Ajustes para celulares */
-@media (max-width: 768px) {
-  .marina-titulo { font-size: 2.8rem; }
-  .img-marina-flotante { width: 300px; margin: 10px 0 20px 0; }
-  .marina-banner { padding: 50px 20px; }
+  .marina-imagen-container {
+    min-height: 190px;
+  }
+
+  .img-marina-flotante {
+    width: min(76%, 250px);
+  }
+
+  .btn-marina {
+    width: 100%;
+  }
 }
