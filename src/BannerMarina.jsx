@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import ProductImage from './ProductImage';
 import './BannerMarina.css';
 
 const BannerMarina = () => {
@@ -26,7 +27,7 @@ const BannerMarina = () => {
           </div>
 
           <div className="marina-imagen-container">
-            <img
+            <ProductImage
               src="/img/salmarina.png"
               alt="Sal Marina Nowin"
               loading="lazy"

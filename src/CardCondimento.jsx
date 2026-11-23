@@ -1,6 +1,7 @@
 import React from 'react';
 import { Plus } from 'lucide-react';
 import { Link } from 'react-router-dom'; // <-- NUEVO: Importamos Link
+import ProductImage from './ProductImage';
 
 const CardCondimento = ({ producto, alAgregar }) => {
   const esMayorista =
@@ -16,10 +17,11 @@ const CardCondimento = ({ producto, alAgregar }) => {
           to={`/producto/${producto.id}`} 
           style={{ display: 'flex', width: '100%', height: '100%', justifyContent: 'center' }}
         >
-          <img
+          <ProductImage
             src={producto.img}
             alt={producto.title}
             loading="lazy"
+            decoding="async"
             className="card-img"
             style={{ width: '100%', height: '100%', objectFit: 'contain' }}
           />

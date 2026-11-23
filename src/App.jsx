@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import BrandCarouselThin from './BrandCarouselThin.jsx';
-import ProductoDetalle from './ProductoDetalle';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { db } from './firebase'; 
-import { collection, getDocs, addDoc } from 'firebase/firestore'; 
 import { Search, Plus, Minus, Trash2, ShoppingBag, Instagram, Truck, MapPin, MessageCircle, ArrowDown, Leaf, Store } from 'lucide-react';
 import Navbar from './Navbar'; 
-import CheckoutForm from './CheckoutForm'; 
 import CardCondimento from './CardCondimento'; 
-import CartDrawer, { FREE_SHIPPING_THRESHOLD } from './CartDrawer';
+import { FREE_SHIPPING_THRESHOLD } from './shipping';
+import ProductImage from './ProductImage';
+import { normalizeSearchText } from './searchText';
 import WhatsAppFloat from './WhatsAppFloat';
 import './App.css';
-import BannerMarina from './BannerMarina';
 
+const BrandCarouselThin = lazy(() => import('./BrandCarouselThin.jsx'));
+const ProductoDetalle = lazy(() => import('./ProductoDetalle.jsx'));
+const CheckoutForm = lazy(() => import('./CheckoutForm.jsx'));
+const CartDrawer = lazy(() => import('./CartDrawer.jsx'));
+const BannerMarina = lazy(() => import('./BannerMarina.jsx'));
 
 const loadCart = () => {
   if (typeof window === 'undefined') return [];
@@ -471,13 +472,6 @@ const CATEGORIAS_PRODUCTOS = [
   'Nuestras Especias',
 ];
 
-const normalizeSearchText = (value) =>
-  String(value ?? '')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .trim();
-
 const getProductFormat = (product) =>
   product.category?.toLowerCase().includes('mayorista') ||
   /1\s?(kg|kilo)/i.test(product.title)
@@ -547,7 +541,9 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
       </header>
 
       
-      <BannerMarina />
+      <Suspense fallback={null}>
+        <BannerMarina />
+      </Suspense>
 
       <section className="store-assurance" aria-label="Información de Nowin">
         <div><Truck size={20} aria-hidden="true" /><span>Envío bonificado desde <strong>${FREE_SHIPPING_THRESHOLD.toLocaleString('es-AR')}</strong></span></div>
@@ -737,7 +733,13 @@ const Cart = ({ cart, removeFromCart, addToCart, decreaseQuantity, onStartChecko
           {cart.map(item => (
             <div key={item.id} className="cart-item">
               <div style={{display:'flex', alignItems:'center', gap: '15px'}}>
-                <img src={item.img} alt="" loading="lazy" style={{width: '60px', height: '60px', objectFit: 'contain', background: 'white', borderRadius: '4px', padding:'5px'}} />
+                <ProductImage
+                  src={item.img}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  style={{width: '60px', height: '60px', objectFit: 'contain', background: 'white', borderRadius: '4px', padding:'5px'}}
+                />
                 <div>
                    <h4 style={{margin: '0 0 5px 0', color:'white'}}>{item.title}</h4>
                    <p className="cart-item-price">${item.price.toLocaleString()}</p>
@@ -754,7 +756,7 @@ const Cart = ({ cart, removeFromCart, addToCart, decreaseQuantity, onStartChecko
             </div>
           ))}
           <div className="cart-page-summary">
-            <p>El subtotal corresponde solo a productos. El envío se coordina al confirmar por WhatsApp.</p>
+            <p>El subtotal corresponde solo a productos. El envío se coordina por WhatsApp y está bonificado desde ${FREE_SHIPPING_THRESHOLD.toLocaleString('es-AR')}.</p>
             <h3 className="cart-total">Subtotal de productos: ${total.toLocaleString('es-AR')}</h3>
             <button type="button" onClick={onStartCheckout} className="btn-nowin" style={{maxWidth: '300px', marginLeft: 'auto', fontSize:'1.1rem'}}>FINALIZAR COMPRA</button>
           </div>
@@ -858,6 +860,7 @@ function App() {
   useEffect(() => {
     const fetchProductos = async () => {
       try {
+        const { db, collection, getDocs } = await import('./firestoreClient');
         const querySnapshot = await getDocs(collection(db, "productos"));
         if (!querySnapshot.empty) {
           const docs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -895,6 +898,7 @@ const procesarCompra = async (datosUsuario) => {
     const totalPrecio = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
     
     try {
+      const { db, collection, addDoc } = await import('./firestoreClient');
       // Guardamos la orden silenciosamente antes de abrir WhatsApp
       await addDoc(collection(db, "ventas"), { 
         comprador: datosUsuario, 
@@ -923,31 +927,42 @@ const procesarCompra = async (datosUsuario) => {
       <div className="app-container">
         <Navbar
           cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)}
+          products={productos}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           onCartClick={() => setCartDrawerOpen(true)}
         />
-        <Routes>
-          <Route path="/" element={<Home productos={productos} agregarAlCarrito={addToCart} searchTerm={searchTerm} />} />
-          <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} addToCart={addToCart} decreaseQuantity={decreaseQuantity} onStartCheckout={startCheckout} />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/producto/:id" element={<ProductoDetalle productos={productos} alAgregar={addToCart} />} />
-        </Routes>
+        <Suspense fallback={<div className="container" role="status" style={{ padding: '80px 20px', textAlign: 'center' }}>Cargando...</div>}>
+          <Routes>
+            <Route path="/" element={<Home productos={productos} agregarAlCarrito={addToCart} searchTerm={searchTerm} />} />
+            <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} addToCart={addToCart} decreaseQuantity={decreaseQuantity} onStartCheckout={startCheckout} />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/producto/:id" element={<ProductoDetalle productos={productos} alAgregar={addToCart} />} />
+          </Routes>
+        </Suspense>
         {cartDrawerOpen && (
-          <CartDrawer
-            cart={cart}
-            onClose={() => setCartDrawerOpen(false)}
-            addToCart={addToCart}
-            decreaseQuantity={decreaseQuantity}
-            removeFromCart={removeFromCart}
-            onStartCheckout={startCheckout}
-          />
+          <Suspense fallback={null}>
+            <CartDrawer
+              cart={cart}
+              onClose={() => setCartDrawerOpen(false)}
+              addToCart={addToCart}
+              decreaseQuantity={decreaseQuantity}
+              removeFromCart={removeFromCart}
+              onStartCheckout={startCheckout}
+            />
+          </Suspense>
         )}
-        {mostrarCheckout && <CheckoutForm cart={cart} enviarPedido={procesarCompra} cancelar={() => setMostrarCheckout(false)} />}
+        {mostrarCheckout && (
+          <Suspense fallback={null}>
+            <CheckoutForm cart={cart} enviarPedido={procesarCompra} cancelar={() => setMostrarCheckout(false)} />
+          </Suspense>
+        )}
         {toast && <div className="cart-toast" role="status" aria-live="polite" key={toast.id}>{toast.message}</div>}
         <WhatsAppFloat />
         <Footer />
-        <BrandCarouselThin />
+        <Suspense fallback={null}>
+          <BrandCarouselThin />
+        </Suspense>
       </div>
     </Router>
   );

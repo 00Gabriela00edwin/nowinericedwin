@@ -1,9 +1,9 @@
 import { useRef } from 'react';
 import { Minus, Plus, ShoppingBag, Trash2, X } from 'lucide-react';
 import useDialogFocus from './useDialogFocus';
+import ProductImage from './ProductImage';
+import { FREE_SHIPPING_THRESHOLD } from './shipping';
 import './CartDrawer.css';
-
-export const FREE_SHIPPING_THRESHOLD = 100000;
 
 const CartDrawer = ({ cart, onClose, addToCart, decreaseQuantity, removeFromCart, onStartCheckout }) => {
   const drawerRef = useRef(null);
@@ -58,7 +58,7 @@ const CartDrawer = ({ cart, onClose, addToCart, decreaseQuantity, removeFromCart
             </div>
           ) : cart.map((item) => (
             <article className="cart-drawer-item" key={item.id}>
-              <img src={item.img} alt="" loading="lazy" />
+              <ProductImage src={item.img} alt="" loading="lazy" decoding="async" />
               <div className="cart-drawer-item-info">
                 <h3>{item.title}</h3>
                 <p>${item.price.toLocaleString('es-AR')}</p>
@@ -88,7 +88,7 @@ const CartDrawer = ({ cart, onClose, addToCart, decreaseQuantity, removeFromCart
         </div>
 
         <footer className="cart-drawer-footer">
-          <p className="cart-drawer-shipping-note">El subtotal no incluye el envío; se coordina al confirmar el pedido por WhatsApp.</p>
+          <p className="cart-drawer-shipping-note">El subtotal no incluye el envío; se coordina por WhatsApp. Bonificado desde ${FREE_SHIPPING_THRESHOLD.toLocaleString('es-AR')}.</p>
           <div className="cart-drawer-total">
             <span>Subtotal de productos</span>
             <strong>${total.toLocaleString('es-AR')}</strong>

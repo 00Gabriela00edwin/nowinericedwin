@@ -1,13 +1,41 @@
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, ShoppingBag, Menu, X, Home, Info } from 'lucide-react';
 import useDialogFocus from './useDialogFocus';
+import { normalizeSearchText } from './searchText';
 
-const Navbar = ({ cartCount, searchTerm, setSearchTerm, onCartClick }) => {
+const Navbar = ({ cartCount, products = [], searchTerm, setSearchTerm, onCartClick }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchFocused, setSearchFocused] = useState(false);
   const menuRef = useRef(null);
   const menuButtonRef = useRef(null);
   const closeMenu = () => setIsOpen(false);
+  const searchQuery = normalizeSearchText(searchTerm);
+  const suggestions = useMemo(() => {
+    if (searchQuery.length < 2) return [];
+
+    return products
+      .map((product, index) => {
+        const title = normalizeSearchText(product.title);
+        const category = normalizeSearchText(product.category);
+        const description = normalizeSearchText(product.description);
+        const relevance = title.startsWith(searchQuery)
+          ? 0
+          : title.includes(searchQuery)
+          ? 1
+          : category.includes(searchQuery)
+          ? 2
+          : description.includes(searchQuery)
+          ? 3
+          : null;
+
+        return { product, index, relevance };
+      })
+      .filter((result) => result.relevance !== null)
+      .sort((first, second) => first.relevance - second.relevance || first.index - second.index)
+      .slice(0, 5)
+      .map((result) => result.product);
+  }, [products, searchQuery]);
 
   useDialogFocus(isOpen, menuRef, closeMenu);
 
@@ -45,9 +73,37 @@ const Navbar = ({ cartCount, searchTerm, setSearchTerm, onCartClick }) => {
               placeholder="Buscar especias y sales"
               className="search-input"
               aria-label="Buscar productos"
+              aria-autocomplete="list"
+              aria-expanded={searchFocused && suggestions.length > 0}
+              aria-controls="product-search-suggestions"
               value={searchTerm}
+              onFocus={() => setSearchFocused(true)}
               onChange={(e) => setSearchTerm(e.target.value)}
+              onBlur={(e) => {
+                if (!e.currentTarget.parentElement?.contains(e.relatedTarget)) setSearchFocused(false);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') setSearchFocused(false);
+              }}
             />
+            {searchFocused && suggestions.length > 0 && (
+              <div className="search-suggestions" id="product-search-suggestions" role="group" aria-label="Sugerencias de productos">
+                {suggestions.map((product) => (
+                  <Link
+                    className="search-suggestion"
+                    key={product.id}
+                    to={`/producto/${product.id}`}
+                    onClick={() => {
+                      setSearchTerm('');
+                      setSearchFocused(false);
+                    }}
+                  >
+                    <span>{product.title}</span>
+                    <small>{product.category} · ${Number(product.price || 0).toLocaleString('es-AR')}</small>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
 
           <button

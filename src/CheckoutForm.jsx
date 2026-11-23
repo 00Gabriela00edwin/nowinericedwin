@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { ShoppingBag, X } from 'lucide-react';
 import useDialogFocus from './useDialogFocus';
+import { FREE_SHIPPING_THRESHOLD } from './shipping';
 
 const CheckoutForm = ({ enviarPedido, cancelar, cart = [] }) => {
   const modalRef = useRef(null);
@@ -91,7 +92,7 @@ const CheckoutForm = ({ enviarPedido, cancelar, cart = [] }) => {
             <span>Subtotal de productos</span>
             <strong>${subtotal.toLocaleString('es-AR')}</strong>
           </div>
-          <p>El subtotal corresponde solo a los productos. El envío se coordina al confirmar por WhatsApp.</p>
+          <p>El subtotal corresponde solo a los productos. El envío se coordina por WhatsApp y está bonificado desde ${FREE_SHIPPING_THRESHOLD.toLocaleString('es-AR')}.</p>
         </section>
 
         <form onSubmit={handleSubmit} aria-busy={isSubmitting}>
