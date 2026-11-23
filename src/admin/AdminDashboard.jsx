@@ -16,6 +16,7 @@ import {
   importProducts,
   recordManualSale,
   removeExpense,
+  restoreLegacyCatalog,
   saveExpense,
   saveFinancialConfig,
   saveFinancialProductData,
@@ -431,7 +432,15 @@ const AdminDashboard = () => {
         />
       )}
       {activeTab === 'import' && (
-        <ImportTab onImport={(products) => runAction(() => importProducts(products), `${products.length} producto(s) importado(s).`)} />
+        <ImportTab
+          busy={busy}
+          legacyCatalogRestored={Boolean(financialConfig?.catalogoLegadoRestauradoAt)}
+          onRestoreLegacy={() => runAction(
+            () => restoreLegacyCatalog(),
+            'Catálogo anterior restaurado; se conservaron los precios ya existentes.'
+          )}
+          onImport={(products) => runAction(() => importProducts(products), `${products.length} producto(s) importado(s).`)}
+        />
       )}
     </main>
   );
@@ -987,7 +996,7 @@ const ExpensesTab = ({ fixedExpenses, variableExpenses, month, onSaveFixed, onSa
   );
 };
 
-const ImportTab = ({ onImport }) => {
+const ImportTab = ({ onImport, onRestoreLegacy, legacyCatalogRestored, busy }) => {
   const [products, setProducts] = useState([]);
   const [errors, setErrors] = useState([]);
   const [fileName, setFileName] = useState('');
@@ -1011,6 +1020,27 @@ const ImportTab = ({ onImport }) => {
   return (
     <section className="admin-tab-content">
       <div className="admin-section-heading"><div><h2>Importador inicial</h2><p>Importá JSON o CSV. Los costos y el stock se guardan en la colección privada.</p></div></div>
+      <div className="admin-import-card admin-legacy-restore">
+        <div>
+          <h3>Restaurar catálogo anterior</h3>
+          <p>Recupera los 50 productos del catálogo original, activa su publicación y conserva cualquier precio que ya exista en Firestore. Para productos sin precio, se usa el último valor guardado en el código.</p>
+          <p>El catálogo histórico puede tener precios desactualizados; revisalos en Inventario y precios antes de vender.</p>
+        </div>
+        {legacyCatalogRestored
+          ? <p className="admin-alert admin-alert-success" role="status">El catálogo histórico ya fue restaurado.</p>
+          : <button
+            type="button"
+            className="admin-primary-button"
+            disabled={busy}
+            onClick={() => {
+              if (window.confirm('Se publicarán los 50 productos del catálogo histórico. Se conservarán los precios existentes; los productos sin precio usarán el último precio guardado en el código. ¿Continuar?')) {
+                onRestoreLegacy();
+              }
+            }}
+          >
+            Restaurar 50 productos
+          </button>}
+      </div>
       <div className="admin-import-card">
         <label className="admin-file-input">Seleccionar archivo JSON o CSV<input type="file" accept=".json,.csv,application/json,text/csv" onChange={handleFile} /></label>
         <p>Campos obligatorios: nombre, categoria, precio, costoProduccion, comisionDefault, stockInicial, unidadesVendidas, stockActual y activo. Categorías: Sales, Especias, Repostería. Comisión: 0, 10, 15, 20, 25 o 30.</p>

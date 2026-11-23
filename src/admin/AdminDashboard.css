@@ -999,6 +999,27 @@
   line-height: 1.55;
 }
 
+.admin-legacy-restore {
+  border-color: rgba(255, 196, 0, 0.28);
+}
+
+.admin-legacy-restore h3 {
+  margin: 0 0 8px;
+  color: #f2d164;
+  font-size: 0.95rem;
+}
+
+.admin-legacy-restore > div p {
+  margin: 6px 0 0;
+  color: #999;
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.admin-legacy-restore > .admin-alert {
+  margin: 0;
+}
+
 .admin-import-errors {
   display: grid;
   gap: 6px;

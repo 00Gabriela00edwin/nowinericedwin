@@ -17,6 +17,7 @@ import {
   writeBatch,
   db,
 } from '../firestoreClient';
+import legacyCatalog from './legacyCatalog.json';
 
 const productsCollection = collection(db, 'productos');
 const financialProductsCollection = collection(db, 'datosFinancierosProductos');
@@ -437,6 +438,88 @@ export const saveMonthlyClosing = (month, values) => setDoc(
   },
   { merge: true }
 );
+
+const normalizeProductName = (value) => String(value || '')
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .trim()
+  .toLowerCase();
+
+export const restoreLegacyCatalog = async () => {
+  const existingSnapshot = await getDocs(productsCollection);
+  const existingProducts = existingSnapshot.docs.map((productDoc) => ({
+    id: productDoc.id,
+    data: productDoc.data(),
+  }));
+  const productsById = new Map();
+  const productsByName = new Map();
+
+  existingProducts.forEach((product) => {
+    productsById.set(String(product.data.legacyId ?? product.data.id ?? product.id), product);
+    const name = normalizeProductName(product.data.nombre ?? product.data.title);
+    if (name && !productsByName.has(name)) productsByName.set(name, product);
+  });
+
+  const privateFields = ['costoProduccion', 'comisionDefault', 'stockInicial', 'unidadesVendidas', 'stockActual'];
+  const legacyAliases = ['id', 'legacyId', 'title', 'category', 'price', 'imagen', 'descripcion'];
+  const batch = writeBatch(db);
+  const usedProductIds = new Set();
+  let preservedPrices = 0;
+
+  legacyCatalog.forEach((legacyProduct) => {
+    const productName = normalizeProductName(legacyProduct.title);
+    const existing = productsById.get(String(legacyProduct.id)) || productsByName.get(productName);
+    if (existing && usedProductIds.has(existing.id)) {
+      throw new Error(`El producto ${legacyProduct.title} coincide con un documento duplicado.`);
+    }
+
+    const productRef = existing
+      ? doc(db, 'productos', existing.id)
+      : doc(productsCollection, String(legacyProduct.id));
+    const existingData = existing?.data || {};
+    const existingPrice = existingData.precio ?? existingData.price;
+    const hasExistingPrice = existingPrice !== null &&
+      existingPrice !== undefined &&
+      existingPrice !== '' &&
+      Number.isFinite(Number(existingPrice)) &&
+      Number(existingPrice) >= 0;
+    if (hasExistingPrice) preservedPrices += 1;
+
+    const publicFields = Object.fromEntries(
+      Object.entries(existingData).filter(([field]) =>
+        !privateFields.includes(field) && !legacyAliases.includes(field)
+      )
+    );
+    const privateData = Object.fromEntries(
+      privateFields
+        .filter((field) => existingData[field] !== undefined)
+        .map((field) => [field, existingData[field]])
+    );
+
+    if (Object.keys(privateData).length) {
+      batch.set(doc(financialProductsCollection, productRef.id), privateData, { merge: true });
+    }
+    batch.set(productRef, {
+      ...publicFields,
+      nombre: existingData.nombre || existingData.title || legacyProduct.title,
+      categoria: existingData.categoria || existingData.category || legacyProduct.category,
+      precio: hasExistingPrice ? Number(existingPrice) : Number(legacyProduct.price),
+      img: existingData.img || existingData.imagen || legacyProduct.img,
+      description: existingData.description || existingData.descripcion || legacyProduct.description,
+      activo: true,
+      updatedAt: serverTimestamp(),
+    });
+    if (existing) usedProductIds.add(existing.id);
+  });
+
+  batch.set(doc(db, 'configuracionFinanciera', 'nowin-general'), {
+    catalogoLegadoRestauradoAt: serverTimestamp(),
+    catalogoLegadoCantidad: legacyCatalog.length,
+  }, { merge: true });
+  await batch.commit();
+
+  return { count: legacyCatalog.length, preservedPrices };
+};
 
 export const importProducts = async (products) => {
   const chunkSize = 200;
