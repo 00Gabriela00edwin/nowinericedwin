@@ -546,9 +546,18 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
       </Suspense>
 
       <section className="store-assurance" aria-label="Información de Nowin">
-        <div><Truck size={20} aria-hidden="true" /><span>Envío bonificado desde <strong>${FREE_SHIPPING_THRESHOLD.toLocaleString('es-AR')}</strong></span></div>
+        <div><Truck size={20} aria-hidden="true" /><span>Envíos a todo el país</span></div>
+        <div><Truck size={20} aria-hidden="true" /><span>Bonificado desde <strong>${FREE_SHIPPING_THRESHOLD.toLocaleString('es-AR')}</strong></span></div>
         <div><MapPin size={20} aria-hidden="true" /><span>Base en Posadas, Misiones</span></div>
-        <div><MessageCircle size={20} aria-hidden="true" /><span>Consultas mayoristas por WhatsApp</span></div>
+        <a
+          href="https://wa.me/5493764141598?text=Hola%20NOWIN%21%20Quisiera%20consultar%20medios%20de%20pago%20y%20opciones%20mayoristas."
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Consultar medios de pago y opciones mayoristas por WhatsApp"
+        >
+          <MessageCircle size={20} aria-hidden="true" />
+          <span>Medios de pago y mayoristas: consultanos</span>
+        </a>
       </section>
 
       <section id="catalogo" className="container" style={{ padding: '0px 20px', minHeight: '50vh' }}>
@@ -958,10 +967,10 @@ const procesarCompra = async (datosUsuario) => {
           </Suspense>
         )}
         {toast && <div className="cart-toast" role="status" aria-live="polite" key={toast.id}>{toast.message}</div>}
-        <WhatsAppFloat />
         <Footer />
         <Suspense fallback={null}>
           <BrandCarouselThin />
+          <WhatsAppFloat />
         </Suspense>
       </div>
     </Router>

@@ -92,7 +92,7 @@ const CheckoutForm = ({ enviarPedido, cancelar, cart = [] }) => {
             <span>Subtotal de productos</span>
             <strong>${subtotal.toLocaleString('es-AR')}</strong>
           </div>
-          <p>El subtotal corresponde solo a los productos. El envío se coordina por WhatsApp y está bonificado desde ${FREE_SHIPPING_THRESHOLD.toLocaleString('es-AR')}.</p>
+          <p>El subtotal corresponde solo a los productos. El envío se coordina por WhatsApp y está bonificado desde ${FREE_SHIPPING_THRESHOLD.toLocaleString('es-AR')}. Consultá los medios de pago al enviar tu pedido.</p>
         </section>
 
         <form onSubmit={handleSubmit} aria-busy={isSubmitting}>

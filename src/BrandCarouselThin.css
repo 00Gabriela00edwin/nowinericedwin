@@ -1,61 +1,152 @@
-.carousel-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+.retailer-section {
+  padding: clamp(48px, 6vw, 72px) 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  background:
+    radial-gradient(ellipse at 50% 0, rgba(255, 196, 0, 0.08), transparent 52%),
+    linear-gradient(180deg, #0a0a0a 0%, #111 100%);
+}
+
+.retailer-section-inner {
+  width: min(100%, 1240px);
+  margin: 0 auto;
+}
+
+.retailer-heading {
+  margin: 0 auto 22px;
+  text-align: center;
+}
+
+.retailer-heading > p {
+  margin: 0 0 10px;
+  color: #e4bd4a;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+}
+
+.retailer-heading h2 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.55rem, 3.2vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1.15;
+}
+
+.retailer-heading > span {
+  display: block;
+  margin-top: 10px;
+  color: #b7b7b7;
+  font-size: 0.92rem;
+}
+
+.retailer-heading::after {
+  display: block;
+  width: 44px;
+  height: 2px;
+  margin: 19px auto 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #ffc400, transparent);
+  content: '';
+}
+
+.retailer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: center;
-  padding: 30px 0 10px 0; 
-  background-color: #000000; 
+  gap: 8px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.carousel-title {
-  font-size: 0.75rem; 
-  letter-spacing: 4px; 
-  color: #ebd323; 
-  text-transform: uppercase;
-  margin-bottom: 20px;
-  font-weight: 500;
+.retailer-logo-item {
+  display: grid;
+  min-width: 0;
+  min-height: 126px;
+  align-content: center;
+  justify-items: center;
+  padding: 8px 4px;
 }
 
-.thin-marquee {
+.retailer-logo-item img {
+  display: block;
   width: 100%;
-  height: 80px;
-  background-color: #000000; /* El negro de Nowin */
+  max-width: 180px;
+  height: 72px;
+  object-fit: contain;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.retailer-logo-item .retailer-logo-emphasized {
+  transform: scale(1.14);
+}
+
+.retailer-logo-caption {
   display: flex;
-  align-items: center;
-  overflow: hidden;
-  position: relative;
-  border-top: 1px solid #1a1a1a;
+  min-height: 2.4em;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 5px;
+  color: #bcbcbc;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  text-align: center;
 }
 
-.marquee-content {
-  display: flex;
-  width: max-content;
-  animation: scroll-thin 25s linear infinite;
+@media (hover: hover) {
+  .retailer-logo-item:hover img:not(.retailer-logo-emphasized) {
+    transform: translateY(-3px) scale(1.04);
+    opacity: 0.88;
+  }
+
+  .retailer-logo-item:hover .retailer-logo-emphasized {
+    transform: translateY(-3px) scale(1.18);
+    opacity: 0.88;
+  }
 }
 
-/* ESTO DETIENE EL CARRUSEL AL PASAR EL MOUSE */
-.marquee-content:hover {
-  animation-play-state: paused;
+@media (min-width: 520px) {
+  .retailer-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px 22px;
+  }
 }
 
-.marquee-item {
-  padding: 0 50px; /* Espacio entre logos */
+@media (min-width: 760px) {
+  .retailer-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px 26px;
+  }
 }
 
-.marquee-item img {
-  height: 80px; /* Tamaño de los logos */
-  width: auto;
-  
-  transition: 0.3s ease;
-}
+@media (max-width: 420px) {
+  .retailer-section {
+    padding-top: 42px;
+    padding-bottom: 48px;
+    padding-right: 14px;
+    padding-left: 14px;
+  }
 
-.marquee-item img:hover {
-  opacity: 1;
-  filter: none; /* Recuperan su color original al pasar el mouse */
-  transform: scale(1.1); /* Un pequeño zoom sutil */
-}
+  .retailer-heading {
+    margin-bottom: 16px;
+  }
 
-@keyframes scroll-thin {
-  from { transform: translateX(0); }
-  to { transform: translateX(-33.33%); }
+  .retailer-grid {
+    gap: 4px 12px;
+  }
+
+  .retailer-logo-item {
+    min-height: 112px;
+    padding: 6px 2px;
+  }
+
+  .retailer-logo-item img {
+    height: 66px;
+  }
+
+  .retailer-logo-caption {
+    margin-top: 4px;
+    font-size: 0.68rem;
+  }
 }

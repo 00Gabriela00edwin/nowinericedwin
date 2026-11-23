@@ -1,40 +1,44 @@
 import React from 'react';
 import './BrandCarouselThin.css';
 
-const BrandCarouselThin = () => {
-  const logos = [
-    { name: 'Cliente 1', url: '/img/clientes1.png' },
-    { name: 'Cliente 2', url: '/img/clientes2.png' },
-    { name: 'Cliente 3', url: '/img/clientes3.png' },
-    { name: 'Cliente 4', url: '/img/clientes4.png' },
-    { name: 'Cliente 5', url: '/img/clientes5.png' },
-    { name: 'Cliente 6', url: '/img/clientes6.png' },
-    { name: 'Cliente 7', url: '/img/clientes7.png' },
-    { name: 'Cliente 8', url: '/img/cliente8.png' },
-     { name: 'Cliente 9', url: '/img/clientes9.png' },
- { name: 'Cliente 10', url: '/img/cliente10.jpg' },
+const puntosDeVenta = [
+  { name: 'Estación de Carnes', url: '/img/clientes1.webp', emphasize: true },
+  { name: 'La Industria del Pollo', url: '/img/clientes2.webp' },
+  { name: 'Super Carnes', url: '/img/clientes3.webp' },
+  { name: 'Carnicería El Corral', url: '/img/clientes4.webp' },
+  { name: 'Vanto Carnicería', url: '/img/clientes5.webp' },
+  { name: 'Multi Express', url: '/img/clientes6.webp' },
+  { name: 'Punto de venta de carnes', url: '/img/clientes7.webp', emphasize: true },
+  { name: 'La Ruta de la Carne', url: '/img/cliente8.webp' },
+  { name: 'Supermercado Maludi', url: '/img/clientes9.webp' },
+  { name: 'Locos x la Carne', url: '/img/cliente10.webp' },
+];
 
-  ];
+const BrandCarouselThin = () => (
+  <section className="retailer-section" aria-labelledby="retailer-title">
+    <div className="retailer-section-inner">
+      <header className="retailer-heading">
+        <p>RED NOWIN</p>
+        <h2 id="retailer-title">Nuestros puntos de venta</h2>
+        <span>Encontrá productos NOWIN en estos comercios.</span>
+      </header>
 
-  // Triplicamos los logos para que el carrusel sea infinito y no se vea el salto
-  const doubleLogos = [...logos, ...logos, ...logos];
-
-  return (
-    <div className="carousel-container">
-      {/* Título de clientes */}
-      <h4 className="carousel-title"> NUESTROS PUNTOS DE VENTA:</h4>
-      
-      <div className="thin-marquee">
-        <div className="marquee-content">
-          {doubleLogos.map((logo, index) => (
-            <div className="marquee-item" key={index}>
-              <img src={logo.url} alt={logo.name} loading="lazy" decoding="async" />
-            </div>
-          ))}
-        </div>
-      </div>
+      <ul className="retailer-grid">
+        {puntosDeVenta.map((punto) => (
+          <li className="retailer-logo-item" key={punto.url}>
+            <img
+              className={punto.emphasize ? 'retailer-logo-emphasized' : undefined}
+              src={punto.url}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+            <span className="retailer-logo-caption">{punto.name}</span>
+          </li>
+        ))}
+      </ul>
     </div>
-  );
-};
+  </section>
+);
 
 export default BrandCarouselThin;

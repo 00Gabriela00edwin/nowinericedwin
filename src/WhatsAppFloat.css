@@ -16,13 +16,20 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   font-size: 0.82rem;
   font-weight: 800;
-  transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+  transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease, opacity 0.18s ease, visibility 0.18s ease;
 }
 
 .whatsapp-float:hover {
   transform: translateY(-2px);
   background: #ffc400;
   color: #111;
+}
+
+.whatsapp-float-hidden {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
 }
 
 @media (max-width: 480px) {

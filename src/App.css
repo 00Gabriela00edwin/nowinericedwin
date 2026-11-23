@@ -148,7 +148,9 @@ html {
   align-items: center;
   justify-content: center;
   overflow: visible; 
-  padding: 5px;
+  width: 44px;
+  min-height: 44px;
+  padding: 0;
   border: 0;
   background: transparent;
   color: inherit;
@@ -251,26 +253,32 @@ html {
 
 .store-assurance {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  max-width: 1100px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 1180px;
   margin: 0 auto;
   padding: 24px 20px;
   color: #ddd;
 }
 
-.store-assurance > div {
+.store-assurance > div,
+.store-assurance > a {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  min-height: 48px;
+  min-height: 52px;
+  color: inherit;
   text-align: center;
   font-size: 0.85rem;
 }
 
 .store-assurance svg { flex: 0 0 auto; color: #ffc400; }
 .store-assurance strong { color: #ffc400; }
+.store-assurance > a { text-decoration: none; }
+.store-assurance > a:hover,
+.store-assurance > a:focus-visible { color: #ffc400; }
+.store-assurance > a:focus-visible { outline: 2px solid #ffc400; outline-offset: 4px; }
 
 .category-pills {
   display: flex;
@@ -850,7 +858,8 @@ html {
   .hero h1 { font-size: clamp(2rem, 9vw, 2.7rem); }
   .hero-content p { font-size: 0.95rem; }
   .store-assurance { grid-template-columns: 1fr; gap: 8px; padding: 18px 20px; }
-  .store-assurance > div { justify-content: flex-start; max-width: 300px; margin: 0 auto; width: 100%; text-align: left; }
+  .store-assurance > div,
+  .store-assurance > a { justify-content: flex-start; max-width: 320px; margin: 0 auto; width: 100%; text-align: left; }
   .categoria-gigante h2 {
     font-size: 2rem;
   }
@@ -1183,8 +1192,8 @@ html {
 
 .detalle-cantidad button {
   display: grid;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   place-items: center;
   border: 0;
   border-radius: 6px;
