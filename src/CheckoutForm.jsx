@@ -130,13 +130,14 @@ const CheckoutForm = ({ enviarPedido, cancelar, cart = [] }) => {
           </div>
 
           <div className="form-group checkout-field">
-            <label htmlFor="checkout-address">Dirección de envío</label>
+            <label htmlFor="checkout-address">Dirección de envío completa</label>
             <input
               id="checkout-address"
               type="text"
               name="direccion"
-              aria-label="Dirección de envío"
+              aria-label="Dirección de envío completa"
               autoComplete="street-address"
+              placeholder="Calle, número, localidad y provincia"
               minLength={5}
               required
               value={formData.direccion}

@@ -35,7 +35,8 @@ const ProductoDetalle = ({ productos, alAgregar }) => {
   const pesoNeto = producto.pesoNeto || producto.netWeight || producto.peso;
   const alergenos = producto.alergenos || producto.allergens;
   const conservacion = producto.conservacion || producto.storage;
-  const descripcion = producto.description || 'Consultanos para recibir más información sobre este producto.';
+  const descripcion = [producto.description, producto.descripcion]
+    .find((valor) => typeof valor === 'string' && valor.trim())?.trim() || '';
   const imagenes = [...new Set([
     producto.img,
     ...(Array.isArray(producto.images) ? producto.images : []),
@@ -69,6 +70,7 @@ const ProductoDetalle = ({ productos, alAgregar }) => {
     ? reseñasVerificadas.reduce((total, reseña) => total + Number(reseña.rating), 0) / reseñasVerificadas.length
     : 0;
   const mensajeMayorista = encodeURIComponent(`Hola NOWIN! Quiero consultar disponibilidad y condiciones mayoristas para ${producto.title}.`);
+  const mensajeConsultaProducto = encodeURIComponent(`Hola NOWIN! Quiero consultar información y disponibilidad para ${producto.title}.`);
   const productosRelacionados = productos
     .filter((item) => item.id !== producto.id && item.category === producto.category)
     .slice(0, 4);
@@ -131,7 +133,22 @@ const ProductoDetalle = ({ productos, alAgregar }) => {
 
           <section className="detalle-descripcion">
             <h2>Descripción y usos sugeridos</h2>
-            <p>{descripcion}</p>
+            {descripcion ? (
+              <p>{descripcion}</p>
+            ) : (
+              <>
+                <p>Consultanos para recibir más información sobre este producto.</p>
+                <a
+                  className="btn-consulta-producto"
+                  href={`https://wa.me/5493764141598?text=${esMayorista ? mensajeMayorista : mensajeConsultaProducto}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MessageCircle size={18} aria-hidden="true" />
+                  {esMayorista ? 'Consultar información y condiciones mayoristas' : 'Consultar por WhatsApp'}
+                </a>
+              </>
+            )}
           </section>
 
           <div className="detalle-compra">
@@ -166,9 +183,9 @@ const ProductoDetalle = ({ productos, alAgregar }) => {
               <Plus size={20} /> AGREGAR AL PEDIDO
             </button>
           </div>
-          {esMayorista && (
+          {esMayorista && descripcion && (
             <a
-              className="btn-consulta-mayorista"
+              className="btn-consulta-producto"
               href={`https://wa.me/5493764141598?text=${mensajeMayorista}`}
               target="_blank"
               rel="noopener noreferrer"

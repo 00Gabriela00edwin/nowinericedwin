@@ -1,5 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Search, Plus, Minus, Trash2, ShoppingBag, Instagram, Truck, MapPin, MessageCircle, ArrowDown, Leaf, Store } from 'lucide-react';
 import Navbar from './Navbar'; 
 import CardCondimento from './CardCondimento'; 
@@ -14,6 +14,37 @@ const ProductoDetalle = lazy(() => import('./ProductoDetalle.jsx'));
 const CheckoutForm = lazy(() => import('./CheckoutForm.jsx'));
 const CartDrawer = lazy(() => import('./CartDrawer.jsx'));
 const BannerMarina = lazy(() => import('./BannerMarina.jsx'));
+const AdminDashboard = lazy(() => import('./admin/AdminDashboard.jsx'));
+
+const normalizeProductCategory = (category) => {
+  const normalized = String(category || '').trim().toLowerCase();
+  if (normalized === 'sales' || normalized === 'sales saborizadas') return 'Sales';
+  if (normalized === 'especias' || normalized === 'nuestras especias') return 'Especias';
+  if (normalized === 'repostería' || normalized === 'reposteria') return 'Repostería';
+  if (normalized === 'mayoristas') return 'Mayoristas';
+  if (normalized === 'esenciales') return 'Esenciales';
+  return String(category || '').trim();
+};
+
+const normalizePublicProduct = (productDoc) => {
+  const data = productDoc.data();
+  const title = String(data.nombre ?? data.title ?? '').trim();
+  const price = Number(data.precio ?? data.price);
+  const category = normalizeProductCategory(data.categoria ?? data.category);
+  if (!title || !category || !Number.isFinite(price) || price < 0) return null;
+
+  return {
+    id: productDoc.id,
+    title,
+    price,
+    category,
+    img: data.img || data.imagen || '',
+    description: data.description || data.descripcion || '',
+    presentacion: data.presentacion || data.presentation || '',
+    images: Array.isArray(data.images) ? data.images : [],
+    imagenes: Array.isArray(data.imagenes) ? data.imagenes : [],
+  };
+};
 
 const loadCart = () => {
   if (typeof window === 'undefined') return [];
@@ -44,441 +75,22 @@ const loadCart = () => {
 
 
 
-export const PRODUCTOS_DEMO = [
-  // --- CATEGORÍA: SALES SABORIZADAS & ESENCIALES ---
-  { 
-    id: 1, 
-    title: "Sal con Ajo", 
-    price: 3000, 
-    category: "Sales Saborizadas", 
-    img: "/img/salconajo.png", 
-    description: "Es el resultado de mezclar de ajo seco molido y sal de mesa Es el sustituto del ajo fresco en el caso de la sal de ajo Nowin es el aderezo final en carnes pescados y mariscos a plancha o incluso utilizarlo en seco de la misma manera que utilizaríamos la sal Usos sugeridos : Carnes, Pescados ,Mariscos a la plancha Como reemplazo del ajo fresco Uso en seco como sal común." 
-  },
-  { 
-    id: 2, 
-    title: "Pimienta Molida", 
-    price: 1800, 
-    category: "Esenciales", 
-    img: "/img/pimientamolida.png", 
-    description: "Disponible molida o en grano.Aroma penetrante.Picor equilibrado.Tamaño homogéneo (en grano).Diferencial NOWIN:Selección de calidad que asegura potencia constante en cada uso." 
-  },
-  { 
-    id: 3, 
-    title: "Condimento Arroz", 
-    price: 1800, 
-    category: "Esenciales", 
-    img: "/img/condimentoarroz.png", 
-    description: "Mezcla equilibrada de especias.Color atractivo y natural.Aroma suave y armonioso.Distribución homogénea de ingredientes.Diferencial NOWIN:Fórmula pensada para transformar un arroz común en una preparación especial con solo una pizca." 
-  },
-  { 
-    id: 4, 
-    title: "Sal de Campo", 
-    price: 3000, 
-    category: "Sales Saborizadas", 
-    img: "/img/saldecampo.png", 
-    description: "Mezcla artesanal de sal entrefina con especias seleccionadas, inspirada en la tradición del campo argentino Ingredientes destacados:Ají molido,Orégano,Comino,Sal entrefina" 
-  },
-  { 
-    id: 5, 
-    title: "Orégano", 
-    price: 1800, 
-    category: "Esenciales", 
-    img: "/img/oregano.png", 
-    description: "Hojas secas seleccionadas.Corte uniforme y baja presencia de tallos.Aroma herbal intenso.Color verde natural (indicador de frescura).Diferencial NOWIN:Mayor potencia aromática y mejor rendimiento por uso Selección cuidada para garantizar sabor auténtico en cada plato" 
-  },
-  { 
-    id: 6, 
-    title: "Sal Ahumada", 
-    price: 3000, 
-    category: "Sales Saborizadas", 
-    img: "/img/salahumada.png", 
-    description: "Sabor ahumado sin fuego Permite lograr efecto “a la parrilla” sin necesidad de brasas ni humo real.Aroma natural de madera quemada Los aromas se elaboran a partir de madera quemada, logrando un perfil auténtico Lista para usar Ideal para dar toque final a:Hamburguesas (sabor como hechas a las brasas) Carnes Salmón marinado Verduras grilladas Mezcla especiada equilibrada,No es solo sal ahumada: incluye hierbas que potencian el sabor." 
-  },
-  { 
-    id: 7, 
-    title: "Sal Cebolla y Ajo", 
-    price: 3000, 
-    category: "Sales Saborizadas", 
-    img: "/img/salcebollayajo.png", 
-    description: "Descubrí el sabor que no puede faltar en la cocina argentina. Nuestra Sal Especiada Cebolla y Ajo Argentinisima combina sal de calidad con cebolla y ajo deshidratados, logrando el equilibrio perfecto entre intensidad y aroma Ideal para realzar carnes, milanesas, papas al horno, verduras grilladas, pollo, pastas y, por supuesto, el infaltable asado. Una pizca es suficiente para transformar cualquier plato en una experiencia llena de sabor casero y tradición." 
-  },
-  { 
-    id: 8, 
-    title: "Sal Picante", 
-    price: 3000, 
-    category: "Sales Saborizadas", 
-    img: "/img/salpicante.png", 
-    description: "DiferencialPicor suave y equilibradoPotencia el sabor sin taparlo Versátil: combina con casi cualquier comida Acompañamiento que no puede faltar “El toque picante ideal para pastas, pescados y mariscos" 
-  },
-  { 
-    id: 9, 
-    title: "Sal con Romero y Tomillo", 
-    price: 3000, 
-    category: "Sales Saborizadas", 
-    img: "/img/salconromeroytomillo.png", 
-    description: "Mezcla de sal con hierbas aromáticas seleccionadas, que aporta un sabor intenso y equilibrado, inspirado en aromas mediterráneos Hierbas destacadas Romero Tomillo" 
-  },
-  { 
-    id: 10, 
-    title: "Polvo para hornear", 
-    price: 1800, 
-    category: "Esenciales", 
-    img: "/img/polvoparahornear.png", 
-    description: "Nuestro polvo de hornear artesanal está elaborado bajo procesos tradicionales, buscando el equilibrio perfecto entre pureza y rendimiento. A diferencia de las versiones comerciales masivas, prescindimos de conservantes artificiales y el exceso de aluminio, logrando una gasificación constante y uniforme que respeta el sabor original de tus preparaciones." 
-  },
-  { 
-    id: 11, 
-    title: "Pimentón", 
-    price: 1800, 
-    category: "Esenciales", 
-    img: "/img/pimenton.png", 
-    description: "Nuestro pimentón artesanal nace de pimientos seleccionados en su punto óptimo de maduración. Secados lentamente y molidos en piedra, este proceso preserva los aceites esenciales y el aroma vibrante que se pierde en las moliendas industriales de alta fricción. Es el alma de los guisos, el toque final de las carnes y el secreto de un buen adobo.." 
-  },
-  { 
-    id: 12, 
-    title: "Perejil", 
-    price: 1800, 
-    category: "Esenciales", 
-    img: "/img/perejil.png", 
-    description: "Perejil fresco y aromático, ideal para realzar salsas, guisos y marinados. Su sabor refrescante aporta un toque especial a cualquier preparación Es perejil 100% natural, cultivado sin químicos y secado lentamente a la sombra. Este proceso artesanal garantiza que conserve su color verde brillante y todo su aroma original, algo que el perejil industrial pierde al ser procesado con calor ."
-  },
-  { 
-    id: 13, 
-    title: "Mix de Especias", 
-    price: 1800, 
-    category: "Esenciales", 
-    img: "/img/mixdeespecias.png", 
-    description: "Combinación exclusiva de especias seleccionadas para realzar cualquier preparación." 
-  },
-  { 
-    id: 14, 
-    title: "Adobo para Pizzas", 
-    price: 1800, 
-    category: "Esenciales", 
-    img: "/img/adoboparapizzas.png", 
-    description: " Proporción justa de especias que potencia salsas y rellenos sin opacar otros sabores. Versatilidad: ideal para pizzas, pastas, guisos y marinados. Diferencial NOWIN: Selección de ingredientes de alta calidad, procesados para conservar su aroma y sabor, garantizando un resultado superior en cada uso." 
-  },
-  { 
-    id: 15, 
-    title: "Ajo granulado", 
-    price: 2000, 
-    category: "Esenciales", 
-    img: "/img/ajogranulado.png", 
-    description: "Granulación equilibrada que permite mejor distribución y mayor rendimiento en carnes y adobos. Sabor intenso y duradero, ideal para realzar el sabor sin necesidad de usar ajo fresco. Versatilidad en la cocina: perfecto para salsas, marinados, guisos y preparaciones al horno. Diferencial NOWIN: Selección de granos de ajo de alta calidad, procesados para conservar su aroma y sabor, garantizando un resultado superior en cada uso." 
-  },
-  { 
-    id: 16, 
-    title: "Sal Mundial", 
-    price: 4500, 
-    category: "Sales Saborizadas", 
-    img: "/img/salmundial.png", 
-    description: "Mezcla de sal con hierbas aromáticas seleccionadas, que aporta un sabor intenso y equilibrado, inspirado en aromas mediterráneos Hierbas destacadas Romero Tomillllo"
-  },
-  { 
-    id: 17, 
-    title: "Canela", 
-    price: 1800, 
-    category: "Esenciales", 
-    img: "/img/canela.png", 
-    description: "Alta intensidad aromática y frescura garantizada, lo que permite utilizar menor cantidad para lograr mayor sabor. Versatilidad en la cocina: ideal para preparaciones dulces como postres, infusiones y repostería, pero también para platos salados como guisos y curries. Diferencial NOWIN: Selección de canela de alta calidad, procesada para conservar su aroma y sabor, asegurando un resultado superior en cada uso." 
-  },
-  { 
-    id: 18, 
-    title: "Clavo de olor", 
-    price: 1800, 
-    category: "Esenciales", 
-    img: "/img/clavodeolor.png", 
-    description: " El clavo de olor NOWIN es una especia de aroma intenso y sabor cálido, ideal para realzar tanto preparaciones dulces como saladas. Seleccionamos clavos enteros de excelente calidad, conservando su frescura y potencia natural. Perfecto para infusiones, guisos, postres y marinados, el clavo de olor NOWIN es el toque secreto que transforma tus recetas en experiencias inolvidables."
-
-  },
-  { 
-    id: 19, 
-    title: "Laurel", 
-    price: 1800, 
-    category: "Esenciales", 
-    img: "/img/laurel.png", 
-    description: "  El laurel es una hierba aromática muy utilizada en la cocina por su sabor intenso y característico. Se emplea principalmente para condimentar guisos, sopas, carnes y salsas, aportando un aroma profundo que realza las preparaciones, Sus hojas se utilizan enteras durante la cocción para liberar su sabor de forma gradual, y se retiran antes de servir. Además, el laurel es valorado por sus propiedades digestivas y su aporte natural al equilibrio de los platos" 
-
-  },
-
-
-  // --- CATEGORÍA: NUESTRAS ESPECIAS ---
-  { 
-    id: 20, 
-    title: "Ají Triturado", 
-    price: 10100, 
-    category: "Nuestras Especias", 
-    img: "/img/1aji.png", 
-    description: "Ají triturado de gran sabor, ideal para darle un toque picante a tus pizzas, guisos y empanadas." 
-  },
-  { 
-    id: 21, 
-    title: "Ajo Granulado", 
-    price: 14000, 
-    category: "Nuestras Especias", 
-    img: "/img/2ajogranuladoo.png", 
-    description: "Ajo deshidratado y granulado. Sabor intenso y práctico para condimentar carnes y salsas al instante." 
-  },
-  { 
-    id: 22, 
-    title: "Condimento para Arroz", 
-    price: 7200, 
-    category: "Nuestras Especias", 
-    img: "/img/3arrozcondimento.png", 
-    description: "Mezcla equilibrada para resaltar el sabor y darle el color perfecto a tus arroces y paellas." 
-  },
-  { 
-    id: 23, 
-    title: "Canela Molida", 
-    price: 9200, 
-    category: "Nuestras Especias", 
-    img: "/img/3canela.png", 
-    description: "Canela de aroma dulce y profundo. El condimento estrella para tu repostería e infusiones." 
-  },
-  { 
-    id: 24, 
-    title: "Cebolla Crispy", 
-    price: 6300, 
-    category: "Nuestras Especias", 
-    img: "/img/4cebollacrispy.png", 
-    description: "Cebolla frita crocante. Perfecta para agregar textura y sabor a hamburguesas, panchos y ensaladas." 
-  },
-  { 
-    id: 25, 
-    title: "Cebolla en Polvo", 
-    price: 8700, 
-    category: "Nuestras Especias", 
-    img: "/img/5cebollaenpolvo.png", 
-    description: "Todo el sabor de la cebolla en una textura fina, ideal para salsas, cremas y marinados." 
-  },
-  { 
-    id: 26, 
-    title: "Chimichurri", 
-    price: 6800, 
-    category: "Nuestras Especias", 
-    img: "/img/6chimi.png", 
-    description: "Blend de hierbas tradicionales para preparar el mejor aderezo de tus asados y carnes a la parrilla." 
-  },
-  
-  { 
-    id: 28, 
-    title: "Coriandro Molido", 
-    price: 5600, 
-    category: "Nuestras Especias", 
-    img: "/img/8coriandro.png", 
-    description: "Semillas de cilantro molidas. Aporta notas cítricas y frescas a tus embutidos y guisos." 
-  },
-  { 
-    id: 29, 
-    title: "Cúrcuma", 
-    price: 9000, 
-    category: "Nuestras Especias", 
-    img: "/img/9curcumamolida.png", 
-    description: "Color y salud en tus platos. Ideal para arroces, vegetales asados y recetas de la cocina oriental." 
-  },
-  { 
-    id: 30, 
-    title: "Laurel en Hojas", 
-    price: 9200, 
-    category: "Nuestras Especias", 
-    img: "/img/10laurelenhojas.png", 
-    description: "Hojas de laurel secas de alta calidad. El aroma fundamental para tucos, sopas y estofados." 
-  },
-  { 
-    id: 31, 
-    title: "Orégano", 
-    price: 8500, 
-    category: "Nuestras Especias", 
-    img: "/img/10oreganoo.png", 
-    description: "Hojas seleccionadas de aroma intenso. El compañero inseparable de la pizza y las salsas rojas." 
-  },
- 
-  { 
-    id: 33, 
-    title: "Perejil Selección", 
-    price: 9500, 
-    category: "Nuestras Especias", 
-    img: "/img/12perejill.png", 
-    description: "Variedad de perejil deshidratado ideal para realzar el sabor final de tus platos favoritos." 
-  },
-  { 
-    id: 34, 
-    title: "Romero", 
-    price: 8100, 
-    category: "Nuestras Especias", 
-    img: "/img/13romero.png", 
-    description: "Hierba aromática de sabor boscoso. La pareja perfecta para papas al horno, pollo y carnes rojas." 
-  },
-  { 
-    id: 35, 
-    title: "Provenzal", 
-    price: 8500, 
-    category: "Nuestras Especias", 
-    img: "/img/14provenzal.png", 
-    description: "El equilibrio exacto entre ajo y perejil. Un clásico para milanesas, papas fritas y revueltos." 
-  },
-  { 
-    id: 36, 
-    title: "Condimento para Pizza", 
-    price: 7200, 
-    category: "Nuestras Especias", 
-    img: "/img/15pizza.png", 
-    description: "Mezcla artesanal de especias diseñada para darle el auténtico sabor de pizzería a tus masas." 
-  },
-  { 
-    id: 37, 
-    title: "Pimentón Selección", 
-    price: 9200, 
-    category: "Nuestras Especias", 
-    img: "/img/16pimentonn.png", 
-    description: "Pimentón de color intenso y sabor dulce, ideal para empanadas, tucos y platos regionales." 
-  },
-  { 
-    id: 38, 
-    title: "Pimentón Ahumado", 
-    price: 9500, 
-    category: "Nuestras Especias", 
-    img: "/img/17pimentonn.png", 
-    description: "Aporta un toque ahumado sofisticado y un color profundo a guisos, carnes y salsas." 
-  },
-  { 
-    id: 39, 
-    title: "Tomillo", 
-    price: 8600, 
-    category: "Nuestras Especias", 
-    img: "/img/18tomillo.png", 
-    description: "Hierba delicada y muy aromática. Excelente para marinar aves, pescados y aromatizar aceites." 
-  },
-
-  // --- CATEGORÍA: MAYORISTAS ---
-  { 
-    id: 40, 
-    title: "Adobo para Pizza (1 Kg)", 
-    price: 6800, 
-    category: "Mayoristas", 
-    img: "/img/1kilo/adobodepizza.png", 
-    description: "El clásico adobo pimentero ideal para pizzas y salsas, en formato económico de 1 kilo." 
-  },
-  { 
-    id: 41, 
-    title: "Ajo Granulado (1 Kg)", 
-    price: 14200, 
-    category: "Mayoristas", 
-    img: "/img/1kilo/ajogranulado.png", 
-    description: "Ajo deshidratado granulado de alta pureza. Excelente rendimiento para cocinas profesionales." 
-  },
-  { 
-    id: 42, 
-    title: "Canela (1 Kg)", 
-    price: 9200, 
-    category: "Mayoristas", 
-    img: "/img/1kilo/canela.png", 
-    description: "Canela molida de aroma intenso y dulzor natural. Ideal para repostería y cafetería." 
-  },
-  { 
-    id: 43, 
-    title: "Chimichurri (1 Kg)", 
-    price: 6800, 
-    category: "Mayoristas", 
-    img: "/img/1kilo/chimichurri.png", 
-    description: "La mezcla tradicional argentina para carnes y asados. Listo para hidratar y usar." 
-  },
-  { 
-    id: 44, 
-    title: "Coco Rallado (1 Kg)", 
-    price: 14200, 
-    category: "Mayoristas", 
-    img: "/img/1kilo/cocorayado.png", 
-    description: "Coco rallado de alta calidad, blanco y aromático. Perfecto para postres y alfajores." 
-  },
-  { 
-    id: 45, 
-    title: "Mix de Especias (1 Kg)", 
-    price: 7300, 
-    category: "Mayoristas", 
-    img: "/img/1kilo/mixexpecias.png", 
-    description: "Combinación exclusiva de especias seleccionadas para realzar cualquier preparación." 
-  },
-  { 
-    id: 46, 
-    title: "Orégano (1 Kg)", 
-    price: 8500, 
-    category: "Mayoristas", 
-    img: "/img/1kilo/oregano.png", 
-    description: "Hojas de orégano seleccionadas. Sabor y aroma inconfundibles en gran formato." 
-  },
-  { 
-    id: 47, 
-    title: "Pimentón (1 Kg)", 
-    price: 9200, 
-    category: "Mayoristas", 
-    img: "/img/1kilo/pimenton.png", 
-    description: "Pimentón dulce de color rojo intenso. Aporta sabor y color vibrante a tus comidas." 
-  },
-  { 
-    id: 48, 
-    title: "Polvo de Hornear (1 Kg)", 
-    price: 6000, 
-    category: "Mayoristas", 
-    img: "/img/1kilo/polvoparahornear.png", 
-    description: "Leudante químico de acción justa para masas, tortas y bizcochuelos perfectos." 
-  },
-  { 
-    id: 49, 
-    title: "Provenzal (1 Kg)", 
-    price: 8500, 
-    category: "Mayoristas", 
-    img: "/img/1kilo/provensal.png", 
-    description: "Clásica mezcla de ajo y perejil deshidratados. Práctica y llena de sabor." 
-  },
-
-  { 
-    id: 50, 
-    title: "Chimichurri", 
-    price: 2500, 
-    category: "Esenciales", 
-    img: "/img/chimichurri2.png", 
-    description: " Descubrí el equilibrio perfecto entre tradición y frescura. Nuestro preparado de especias está diseñado para quienes buscan el sabor auténtico del campo en su mesa. Solo necesitás hidratarlo con aceite y vinagre para obtener una salsa con cuerpo, aroma intenso y el picor justoo que caracteriza al verdadero chimichurri argentino. Ideal para acompañar tus asados, carnes a la parrilla, milanesas o incluso como aderezo para verduras grilladas. Con nuestro chimichurri, cada bocado se convierte en una experiencia llena de sabor y tradición." 
-  },
-
-    { 
-    id: 51, 
-    title: "Coco Rallado", 
-    price: 2500, 
-    category: "Esenciales", 
-    img: "/img/cocorayado2.png", 
-    description: "Nuestro Coco Rallado se destaca por su textura ligera y su aroma intenso y natural. Es el ingrediente esencial para quienes buscan calidad profesional en su cocina, aportando ese sabor dulce y exótico característico del fruto recién procesado. Ideal para la elaboración de postres, alfajores, tortas y cualquier preparación que requiera un toque de coco auténtico. Con nuestro Coco Rallado, cada receta se transforma en una experiencia culinaria llena de sabor y aroma tropical."
-  },
-    { 
-    id: 52, 
-    title: "PROVENZAL", 
-    price: 2500, 
-    category: "Esenciales", 
-    img: "/img/provenzal2.png", 
-    description: "Nuestra mezcla Provenzal es la combinación perfecta de ajo deshidratado y perejil seleccionado. Logramos el equilibrio justo para que tus comidas tengan ese toque casero y aromático en segundos, sin necesidad de picar vegetales frescos cada vez. Ideal para milanesas, revueltos y cualquier plato que quieras realzar con un sabor tradicional y delicioso. Con nuestra Provenzal, cada preparación se convierte en una experiencia llena de sabor y aroma casero, ¡el secreto para darle vida a tus recetas favoritas!" 
-
-  },
-
-];
-
-
-
-
 const CATEGORIAS_PRODUCTOS = [
   'Todas',
-  'Sales Saborizadas',
-  'Esenciales',
+  'Sales',
+  'Especias',
+  'Repostería',
   'Mayoristas',
-  'Nuestras Especias',
+  'Esenciales',
 ];
 
 const getProductFormat = (product) =>
   product.category?.toLowerCase().includes('mayorista') ||
-  /1\s?(kg|kilo)/i.test(product.title)
+  /1\s?(kg|kilo)/i.test(`${product.title} ${product.presentacion || ''}`)
     ? 'wholesale'
     : 'retail';
 
-const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
+const Home = ({ productos, agregarAlCarrito, searchTerm, catalogLoading, catalogError }) => {
   const heroImages = [ "/img/carru4.webp", "/img/carru5.webp"];
   const [currentImage, setCurrentImage] = useState(0);
   
@@ -500,7 +112,10 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
       );
       return searchableText.includes(normalizeSearchText(searchTerm));
     }
-    return categoriaActiva === 'Todas' || prod.category === categoriaActiva;
+    return categoriaActiva === 'Todas' ||
+      (categoriaActiva === 'Mayoristas'
+        ? getProductFormat(prod) === 'wholesale'
+        : prod.category === categoriaActiva);
   }).filter((prod) => formatoActivo === 'all' || getProductFormat(prod) === formatoActivo);
 
   if (ordenActivo === 'price-asc') {
@@ -512,12 +127,10 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
   }
 
   const tarjetasCategorias = [
-    { id: 'Sales Saborizadas', titulo: 'SALES SABORIZADAS', img: '/img/canelaportada4.webp', color: '#FFC400' },
-    { id: 'Esenciales', titulo: 'ESENCIALES', img: '/img/canelaportada5.webp', color: '#FFC400' },
+    { id: 'Sales', titulo: 'SALES', img: '/img/canelaportada4.webp', color: '#FFC400' },
+    { id: 'Especias', titulo: 'ESPECIAS', img: '/img/especias1.webp', color: '#FFC400' },
+    { id: 'Repostería', titulo: 'REPOSTERÍA', img: null, color: '#FFC400' },
     { id: 'Mayoristas', titulo: 'MAYORISTAS', img: '/img/canelaportada1.webp', color: '#FFC400' },
-    { id: 'Nuestras Especias', titulo: 'NUESTRAS ESPECIAS', img: '/img/especias1.webp', color: '#FFC400' },
-
-
   ];
 
 
@@ -561,6 +174,19 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
       </section>
 
       <section id="catalogo" className="container" style={{ padding: '0px 20px', minHeight: '50vh' }}>
+        {catalogLoading && <div className="search-empty-state" role="status">Cargando catálogo actualizado...</div>}
+        {catalogError && <p className="catalog-error" role="alert">{catalogError}</p>}
+        {!catalogLoading && !catalogError && productos.length === 0 && (
+          <div className="search-empty-state">
+            <h3>Estamos actualizando el catálogo</h3>
+            <p>Consultanos por WhatsApp para conocer la disponibilidad de productos.</p>
+            <a className="btn-nowin catalog-contact-link" href="https://wa.me/5493764141598" target="_blank" rel="noopener noreferrer">
+              Consultar disponibilidad
+            </a>
+          </div>
+        )}
+
+        {!catalogLoading && productos.length > 0 && <>
         {!hasSearch && (
           <div className="category-browser">
             <p className="category-browser-label">Explorá por categoría</p>
@@ -640,7 +266,9 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
         onClick={() => setCategoriaActiva(cat.id)}
         className="categoria-gigante animar-entrada"
         style={{ 
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${cat.img})`,
+          backgroundImage: cat.img
+            ? `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${cat.img})`
+            : 'linear-gradient(135deg, #141414, #3d3000)',
           animationDelay: `${index * 0.1}s`
         }}
       >
@@ -687,6 +315,7 @@ const Home = ({ productos, agregarAlCarrito, searchTerm }) => {
             )}
           </div>
         )}
+        </>}
       </section>
     </>
   );
@@ -812,6 +441,20 @@ const Footer = () => (
         <Link to="/">Inicio y catálogo</Link>
         <Link to="/about">Sobre Nowin</Link>
         <Link to="/cart">Mi carrito</Link>
+        <button
+          type="button"
+          className="footer-admin-link"
+          onClick={() => {
+            const adminWindow = window.open(
+              '/admin',
+              'NowinAdminWindow',
+              'width=1366,height=820,resizable=yes,scrollbars=yes'
+            );
+            if (adminWindow) adminWindow.opener = null;
+          }}
+        >
+          Admin
+        </button>
       </nav>
 
       <div className="footer-column">
@@ -846,7 +489,9 @@ const Footer = () => (
 
 function App() {
   const [cart, setCart] = useState(loadCart);
-  const [productos, setProductos] = useState(PRODUCTOS_DEMO);
+  const [productos, setProductos] = useState([]);
+  const [catalogLoading, setCatalogLoading] = useState(true);
+  const [catalogError, setCatalogError] = useState('');
   const [searchTerm, setSearchTerm] = useState("");
   const [mostrarCheckout, setMostrarCheckout] = useState(false);
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
@@ -867,19 +512,47 @@ function App() {
   }, [toast]);
 
   useEffect(() => {
-    const fetchProductos = async () => {
+    let active = true;
+    let unsubscribe;
+
+    const subscribeProducts = async () => {
       try {
-        const { db, collection, getDocs } = await import('./firestoreClient');
-        const querySnapshot = await getDocs(collection(db, "productos"));
-        if (!querySnapshot.empty) {
-          const docs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          setProductos(docs);
-        }
+        const { db, collection, onSnapshot, query, where } = await import('./firestoreClient');
+        if (!active) return;
+        const activeProducts = query(collection(db, 'productos'), where('activo', '==', true));
+        unsubscribe = onSnapshot(activeProducts, (snapshot) => {
+          if (!active) return;
+          let invalidCount = 0;
+          const nextProducts = snapshot.docs.map((productDoc) => {
+            const product = normalizePublicProduct(productDoc);
+            if (!product) invalidCount += 1;
+            return product;
+          }).filter(Boolean);
+
+          setProductos(nextProducts);
+          setCatalogError(invalidCount
+            ? `${invalidCount} producto(s) activo(s) tienen nombre, categoría o precio inválido y no se muestran.`
+            : '');
+          setCatalogLoading(false);
+        }, (error) => {
+          console.error('No se pudo sincronizar el catálogo de Firestore.', error);
+          setCatalogError('No pudimos actualizar el catálogo. Intentá nuevamente más tarde.');
+          setCatalogLoading(false);
+        });
       } catch (error) {
-        console.error("No se pudieron cargar los productos de Firestore. Se mantiene el catálogo local.", error);
+        console.error('No se pudo iniciar la suscripción al catálogo de Firestore.', error);
+        if (active) {
+          setCatalogError('No pudimos conectar con el catálogo. Intentá nuevamente más tarde.');
+          setCatalogLoading(false);
+        }
       }
     };
-    fetchProductos();
+
+    subscribeProducts();
+    return () => {
+      active = false;
+      unsubscribe?.();
+    };
   }, []);
 
   const addToCart = (prod, quantity = 1) => {
@@ -903,29 +576,14 @@ function App() {
     setMostrarCheckout(true);
   };
 
-const procesarCompra = async (datosUsuario) => {
-    const totalPrecio = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-    
-    try {
-      const { db, collection, addDoc } = await import('./firestoreClient');
-      // Guardamos la orden silenciosamente antes de abrir WhatsApp
-      await addDoc(collection(db, "ventas"), { 
-        comprador: datosUsuario, 
-        items: cart, 
-        total: totalPrecio, 
-        fecha: new Date(),
-        estado: "pendiente" // <-- ¡Aquí está la etiqueta clave!
-      });
-    } catch (e) { 
-      console.error("Error al guardar la venta:", e); 
-    }
+  const procesarCompra = async (datosUsuario) => {
+    const { createPendingWebOrder } = await import('./admin/adminData');
+    const order = await createPendingWebOrder({ customer: datosUsuario, cart });
+    const itemsMessage = order.items.map((item) =>
+      `▫️ ${item.nombreProducto} x ${item.cantidad}`
+    ).join('\n');
+    const mensaje = `Hola Nowin! 🙋 Pedido web pendiente de confirmación #${order.id}:\n\n${itemsMessage}\n\n💰 Subtotal: $${order.totalVendido.toLocaleString('es-AR')}\nCliente: ${datosUsuario.nombre}`;
 
-    // Armamos el mensaje para WhatsApp (tu formato se mantiene intacto)
-    let mensaje = `Hola Nowin! 🙋 Pedido:\n\n`;
-    cart.forEach(item => { mensaje += `▫️ ${item.title} x ${item.quantity}\n`; });
-    mensaje += `\n💰 Total: $${totalPrecio.toLocaleString()}\nCliente: ${datosUsuario.nombre}`;
-    
-    // Abrimos el chat y vaciamos el carrito
     window.open(`https://wa.me/5493764141598?text=${encodeURIComponent(mensaje)}`, '_blank');
     setCart([]);
     setMostrarCheckout(false);
@@ -934,22 +592,25 @@ const procesarCompra = async (datosUsuario) => {
   return (
     <Router>
       <div className="app-container">
-        <Navbar
-          cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)}
-          products={productos}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          onCartClick={() => setCartDrawerOpen(true)}
-        />
+        <PublicOnly>
+          <Navbar
+            cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)}
+            products={productos}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            onCartClick={() => setCartDrawerOpen(true)}
+          />
+        </PublicOnly>
         <Suspense fallback={<div className="container" role="status" style={{ padding: '80px 20px', textAlign: 'center' }}>Cargando...</div>}>
           <Routes>
-            <Route path="/" element={<Home productos={productos} agregarAlCarrito={addToCart} searchTerm={searchTerm} />} />
+            <Route path="/" element={<Home productos={productos} agregarAlCarrito={addToCart} searchTerm={searchTerm} catalogLoading={catalogLoading} catalogError={catalogError} />} />
             <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} addToCart={addToCart} decreaseQuantity={decreaseQuantity} onStartCheckout={startCheckout} />} />
             <Route path="/about" element={<About />} />
             <Route path="/producto/:id" element={<ProductoDetalle productos={productos} alAgregar={addToCart} />} />
+            <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
         </Suspense>
-        {cartDrawerOpen && (
+        <PublicOnly>{cartDrawerOpen && (
           <Suspense fallback={null}>
             <CartDrawer
               cart={cart}
@@ -960,22 +621,29 @@ const procesarCompra = async (datosUsuario) => {
               onStartCheckout={startCheckout}
             />
           </Suspense>
-        )}
-        {mostrarCheckout && (
+        )}</PublicOnly>
+        <PublicOnly>{mostrarCheckout && (
           <Suspense fallback={null}>
             <CheckoutForm cart={cart} enviarPedido={procesarCompra} cancelar={() => setMostrarCheckout(false)} />
           </Suspense>
-        )}
-        {toast && <div className="cart-toast" role="status" aria-live="polite" key={toast.id}>{toast.message}</div>}
-        <Footer />
-        <Suspense fallback={null}>
-          <BrandCarouselThin />
-          <WhatsAppFloat />
-        </Suspense>
+        )}</PublicOnly>
+        <PublicOnly>
+          {toast && <div className="cart-toast" role="status" aria-live="polite" key={toast.id}>{toast.message}</div>}
+          <Suspense fallback={null}>
+            <BrandCarouselThin />
+            <WhatsAppFloat />
+          </Suspense>
+          <Footer />
+        </PublicOnly>
       </div>
     </Router>
   );
 }
+
+const PublicOnly = ({ children }) => {
+  const { pathname } = useLocation();
+  return pathname === '/admin' ? null : children;
+};
 
 export default App;
 

@@ -1,0 +1,82 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    function hasNoPrivateProductFields(data) {
+      return !data.keys().hasAny([
+        'costoProduccion',
+        'comisionDefault',
+        'stockInicial',
+        'unidadesVendidas',
+        'stockActual'
+      ]);
+    }
+
+    function isPendingWebOrder() {
+      return request.resource.data.origen == 'web'
+        && request.resource.data.vendedor == 'WEB'
+        && request.resource.data.estado == 'pendiente'
+        && request.resource.data.cliente is string
+        && request.resource.data.telefono is string
+        && request.resource.data.direccion is string
+        && request.resource.data.items is list
+        && request.resource.data.items.size() > 0
+        && request.resource.data.totalVendido is number
+        && request.resource.data.totalVendido >= 0
+        && request.resource.data.fecha == request.time
+        && request.resource.data.keys().hasOnly([
+          'origen',
+          'vendedor',
+          'cliente',
+          'telefono',
+          'direccion',
+          'items',
+          'totalVendido',
+          'estado',
+          'fecha'
+        ]);
+    }
+
+    match /admins/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false;
+    }
+
+    match /productos/{productId} {
+      allow read: if isAdmin() || (
+        resource.data.activo == true && hasNoPrivateProductFields(resource.data)
+      );
+      allow create, update: if isAdmin() && hasNoPrivateProductFields(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /datosFinancierosProductos/{productId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /ventas/{saleId} {
+      allow read, update, delete: if isAdmin();
+      allow create: if isAdmin() || isPendingWebOrder();
+    }
+
+    match /movimientosStock/{movementId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /gastosFijos/{expenseId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /gastosVariables/{expenseId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /configuracionFinanciera/{configId} {
+      allow read, write: if isAdmin();
+    }
+  }
+}
