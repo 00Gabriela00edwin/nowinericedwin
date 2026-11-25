@@ -1,6 +1,7 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" source(none);
 @source "./App.jsx";
+@source "./BrandCarouselThin.jsx";
 
 :root {
   --bg-color: #0a0a0a;

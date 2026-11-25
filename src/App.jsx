@@ -15,6 +15,7 @@ const ProductoDetalle = lazy(() => import('./ProductoDetalle.jsx'));
 const CheckoutForm = lazy(() => import('./CheckoutForm.jsx'));
 const CartDrawer = lazy(() => import('./CartDrawer.jsx'));
 const BannerMarina = lazy(() => import('./BannerMarina.jsx'));
+const EditorialAnimations = lazy(() => import('./components/EditorialAnimations.jsx'));
 const AdminDashboard = lazy(() => import('./admin/AdminDashboard.jsx'));
 
 const normalizeProductCategory = (category) => {
@@ -90,9 +91,69 @@ const getProductFormat = (product) =>
     ? 'wholesale'
     : 'retail';
 
+const CategoryPanels = ({ categorias, onSelect }) => {
+  const [hovered, setHovered] = useState(null);
+  const [focused, setFocused] = useState(null);
+  const active = hovered ?? focused;
+
+  return (
+    <>
+      <div className="mb-10 hidden h-[460px] w-full gap-3 md:flex" onMouseLeave={() => setHovered(null)}>
+        {categorias.map((cat) => {
+          const expanded = active === cat.id;
+          return (
+            <button
+              type="button"
+              key={cat.id}
+              aria-label={`${cat.id}: explorar línea`}
+              onClick={() => onSelect(cat.id)}
+              onMouseEnter={() => setHovered(cat.id)}
+              onFocus={(event) => {
+                setFocused(cat.id);
+                if (event.currentTarget.matches(':focus-visible')) setHovered(null);
+              }}
+              onBlur={() => setFocused(null)}
+              className={`relative min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-neutral-900 text-left transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400 ${
+                expanded ? 'flex-[2.6]' : active ? 'flex-[0.8] brightness-50' : 'flex-1'
+              }`}
+            >
+              <img src={cat.img} alt="" loading="lazy" decoding="async" className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 motion-reduce:transition-none ${expanded ? 'scale-105' : ''}`} />
+              <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
+              <h2 className={`absolute bottom-5 left-3 right-3 font-semibold tracking-wide text-amber-50 transition-transform duration-700 motion-reduce:transition-none ${expanded ? '-translate-y-24 text-xl lg:text-3xl' : 'text-[clamp(0.65rem,1.25vw,1.125rem)]'}`}>{cat.titulo}</h2>
+              <div className={`absolute bottom-5 left-3 right-3 flex flex-col gap-3 text-sm text-amber-50 transition-all duration-500 motion-reduce:transition-none ${expanded ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'}`}>
+                <p>{cat.descripcion}</p>
+                <span className="font-medium">Explorar línea <span aria-hidden="true">→</span></span>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+      <div className="mb-10 grid grid-cols-1 gap-4 md:hidden">
+        {categorias.map((cat) => (
+          <button
+            type="button"
+            key={cat.id}
+            onClick={() => onSelect(cat.id)}
+            className="group relative flex h-52 w-full flex-col items-start justify-end overflow-hidden rounded-2xl border border-white/10 bg-neutral-900 p-6 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400"
+          >
+            <img src={cat.img} alt="" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
+            <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
+            <div className="relative flex flex-col items-start">
+              <h2 className="text-2xl font-semibold tracking-wide text-amber-50">{cat.titulo}</h2>
+              <span className="mt-3 text-sm font-medium text-amber-50">Explorar línea <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+        ))}
+      </div>
+    </>
+  );
+};
+
 const Home = ({ productos, agregarAlCarrito, alAbrirProducto, searchTerm, catalogLoading, catalogError }) => {
   const heroImages = [ "/img/carru4.webp", "/img/carru5.webp"];
   const [currentImage, setCurrentImage] = useState(0);
+  const heroRef = useRef(null);
+  const collectionsRef = useRef(null);
   
   const [categoriaActiva, setCategoriaActiva] = useState(null);
   const [formatoActivo, setFormatoActivo] = useState('all');
@@ -127,23 +188,36 @@ const Home = ({ productos, agregarAlCarrito, alAbrirProducto, searchTerm, catalo
   }
 
   const tarjetasCategorias = [
-    { id: 'Sales', titulo: 'SALES', img: '/img/canelaportada4.webp' },
-    { id: 'Especias', titulo: 'ESPECIAS', img: '/img/especias1.webp' },
-    { id: 'Mayoristas', titulo: 'MAYORISTAS', img: '/img/canelaportada1.webp' },
-    { id: 'Esenciales', titulo: 'ESENCIALES', img: '/img/canelaportada5.webp' },
+    { id: 'Sales', titulo: 'SALES', img: '/img/canelaportada4.webp', descripcion: 'Cristales y mezclas para realzar cada plato.' },
+    { id: 'Especias', titulo: 'ESPECIAS', img: '/img/especias1.webp', descripcion: 'Aromas y colores para tu cocina.' },
+    { id: 'Esenciales', titulo: 'ESENCIALES', img: '/img/canelaportada5.webp', descripcion: 'Los sabores que no pueden faltar.' },
+    { id: 'Mayoristas', titulo: 'MAYORISTAS', img: '/img/canelaportada1.webp', descripcion: 'Nuestros sabores en formatos para tu negocio.' },
   ];
 
-
-
+  const colecciones = [
+    { titulo: 'Sal Marina', texto: 'Cristales naturales para realzar cada sabor.', img: '/img/canelaportada4.webp' },
+    { titulo: 'Sales Saborizadas', texto: 'Mezclas que dan una nueva dimensión a cada plato.', img: '/img/canelaportada5.webp' },
+    { titulo: 'Especias Puras', texto: 'Aromas y colores seleccionados para tu cocina.', img: '/img/especias1.webp' },
+    { titulo: 'Venta Mayorista', texto: 'Nuestros sabores en formatos para tu negocio.', img: '/img/canelaportada1.webp' },
+  ];
+  const salMundial = productos.find((producto) => normalizeSearchText(producto.title) === 'sal mundial');
+  const mostrarVitrina = !catalogLoading && !hasSearch && categoriaActiva === null;
+  const consultaSalRosa = encodeURIComponent('Hola NOWIN! Quiero consultar por la Sal Marina Rosa y su disponibilidad.');
 
   return (
     <>
-      <header className="hero">
+      <Suspense fallback={null}>
+        <EditorialAnimations
+          heroRef={heroRef}
+          collectionsRef={collectionsRef}
+        />
+      </Suspense>
+      <header className="hero" ref={heroRef}>
         <div className="hero-carousel">
           {heroImages.map((img, index) => (
             <div key={index} className={`hero-slide ${index === currentImage ? "active" : ""}`} style={{ backgroundImage: `url(${img})` }}></div>
           ))}
-          <div className="hero-overlay"></div>
+          <div aria-hidden="true" className="absolute inset-0 z-10 bg-gradient-to-r from-black/85 via-black/50 to-transparent" />
         </div>
         <div className="container hero-content">
           <span className="hero-kicker">ESPECIAS · SALES · CONDIMENTOS</span>
@@ -159,7 +233,12 @@ const Home = ({ productos, agregarAlCarrito, alAbrirProducto, searchTerm, catalo
       </Suspense>
 
       <section className="store-assurance" aria-label="Información de Nowin">
-        <div><Truck size={20} aria-hidden="true" /><span>Envíos a todo el país</span></div>
+        <div>
+          <span aria-hidden="true" className="inline-flex w-9 shrink-0 overflow-hidden">
+            <Truck size={20} className="motion-safe:animate-[camionEnvio_3s_ease-in-out_infinite]" />
+          </span>
+          <span>Envíos a todo el país</span>
+        </div>
         <div><Truck size={20} aria-hidden="true" /><span>Bonificado desde <strong>${FREE_SHIPPING_THRESHOLD.toLocaleString('es-AR')}</strong></span></div>
         <div><MapPin size={20} aria-hidden="true" /><span>Base en Posadas, Misiones</span></div>
         <a
@@ -171,6 +250,25 @@ const Home = ({ productos, agregarAlCarrito, alAbrirProducto, searchTerm, catalo
           <MessageCircle size={20} aria-hidden="true" />
           <span>Medios de pago y mayoristas: consultanos</span>
         </a>
+      </section>
+
+      <section ref={collectionsRef} className="mx-auto w-full max-w-6xl px-5 py-16" aria-labelledby="collections-title">
+        <p className="mb-3 text-xs font-bold tracking-widest text-amber-400">UNIVERSO NOWIN</p>
+        <h2 id="collections-title" className="mb-8 text-3xl font-semibold text-amber-50 md:text-5xl">Sabores para descubrir</h2>
+        <div className="relative">
+          {colecciones.map((coleccion, index) => (
+            <article key={coleccion.titulo} data-collection-card className="relative mb-6 flex min-h-[360px] flex-col justify-end overflow-hidden rounded-2xl border border-white/10 bg-neutral-900 p-6 motion-safe:md:sticky motion-safe:md:top-24 md:min-h-[440px] md:p-12">
+              <img src={coleccion.img} alt="" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
+              <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/15" />
+              <div className="relative max-w-xl">
+                <span className="text-sm font-semibold tracking-widest text-amber-400">0{index + 1} / NOWIN</span>
+                <h3 className="mt-3 text-3xl font-semibold text-amber-50 md:text-5xl">{coleccion.titulo}</h3>
+                <p className="mt-3 text-base text-neutral-200">{coleccion.texto}</p>
+                <a href="#catalogo" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-amber-50 underline underline-offset-4">Explorar catálogo <span aria-hidden="true">→</span></a>
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section id="catalogo" className="container" style={{ padding: '0px 20px', minHeight: '50vh' }}>
@@ -197,7 +295,7 @@ const Home = ({ productos, agregarAlCarrito, alAbrirProducto, searchTerm, catalo
                   key={categoria}
                   className={`min-h-11 shrink-0 rounded-full border px-4 py-2 text-sm transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400 ${
                     categoriaActiva === categoria
-                      ? 'border-amber-400 bg-amber-400 font-medium text-neutral-950'
+                      ? 'border-amber-400 bg-amber-400 font-semibold text-neutral-950'
                       : 'border-white/10 bg-white/5 text-neutral-300 hover:bg-white/10'
                   }`}
                   aria-pressed={categoriaActiva === categoria}
@@ -262,33 +360,7 @@ const Home = ({ productos, agregarAlCarrito, alAbrirProducto, searchTerm, catalo
         ) 
         
 : categoriaActiva === null ? (
-  <div className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-2">
-    {tarjetasCategorias.map((cat) => (
-      <button
-        type="button"
-        key={cat.id}
-        onClick={() => setCategoriaActiva(cat.id)}
-        className={`group relative flex min-h-[260px] w-full flex-col items-start justify-end overflow-hidden rounded-2xl border border-white/10 bg-neutral-900 p-6 text-left transition-colors duration-300 hover:border-amber-400/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400 md:min-h-[320px] md:p-8 ${
-          tarjetasCategorias.length === 3 && cat.id === 'Mayoristas' ? 'md:col-span-2' : ''
-        }`}
-      >
-        <img
-          src={cat.img}
-          alt=""
-          loading="lazy"
-          decoding="async"
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-105"
-        />
-        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
-        <div className="relative flex flex-col items-start">
-          <h2 className="text-2xl font-semibold tracking-wide text-amber-50 md:text-3xl">{cat.titulo}</h2>
-          <span className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-amber-50">
-            Explorar línea <span aria-hidden="true" className="inline-block transition-transform motion-safe:group-hover:translate-x-1.5">→</span>
-          </span>
-        </div>
-      </button>
-    ))}
-  </div>
+  <CategoryPanels categorias={tarjetasCategorias} onSelect={setCategoriaActiva} />
 )
 
 
@@ -327,6 +399,45 @@ const Home = ({ productos, agregarAlCarrito, alAbrirProducto, searchTerm, catalo
         )}
         </>}
       </section>
+      {mostrarVitrina && (
+          <section className="mx-auto w-full max-w-4xl px-5 py-16" aria-labelledby="showcase-title">
+            <p className="mb-3 text-xs font-bold tracking-widest text-amber-400">SELECCIÓN NOWIN</p>
+            <h2 id="showcase-title" className="mb-3 text-3xl font-semibold text-amber-50 md:text-5xl">Productos destacados</h2>
+            <p className="mb-8 text-sm text-neutral-300">Dos sales, dos formas de descubrir nuevos sabores.</p>
+            <p className="mb-3 text-xs text-neutral-400 md:hidden">Deslizá para descubrir →</p>
+            <div className="overflow-x-auto snap-x snap-mandatory" tabIndex={0} role="region" aria-label="Productos destacados; desplazá horizontalmente">
+              <div className="flex w-full gap-4 pb-4 md:gap-6">
+                <div className="featured-card w-[82%] shrink-0 snap-start md:w-auto md:min-w-0 md:flex-1">
+                  <article className="card-condimento featured-promo">
+                    <div className="card-header">
+                      <span className="featured-badge">Nuevo</span>
+                      <img src="/img/salrosa.png" alt="Sal Marina Rosa Nowin" loading="lazy" decoding="async" className="card-img" />
+                    </div>
+                    <div className="card-body">
+                      <div>
+                        <div className="card-category">Sales</div>
+                        <h3 className="card-title">Sal Marina Rosa</h3>
+                      </div>
+                      <div>
+                        <p className="featured-note">Consultá disponibilidad</p>
+                        <a href={`https://wa.me/5493764141598?text=${consultaSalRosa}`} target="_blank" rel="noopener noreferrer" className="btn-agregar">Consultar</a>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+                <div className="featured-card w-[82%] shrink-0 snap-start md:w-auto md:min-w-0 md:flex-1">
+                  {salMundial ? (
+                    <CardCondimento producto={salMundial} alAgregar={agregarAlCarrito} alAbrir={alAbrirProducto} buttonText="Agregar al carrito" />
+                  ) : (
+                    <div role="status" className="flex h-full min-h-[350px] items-center justify-center rounded-2xl border border-white/10 bg-neutral-900 p-6 text-center text-neutral-300">
+                      Sal Mundial no está disponible en el catálogo en este momento.
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </section>
+      )}
     </>
   );
 };
@@ -451,20 +562,6 @@ const Footer = () => (
         <Link to="/">Inicio y catálogo</Link>
         <Link to="/about">Sobre Nowin</Link>
         <Link to="/cart">Mi carrito</Link>
-        <button
-          type="button"
-          className="footer-admin-link"
-          onClick={() => {
-            const adminWindow = window.open(
-              '/admin',
-              'NowinAdminWindow',
-              'width=1366,height=820,resizable=yes,scrollbars=yes'
-            );
-            if (adminWindow) adminWindow.opener = null;
-          }}
-        >
-          Admin
-        </button>
       </nav>
 
       <div className="footer-column">
@@ -489,7 +586,23 @@ const Footer = () => (
     </div>
 
     <hr className="footer-linea-divisoria" />
-    <p className="footer-copyright">© {new Date().getFullYear()} NOWIN. Todos los derechos reservados.</p>
+    <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+      <p className="footer-copyright">© {new Date().getFullYear()} NOWIN. Todos los derechos reservados.</p>
+      <button
+        type="button"
+        className="border-0 bg-transparent text-xs text-neutral-500 transition-colors hover:text-neutral-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400"
+        onClick={() => {
+          const adminWindow = window.open(
+            '/admin',
+            'NowinAdminWindow',
+            'width=1366,height=820,resizable=yes,scrollbars=yes'
+          );
+          if (adminWindow) adminWindow.opener = null;
+        }}
+      >
+        Admin
+      </button>
+    </div>
 
    
     
