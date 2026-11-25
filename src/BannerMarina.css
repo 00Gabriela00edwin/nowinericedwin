@@ -132,6 +132,12 @@
   50% { transform: translateY(-10px); }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .img-marina-flotante {
+    animation: none;
+  }
+}
+
 @media (max-width: 700px) {
   .marina-wrapper {
     grid-template-columns: 1fr;

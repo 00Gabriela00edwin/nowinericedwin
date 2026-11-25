@@ -127,9 +127,10 @@ const Home = ({ productos, agregarAlCarrito, alAbrirProducto, searchTerm, catalo
   }
 
   const tarjetasCategorias = [
-    { id: 'Sales', titulo: 'SALES', img: '/img/canelaportada4.webp', color: '#FFC400' },
-    { id: 'Especias', titulo: 'ESPECIAS', img: '/img/especias1.webp', color: '#FFC400' },
-    { id: 'Mayoristas', titulo: 'MAYORISTAS', img: '/img/canelaportada1.webp', color: '#FFC400' },
+    { id: 'Sales', titulo: 'SALES', img: '/img/canelaportada4.webp' },
+    { id: 'Especias', titulo: 'ESPECIAS', img: '/img/especias1.webp' },
+    { id: 'Mayoristas', titulo: 'MAYORISTAS', img: '/img/canelaportada1.webp' },
+    { id: 'Esenciales', titulo: 'ESENCIALES', img: '/img/canelaportada5.webp' },
   ];
 
 
@@ -194,7 +195,11 @@ const Home = ({ productos, agregarAlCarrito, alAbrirProducto, searchTerm, catalo
                 <button
                   type="button"
                   key={categoria}
-                  className={`category-pill${categoriaActiva === categoria ? ' active' : ''}`}
+                  className={`min-h-11 shrink-0 rounded-full border px-4 py-2 text-sm transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400 ${
+                    categoriaActiva === categoria
+                      ? 'border-amber-400 bg-amber-400 font-medium text-neutral-950'
+                      : 'border-white/10 bg-white/5 text-neutral-300 hover:bg-white/10'
+                  }`}
                   aria-pressed={categoriaActiva === categoria}
                   onClick={() => setCategoriaActiva(categoria)}
                 >
@@ -257,23 +262,29 @@ const Home = ({ productos, agregarAlCarrito, alAbrirProducto, searchTerm, catalo
         ) 
         
 : categoriaActiva === null ? (
-  <div className="category-tiles">
-    {tarjetasCategorias.map((cat, index) => (
+  <div className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-2">
+    {tarjetasCategorias.map((cat) => (
       <button
         type="button"
-        key={cat.id} 
+        key={cat.id}
         onClick={() => setCategoriaActiva(cat.id)}
-        className="categoria-gigante animar-entrada"
-        style={{ 
-          backgroundImage: cat.img
-            ? `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${cat.img})`
-            : 'linear-gradient(135deg, #141414, #3d3000)',
-          animationDelay: `${index * 0.1}s`
-        }}
+        className={`group relative flex min-h-[260px] w-full flex-col items-start justify-end overflow-hidden rounded-2xl border border-white/10 bg-neutral-900 p-6 text-left transition-colors duration-300 hover:border-amber-400/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400 md:min-h-[320px] md:p-8 ${
+          tarjetasCategorias.length === 3 && cat.id === 'Mayoristas' ? 'md:col-span-2' : ''
+        }`}
       >
-        <div className="categoria-gigante-contenido">
-          <h2 style={{ color: cat.color }}>{cat.titulo}</h2>
-          <span className="btn-descubrir-gigante">EXPLORAR LÍNEA</span>
+        <img
+          src={cat.img}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-105"
+        />
+        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
+        <div className="relative flex flex-col items-start">
+          <h2 className="text-2xl font-semibold tracking-wide text-amber-50 md:text-3xl">{cat.titulo}</h2>
+          <span className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-amber-50">
+            Explorar línea <span aria-hidden="true" className="inline-block transition-transform motion-safe:group-hover:translate-x-1.5">→</span>
+          </span>
         </div>
       </button>
     ))}

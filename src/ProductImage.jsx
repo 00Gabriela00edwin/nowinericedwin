@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { ImageOff } from 'lucide-react';
 import { getWebpImageSrc } from './imageOptimization';
 
-const ProductImage = ({ src, ...imageProps }) => {
+const ProductImage = ({ src, useWebp = true, ...imageProps }) => {
   const [failedSrc, setFailedSrc] = useState(null);
-  const webpSrc = getWebpImageSrc(src);
+  const webpSrc = useWebp ? getWebpImageSrc(src) : null;
   const { alt, className, onError, style, ...imgProps } = imageProps;
 
   if (typeof src !== 'string' || !src.trim() || failedSrc === src) {

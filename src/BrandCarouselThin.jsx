@@ -12,6 +12,9 @@ const puntosDeVenta = [
   { name: 'La Ruta de la Carne', url: '/img/cliente8.webp' },
   { name: 'Supermercado Maludi', url: '/img/clientes9.webp' },
   { name: 'Locos x la Carne', url: '/img/cliente10.webp' },
+  { name: 'Mimen Market', url: '/img/logo30.jpg' },
+  { name: 'Súper Vivar', url: '/img/logo31.jpg' },
+  { name: 'Granja Isabel', url: '/img/logo32.jpg' },
 ];
 
 const BrandCarouselThin = () => (

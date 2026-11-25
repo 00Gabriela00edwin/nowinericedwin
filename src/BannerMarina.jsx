@@ -28,7 +28,8 @@ const BannerMarina = () => {
 
           <div className="marina-imagen-container">
             <ProductImage
-              src="/img/salmarina.png"
+              src="/img/salrosa.png"
+              useWebp={false}
               alt="Sal Marina Nowin"
               loading="lazy"
               decoding="async"
