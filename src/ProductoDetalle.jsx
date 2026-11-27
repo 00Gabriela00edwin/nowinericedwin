@@ -150,7 +150,7 @@ const ProductoDetalle = ({ productos, alAgregar, alAbrir, productoId, productoSe
         </Link>
       </div>}
 
-      <div className="detalle-grid" ref={detalleRef}>
+      <div className={`detalle-grid${precioDisponible ? '' : ' detalle-grid-sin-precio'}`} ref={detalleRef}>
         <div className="detalle-imagen-caja">
           <div className="detalle-galeria">
             <div className="detalle-galeria-principal">
@@ -184,6 +184,7 @@ const ProductoDetalle = ({ productos, alAgregar, alAbrir, productoId, productoSe
               {precioPorKilo && <p className="detalle-precio-unidad">${precioPorKilo.toLocaleString('es-AR')} / kg</p>}
             </div>
           )}
+          {!precioDisponible && <p className="detalle-disponibilidad">Consultá disponibilidad</p>}
           <p className="detalle-envio">
             <Truck size={18} aria-hidden="true" />
             <span>Envío a coordinar por WhatsApp. Bonificado desde ${FREE_SHIPPING_THRESHOLD.toLocaleString('es-AR')}.</span>

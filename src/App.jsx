@@ -645,6 +645,7 @@ const Footer = () => (
 
 const ProductModal = ({ productoId, productoSeleccionado, productos, alAgregar, onClose }) => {
   const dialogRef = useRef(null);
+  const productoSinPrecio = productoSeleccionado && !Number.isFinite(productoSeleccionado.price);
   useDialogFocus(true, dialogRef, onClose, true);
 
   return (
@@ -654,7 +655,7 @@ const ProductModal = ({ productoId, productoSeleccionado, productos, alAgregar, 
     }}>
       <div
         ref={dialogRef}
-        className="product-modal"
+        className={`product-modal${productoSinPrecio ? ' product-modal-producto-sin-precio' : ''}`}
         role="dialog"
         aria-modal="true"
         aria-label="Detalle del producto"

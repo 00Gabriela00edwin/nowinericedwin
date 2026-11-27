@@ -1163,6 +1163,18 @@ html {
   font-weight: 600;
 }
 
+.detalle-disponibilidad {
+  align-self: flex-start;
+  margin: 4px 0 14px;
+  padding: 7px 11px;
+  border: 1px solid rgba(255, 196, 0, 0.25);
+  border-radius: 999px;
+  background: rgba(255, 196, 0, 0.08);
+  color: #ffe092;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
 .detalle-envio {
   display: flex;
   align-items: flex-start;
@@ -2406,6 +2418,34 @@ html {
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
 }
 
+.product-modal-producto-sin-precio {
+  width: min(100%, 720px);
+}
+
+.product-modal-producto-sin-precio .detalle-titulo {
+  margin: 4px 0 8px;
+  font-size: clamp(1.8rem, 3vw, 2.15rem);
+}
+
+.product-modal-producto-sin-precio .detalle-envio {
+  margin-bottom: 12px;
+}
+
+.product-modal-producto-sin-precio .detalle-descripcion {
+  margin-bottom: 0;
+}
+
+.product-modal-producto-sin-precio .detalle-descripcion h2 {
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  font-size: 1rem;
+}
+
+.product-modal-producto-sin-precio .detalle-descripcion p {
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
 .product-modal-header {
   display: flex;
   flex: 0 0 auto;
@@ -2450,6 +2490,30 @@ html {
   box-shadow: none;
 }
 
+.product-modal .detalle-grid-sin-precio {
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: 20px;
+}
+
+.product-modal .detalle-grid-sin-precio .detalle-imagen-caja {
+  min-height: 270px;
+  padding: 12px;
+}
+
+.product-modal .detalle-grid-sin-precio .detalle-galeria-principal {
+  min-height: 240px;
+}
+
+.product-modal .detalle-grid-sin-precio .detalle-galeria-principal img {
+  max-height: 260px;
+}
+
+.product-modal .detalle-grid-sin-precio .detalle-info {
+  justify-content: center;
+  min-width: 0;
+}
+
 .product-modal-footer {
   flex: 0 0 auto;
   padding: 12px 20px 16px;
@@ -2468,6 +2532,26 @@ html {
 
 .product-modal .detalle-imagen-caja {
   min-height: 180px;
+}
+
+@media (max-width: 640px) {
+  .product-modal .detalle-grid-sin-precio {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 12px;
+  }
+
+  .product-modal .detalle-grid-sin-precio .detalle-imagen-caja {
+    min-height: 180px;
+  }
+
+  .product-modal .detalle-grid-sin-precio .detalle-galeria-principal {
+    min-height: 170px;
+  }
+
+  .product-modal .detalle-grid-sin-precio .detalle-galeria-principal img {
+    max-height: 190px;
+  }
 }
 
 .product-modal .detalle-galeria-principal,
