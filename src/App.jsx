@@ -91,6 +91,15 @@ const getProductFormat = (product) =>
     ? 'wholesale'
     : 'retail';
 
+const productoSalRosa = {
+  id: 'sal-marina-rosa',
+  title: 'Sal Marina Rosa',
+  category: 'Sales',
+  img: '/img/salrosa.png',
+  useWebp: false,
+  description: 'Descubrí la pureza en cada cristal. Un toque gourmet, natural y crujiente, ideal para realzar los sabores más exclusivos de tu cocina.',
+};
+
 const CategoryPanels = ({ categorias, onSelect }) => {
   const [hovered, setHovered] = useState(null);
   const [focused, setFocused] = useState(null);
@@ -203,6 +212,7 @@ const Home = ({ productos, agregarAlCarrito, alAbrirProducto, searchTerm, catalo
   const salMundial = productos.find((producto) => normalizeSearchText(producto.title) === 'sal mundial');
   const mostrarVitrina = !catalogLoading && !hasSearch && categoriaActiva === null;
   const consultaSalRosa = encodeURIComponent('Hola NOWIN! Quiero consultar por la Sal Marina Rosa y su disponibilidad.');
+  const consultaSalMundial = encodeURIComponent(`Hola NOWIN! Quiero consultar por ${salMundial?.title || 'Sal Mundial'} y su disponibilidad.`);
 
   return (
     <>
@@ -253,15 +263,14 @@ const Home = ({ productos, agregarAlCarrito, alAbrirProducto, searchTerm, catalo
       </section>
 
       <section ref={collectionsRef} className="mx-auto w-full max-w-6xl px-5 py-16" aria-labelledby="collections-title">
-        <p className="mb-3 text-xs font-bold tracking-widest text-amber-400">UNIVERSO NOWIN</p>
+        <p className="mb-3 text-xs font-bold tracking-widest text-amber-400">COLECCIONES</p>
         <h2 id="collections-title" className="mb-8 text-3xl font-semibold text-amber-50 md:text-5xl">Sabores para descubrir</h2>
         <div className="relative">
-          {colecciones.map((coleccion, index) => (
+          {colecciones.map((coleccion) => (
             <article key={coleccion.titulo} data-collection-card className="relative mb-6 flex min-h-[360px] flex-col justify-end overflow-hidden rounded-2xl border border-white/10 bg-neutral-900 p-6 motion-safe:md:sticky motion-safe:md:top-24 md:min-h-[440px] md:p-12">
               <img src={coleccion.img} alt="" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
               <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/15" />
               <div className="relative max-w-xl">
-                <span className="text-sm font-semibold tracking-widest text-amber-400">0{index + 1} / NOWIN</span>
                 <h3 className="mt-3 text-3xl font-semibold text-amber-50 md:text-5xl">{coleccion.titulo}</h3>
                 <p className="mt-3 text-base text-neutral-200">{coleccion.texto}</p>
                 <a href="#catalogo" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-amber-50 underline underline-offset-4">Explorar catálogo <span aria-hidden="true">→</span></a>
@@ -408,15 +417,34 @@ const Home = ({ productos, agregarAlCarrito, alAbrirProducto, searchTerm, catalo
             <div className="overflow-x-auto snap-x snap-mandatory" tabIndex={0} role="region" aria-label="Productos destacados; desplazá horizontalmente">
               <div className="flex w-full gap-4 pb-4 md:gap-6">
                 <div className="featured-card w-[82%] shrink-0 snap-start md:w-auto md:min-w-0 md:flex-1">
-                  <article className="card-condimento featured-promo">
+                  <article
+                    className="card-condimento featured-promo"
+                    onClick={(event) => {
+                      if (!event.target.closest('a, button')) alAbrirProducto(productoSalRosa);
+                    }}
+                  >
                     <div className="card-header">
                       <span className="featured-badge">Nuevo</span>
-                      <img src="/img/salrosa.png" alt="Sal Marina Rosa Nowin" loading="lazy" decoding="async" className="card-img" />
+                      <button
+                        type="button"
+                        className="featured-product-image-button"
+                        onClick={() => alAbrirProducto(productoSalRosa)}
+                        aria-label="Ver detalle de Sal Marina Rosa"
+                      >
+                        <img src={productoSalRosa.img} alt="" loading="lazy" decoding="async" className="card-img" />
+                      </button>
                     </div>
                     <div className="card-body">
                       <div>
                         <div className="card-category">Sales</div>
-                        <h3 className="card-title">Sal Marina Rosa</h3>
+                        <button
+                          type="button"
+                          className="featured-product-title-button"
+                          onClick={() => alAbrirProducto(productoSalRosa)}
+                          aria-label="Ver detalle de Sal Marina Rosa"
+                        >
+                          <h3 className="card-title">Sal Marina Rosa</h3>
+                        </button>
                       </div>
                       <div>
                         <p className="featured-note">Consultá disponibilidad</p>
@@ -427,7 +455,13 @@ const Home = ({ productos, agregarAlCarrito, alAbrirProducto, searchTerm, catalo
                 </div>
                 <div className="featured-card w-[82%] shrink-0 snap-start md:w-auto md:min-w-0 md:flex-1">
                   {salMundial ? (
-                    <CardCondimento producto={salMundial} alAgregar={agregarAlCarrito} alAbrir={alAbrirProducto} buttonText="Agregar al carrito" />
+                    <CardCondimento
+                      producto={salMundial}
+                      alAgregar={agregarAlCarrito}
+                      alAbrir={alAbrirProducto}
+                      buttonText="Consultar"
+                      buttonHref={`https://wa.me/5493764141598?text=${consultaSalMundial}`}
+                    />
                   ) : (
                     <div role="status" className="flex h-full min-h-[350px] items-center justify-center rounded-2xl border border-white/10 bg-neutral-900 p-6 text-center text-neutral-300">
                       Sal Mundial no está disponible en el catálogo en este momento.
@@ -609,7 +643,7 @@ const Footer = () => (
   </footer>
 );
 
-const ProductModal = ({ productoId, productos, alAgregar, onClose }) => {
+const ProductModal = ({ productoId, productoSeleccionado, productos, alAgregar, onClose }) => {
   const dialogRef = useRef(null);
   useDialogFocus(true, dialogRef, onClose, true);
 
@@ -636,7 +670,13 @@ const ProductModal = ({ productoId, productos, alAgregar, onClose }) => {
           </button>
         </div>
         <Suspense fallback={<div className="product-modal-body" role="status">Cargando producto...</div>}>
-          <ProductoDetalle productos={productos} alAgregar={alAgregar} productoId={productoId} modal />
+          <ProductoDetalle
+            productos={productos}
+            alAgregar={alAgregar}
+            productoId={productoId}
+            productoSeleccionado={productoSeleccionado}
+            modal
+          />
         </Suspense>
       </div>
     </div>
@@ -769,7 +809,13 @@ function App() {
           </Routes>
         </Suspense>
         <PublicOnly>{productoAbierto !== null && (
-          <ProductModal productoId={productoAbierto} productos={productos} alAgregar={addToCart} onClose={() => setProductoAbierto(null)} />
+          <ProductModal
+            productoId={typeof productoAbierto === 'string' || typeof productoAbierto === 'number' ? productoAbierto : undefined}
+            productoSeleccionado={typeof productoAbierto === 'object' ? productoAbierto : undefined}
+            productos={productos}
+            alAgregar={addToCart}
+            onClose={() => setProductoAbierto(null)}
+          />
         )}</PublicOnly>
         <PublicOnly>{cartDrawerOpen && (
           <Suspense fallback={null}>

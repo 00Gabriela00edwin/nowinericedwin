@@ -3,7 +3,7 @@ import { Plus } from 'lucide-react';
 import { Link } from 'react-router-dom'; // <-- NUEVO: Importamos Link
 import ProductImage from './ProductImage';
 
-const CardCondimento = ({ producto, alAgregar, alAbrir, buttonText = 'Agregar' }) => {
+const CardCondimento = ({ producto, alAgregar, alAbrir, buttonText = 'Agregar', buttonHref }) => {
   const esMayorista =
     producto.category?.toLowerCase().includes('mayorista') ||
     /1\s?(kg|kilo)/i.test(producto.title);
@@ -50,9 +50,15 @@ const CardCondimento = ({ producto, alAgregar, alAbrir, buttonText = 'Agregar' }
         </div>
         <div>
           <div className="card-price">${producto.price.toLocaleString('es-AR')}</div>
-          <button className="btn-agregar" onClick={() => alAgregar(producto)} aria-label={`Agregar ${producto.title} al carrito`}>
-            <Plus size={18} aria-hidden="true" /> {buttonText}
-          </button>
+          {buttonHref ? (
+            <a className="btn-agregar" href={buttonHref} target="_blank" rel="noopener noreferrer" aria-label={`Consultar por ${producto.title} por WhatsApp`}>
+              {buttonText}
+            </a>
+          ) : (
+            <button className="btn-agregar" onClick={() => alAgregar(producto)} aria-label={`Agregar ${producto.title} al carrito`}>
+              <Plus size={18} aria-hidden="true" /> {buttonText}
+            </button>
+          )}
         </div>
       </div>
     </div>

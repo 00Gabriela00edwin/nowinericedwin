@@ -5,14 +5,14 @@ import CardCondimento from './CardCondimento';
 import ProductImage from './ProductImage';
 import { FREE_SHIPPING_THRESHOLD } from './shipping';
 
-const ProductoDetalle = ({ productos, alAgregar, alAbrir, productoId, modal = false }) => {
+const ProductoDetalle = ({ productos, alAgregar, alAbrir, productoId, productoSeleccionado, modal = false }) => {
   const { id: routeId } = useParams();
   const id = productoId ?? routeId;
   const location = useLocation();
   const detalleRef = useRef(null);
   const [cantidad, setCantidad] = useState(1);
   const [imagenActiva, setImagenActiva] = useState(0);
-  const producto = productos.find((p) => p.id.toString() === id);
+  const producto = productoSeleccionado || productos.find((p) => p.id.toString() === id);
   const productoDisponible = Boolean(producto);
 
   useEffect(() => {
@@ -35,6 +35,7 @@ const ProductoDetalle = ({ productos, alAgregar, alAbrir, productoId, modal = fa
     );
   }
 
+  const precioDisponible = Number.isFinite(producto.price);
   const presentacionExplicita = String(producto.title ?? '').match(/\b\d+(?:[.,]\d+)?\s?(?:kg|kilos?|g|gr|ml|l)\b/i)?.[0];
   const esMayorista = producto.category?.toLowerCase().includes('mayorista');
   const presentacion = producto.presentacion || producto.presentation || presentacionExplicita || (esMayorista ? 'Formato mayorista' : null);
@@ -52,13 +53,14 @@ const ProductoDetalle = ({ productos, alAgregar, alAbrir, productoId, modal = fa
     ...(Array.isArray(producto.imagenes) ? producto.imagenes : []),
   ].filter((imagen) => typeof imagen === 'string' && imagen.trim()))];
   const imagenPrincipal = imagenes[imagenActiva] || producto.img;
+  const usarWebp = producto.useWebp !== false;
   const pesoFuente = [pesoNeto, presentacion, presentacionExplicita].find((valor) =>
     /(\d+(?:[.,]\d+)?)\s*(kg|kilos?|gr|g)\b/i.test(String(valor || ''))
   );
   const pesoMatch = String(pesoFuente || '').match(/(\d+(?:[.,]\d+)?)\s*(kg|kilos?|gr|g)\b/i);
   const pesoEnUnidad = pesoMatch ? Number(pesoMatch[1].replace(',', '.')) : 0;
   const pesoEnKilos = pesoMatch && /^(?:g|gr)$/i.test(pesoMatch[2]) ? pesoEnUnidad / 1000 : pesoEnUnidad;
-  const precioPorKilo = esMayorista && pesoEnKilos > 0 ? Math.round(Number(producto.price) / pesoEnKilos) : null;
+  const precioPorKilo = esMayorista && precioDisponible && pesoEnKilos > 0 ? Math.round(producto.price / pesoEnKilos) : null;
   const atributos = [
     { etiqueta: 'Presentación', valor: presentacion },
     { etiqueta: 'Ingredientes', valor: ingredientes },
@@ -84,7 +86,7 @@ const ProductoDetalle = ({ productos, alAgregar, alAbrir, productoId, modal = fa
     .filter((item) => item.id !== producto.id && item.category === producto.category)
     .slice(0, 4);
 
-  const compra = (
+  const compra = precioDisponible ? (
     <>
       <div className="detalle-compra">
         <div className="detalle-cantidad" role="group" aria-label="Seleccionar cantidad">
@@ -129,6 +131,15 @@ const ProductoDetalle = ({ productos, alAgregar, alAbrir, productoId, modal = fa
         </a>
       )}
     </>
+  ) : (
+    <a
+      className="btn-consulta-producto"
+      href={`https://wa.me/5493764141598?text=${mensajeConsultaProducto}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <MessageCircle size={18} aria-hidden="true" /> Consultar por WhatsApp
+    </a>
   );
 
   const contenido = (
@@ -143,7 +154,7 @@ const ProductoDetalle = ({ productos, alAgregar, alAbrir, productoId, modal = fa
         <div className="detalle-imagen-caja">
           <div className="detalle-galeria">
             <div className="detalle-galeria-principal">
-              <ProductImage src={imagenPrincipal} alt={`Presentación de ${producto.title}`} loading="lazy" decoding="async" />
+              <ProductImage src={imagenPrincipal} useWebp={usarWebp} alt={`Presentación de ${producto.title}`} loading="lazy" decoding="async" />
             </div>
             {imagenes.length > 1 && (
               <div className="detalle-galeria-miniaturas" aria-label="Más imágenes del producto">
@@ -156,7 +167,7 @@ const ProductoDetalle = ({ productos, alAgregar, alAbrir, productoId, modal = fa
                     aria-pressed={imagenActiva === index}
                     onClick={() => setImagenActiva(index)}
                   >
-                    <ProductImage src={imagen} alt="" loading="lazy" decoding="async" />
+                    <ProductImage src={imagen} useWebp={usarWebp} alt="" loading="lazy" decoding="async" />
                   </button>
                 ))}
               </div>
@@ -167,10 +178,12 @@ const ProductoDetalle = ({ productos, alAgregar, alAbrir, productoId, modal = fa
         <div className="detalle-info">
           <span className="detalle-categoria">{producto.category}</span>
           <h1 className="detalle-titulo">{producto.title}</h1>
-          <div className="detalle-precio-bloque">
-            <p className="detalle-precio">${producto.price.toLocaleString('es-AR')}</p>
-            {precioPorKilo && <p className="detalle-precio-unidad">${precioPorKilo.toLocaleString('es-AR')} / kg</p>}
-          </div>
+          {precioDisponible && (
+            <div className="detalle-precio-bloque">
+              <p className="detalle-precio">${producto.price.toLocaleString('es-AR')}</p>
+              {precioPorKilo && <p className="detalle-precio-unidad">${precioPorKilo.toLocaleString('es-AR')} / kg</p>}
+            </div>
+          )}
           <p className="detalle-envio">
             <Truck size={18} aria-hidden="true" />
             <span>Envío a coordinar por WhatsApp. Bonificado desde ${FREE_SHIPPING_THRESHOLD.toLocaleString('es-AR')}.</span>

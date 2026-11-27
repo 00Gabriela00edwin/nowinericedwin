@@ -8,6 +8,7 @@ import './CartDrawer.css';
 const CartDrawer = ({ cart, onClose, addToCart, decreaseQuantity, removeFromCart, onStartCheckout }) => {
   const drawerRef = useRef(null);
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const progress = Math.min((total / FREE_SHIPPING_THRESHOLD) * 100, 100);
   const amountToFreeShipping = Math.max(FREE_SHIPPING_THRESHOLD - total, 0);
 
@@ -20,7 +21,10 @@ const CartDrawer = ({ cart, onClose, addToCart, decreaseQuantity, removeFromCart
         <header className="cart-drawer-header">
           <div>
             <p className="cart-drawer-eyebrow">TU SELECCIÓN</p>
-            <h2 id="cart-drawer-title">Mi carrito</h2>
+            <div className="cart-drawer-title-row">
+              <h2 id="cart-drawer-title">Mi carrito</h2>
+              {itemCount > 0 && <span className="cart-drawer-count">{itemCount} {itemCount === 1 ? 'producto' : 'productos'}</span>}
+            </div>
           </div>
           <button type="button" className="cart-drawer-close" onClick={onClose} aria-label="Cerrar carrito" data-dialog-autofocus>
             <X size={22} />
@@ -58,37 +62,48 @@ const CartDrawer = ({ cart, onClose, addToCart, decreaseQuantity, removeFromCart
             </div>
           ) : cart.map((item) => (
             <article className="cart-drawer-item" key={item.id}>
-              <ProductImage src={item.img} alt="" loading="lazy" decoding="async" />
+              <ProductImage src={item.img} alt="" loading="lazy" decoding="async" className="cart-drawer-item-image" />
               <div className="cart-drawer-item-info">
-                <h3>{item.title}</h3>
-                <p>${item.price.toLocaleString('es-AR')}</p>
-                <div className="cart-drawer-quantity">
+                <div className="cart-drawer-item-heading">
+                  <div className="cart-drawer-item-copy">
+                    <h3>{item.title}</h3>
+                    <p className="cart-drawer-unit-price">${item.price.toLocaleString('es-AR')} c/u</p>
+                  </div>
                   <button
-                    onClick={() => decreaseQuantity(item.id)}
-                    disabled={item.quantity <= 1}
-                    aria-label={`Quitar una unidad de ${item.title}`}
+                    type="button"
+                    className="cart-drawer-remove"
+                    onClick={() => removeFromCart(item.id)}
+                    aria-label={`Eliminar ${item.title} del carrito`}
                   >
-                    <Minus size={15} />
-                  </button>
-                  <span>{item.quantity}</span>
-                  <button onClick={() => addToCart(item)} aria-label={`Agregar una unidad de ${item.title}`}>
-                    <Plus size={15} />
+                    <Trash2 size={17} aria-hidden="true" />
                   </button>
                 </div>
+                <div className="cart-drawer-item-bottom">
+                  <div className="cart-drawer-quantity" role="group" aria-label={`Cantidad de ${item.title}`}>
+                    <button
+                      type="button"
+                      onClick={() => decreaseQuantity(item.id)}
+                      disabled={item.quantity <= 1}
+                      aria-label={`Quitar una unidad de ${item.title}`}
+                    >
+                      <Minus size={15} aria-hidden="true" />
+                    </button>
+                    <span aria-live="polite">{item.quantity}</span>
+                    <button type="button" onClick={() => addToCart(item)} aria-label={`Agregar una unidad de ${item.title}`}>
+                      <Plus size={15} aria-hidden="true" />
+                    </button>
+                  </div>
+                  <p className="cart-drawer-line-total" aria-label={`Subtotal de ${item.title}`}>
+                    ${(item.price * item.quantity).toLocaleString('es-AR')}
+                  </p>
+                </div>
               </div>
-              <button
-                className="cart-drawer-remove"
-                onClick={() => removeFromCart(item.id)}
-                aria-label={`Eliminar ${item.title} del carrito`}
-              >
-                <Trash2 size={18} />
-              </button>
             </article>
           ))}
         </div>
 
         <footer className="cart-drawer-footer">
-          <p className="cart-drawer-shipping-note">El subtotal no incluye el envío; se coordina por WhatsApp. Bonificado desde ${FREE_SHIPPING_THRESHOLD.toLocaleString('es-AR')}.</p>
+          <p className="cart-drawer-shipping-note">El envío se coordina al confirmar el pedido por WhatsApp.</p>
           <div className="cart-drawer-total">
             <span>Subtotal de productos</span>
             <strong>${total.toLocaleString('es-AR')}</strong>
